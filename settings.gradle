@@ -1,0 +1,3 @@
+
+rootProject.name = 'src-reader'
+include 'frontend', 'backend'

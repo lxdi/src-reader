@@ -1,0 +1,4 @@
+build
+out
+src/main/webapp/pages
+tomcat/log.*
