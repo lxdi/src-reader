@@ -28,7 +28,7 @@ class Main extends React.Component {
 					<Button onClick={()=>fireEvent('function-modal', 'open', [{title:''}])}> + Add function </Button>
 				</div>
 				<div style={{padding:'5px'}}>
-					<TreeComponent nodes={viewStateVal('functions-rep', 'nodes')} viewCallback={(node)=>nodeView(node)} />
+					<TreeComponent nodes={viewStateVal('functions-rep', 'funcs')} viewCallback={(node)=>nodeView(node)} />
 				</div>
 			</div>
 		)
@@ -38,6 +38,7 @@ class Main extends React.Component {
 const nodeView = function(node){
 	return <div>
 	 					<a href="#" >{node.title} </a>
+						<a href='#' onClick={()=>fireEvent('function-modal', 'open', [{title:'', parentid: node.id}])}>+</a>
 	 			</div>
 }
 

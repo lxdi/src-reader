@@ -14,7 +14,7 @@ export class FunctionModal extends React.Component {
       this.setState({isOpen:true, node: node})
     })
 
-    registerEvent('function-modal', 'close', (stateSetter, node)=>{
+    registerEvent('function-modal', 'close', (stateSetter)=>{
       this.setState({isOpen:false, node: null})
     })
 
@@ -22,7 +22,9 @@ export class FunctionModal extends React.Component {
   }
 
   render(){
-    return <CommonModal isOpen={this.state.isOpen} okHandler={()=>fireEvent('functions-rep', 'add-func', [this.state.node])} >
+    return <CommonModal title="Function" isOpen={this.state.isOpen}
+              okHandler={()=>fireEvent('functions-rep', 'add-func', [this.state.node])}
+              cancelHandler={()=>fireEvent('function-modal', 'close')}>
             {content(this)}
           </CommonModal>
   }
@@ -39,7 +41,7 @@ const content = function(component){
                                 type="text"
                                 value={component.state.node.title}
                                 placeholder="Enter title"
-                                onChange={(e)=>{component.state.node.title = e.target.value; component.setState({})}}/>}
+                                onChange={(e)=>{component.state.node.title = e.target.value; component.setState({})}}/>
                   </div>
                 </FormGroup>
   }
