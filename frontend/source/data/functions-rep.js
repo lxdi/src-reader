@@ -9,7 +9,7 @@ var indexCount = 0;
 registerEvent('functions-rep', 'add-func', (stateSetter, func)=>{
   func.id = indexCount++;
   const resolvedNode = resolveNodes(viewStateVal('functions-rep', 'nodes'))
-  const lastFromRoot = findLast(resolveNodes.root)
+  const lastFromRoot = findLast(resolvedNode.root)
   if(lastFromRoot!=null){
     lastFromRoot.nextid = func.id
   }
