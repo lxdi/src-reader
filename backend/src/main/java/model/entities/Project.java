@@ -1,18 +1,19 @@
 package model.entities;
 
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-public class Func {
+public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
     String title;
-
-    @ManyToOne
-    Component component;
 
     public long getId() {
         return id;
@@ -28,13 +29,5 @@ public class Func {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Component getComponent() {
-        return component;
-    }
-
-    public void setComponent(Component component) {
-        this.component = component;
     }
 }

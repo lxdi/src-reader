@@ -3,7 +3,7 @@ package model.entities;
 import javax.persistence.*;
 
 @Entity
-public class Func {
+public class Component {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,7 +12,7 @@ public class Func {
     String title;
 
     @ManyToOne
-    Component component;
+    Project project;
 
     public long getId() {
         return id;
@@ -30,11 +30,11 @@ public class Func {
         this.title = title;
     }
 
-    public Component getComponent() {
-        return component;
+    public Project getProject() {
+        return project;
     }
 
-    public void setComponent(Component component) {
-        this.component = component;
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

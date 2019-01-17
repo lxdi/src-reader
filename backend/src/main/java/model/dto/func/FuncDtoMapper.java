@@ -1,5 +1,6 @@
 package model.dto.func;
 
+import model.dao.ICompDao;
 import model.dao.IFuncDao;
 import model.dto.IMapper;
 import model.entities.Func;
@@ -12,6 +13,9 @@ public class FuncDtoMapper implements IMapper<FuncDto, Func> {
     @Autowired
     IFuncDao funcDao;
 
+    @Autowired
+    ICompDao compDao;
+
     @Override
     public FuncDto mapToDto(Func entity) {
         FuncDto funcDto = new FuncDto();
@@ -19,6 +23,9 @@ public class FuncDtoMapper implements IMapper<FuncDto, Func> {
         funcDto.setTitle(entity.getTitle());
         if(entity.getParent()!=null){
             funcDto.setParentid(entity.getParent().getId());
+        }
+        if(entity.getComponent()!=null){
+            funcDto.setComponentid(entity.getComponent().getId());
         }
         return funcDto;
     }
@@ -32,6 +39,9 @@ public class FuncDtoMapper implements IMapper<FuncDto, Func> {
         if(dto.getParentid()!=null){
             func.setParent(funcDao.getById(dto.getParentid()));
         }
+
+        func.setComponent(compDao.getById(dto.getComponentid()));
+
         return func;
     }
 }

@@ -5,6 +5,7 @@ public class FuncDto {
     long id;
     String title;
     Long parentid;
+    long componentid;
 
     public long getId() {
         return id;
@@ -28,5 +29,13 @@ public class FuncDto {
 
     public void setParentid(Long parentid) {
         this.parentid = parentid;
+    }
+
+    public long getComponentid() {
+        return componentid;
+    }
+
+    public void setComponentid(long componentid) {
+        this.componentid = componentid;
     }
 }
