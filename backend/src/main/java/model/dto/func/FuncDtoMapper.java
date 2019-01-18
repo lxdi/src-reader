@@ -33,7 +33,7 @@ public class FuncDtoMapper implements IMapper<FuncDto, Func> {
         func.setId(dto.getId());
         func.setTitle(dto.getTitle());
 
-        func.setComponent(compDao.getById(dto.getComponentid()));
+        func.setComponent(compDao.getOne(dto.getComponentid()));
 
         return func;
     }
