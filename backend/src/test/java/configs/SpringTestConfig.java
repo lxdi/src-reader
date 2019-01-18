@@ -19,7 +19,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader=AnnotationConfigContextLoader.class,
         classes = {HibernateConfigMain.class, EmbeddedDBConf.class,
-                FuncDao.class, FuncDtoMapper.class, FuncDelegate.class,
+                FuncDtoMapper.class, FuncDelegate.class,
                 CompDao.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public abstract class SpringTestConfig {

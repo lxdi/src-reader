@@ -16,9 +16,9 @@ public class FuncDaoTests extends SpringTestConfig {
     public void getByIdTest(){
         Func func = new Func();
         func.setTitle("test func");
-        funcDao.saveOrUpdate(func);
+        funcDao.save(func);
 
-        Func funcLoaded = funcDao.getById(func.getId());
+        Func funcLoaded = funcDao.findById(func.getId());
         assertTrue(funcLoaded.getTitle().equals(func.getTitle()));
     }
 

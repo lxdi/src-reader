@@ -19,15 +19,15 @@ public class FuncDelegateTests extends SpringTestConfig {
     public void getAllTest(){
         Func func1 = new Func();
         func1.setTitle("super func");
-        funcDao.saveOrUpdate(func1);
+        funcDao.save(func1);
 
         Func subfunc1 = new Func();
         subfunc1.setTitle("subfunc1");
-        funcDao.saveOrUpdate(subfunc1);
+        funcDao.save(subfunc1);
 
         Func func2 = new Func();
         func2.setTitle("super func 2");
-        funcDao.saveOrUpdate(func2);
+        funcDao.save(func2);
 
         List<Func> funcs = funcDao.getAll();
 
