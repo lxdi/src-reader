@@ -21,9 +21,6 @@ public class FuncDtoMapper implements IMapper<FuncDto, Func> {
         FuncDto funcDto = new FuncDto();
         funcDto.setId(entity.getId());
         funcDto.setTitle(entity.getTitle());
-        if(entity.getParent()!=null){
-            funcDto.setParentid(entity.getParent().getId());
-        }
         if(entity.getComponent()!=null){
             funcDto.setComponentid(entity.getComponent().getId());
         }
@@ -35,10 +32,6 @@ public class FuncDtoMapper implements IMapper<FuncDto, Func> {
         Func func = new Func();
         func.setId(dto.getId());
         func.setTitle(dto.getTitle());
-
-        if(dto.getParentid()!=null){
-            func.setParent(funcDao.getById(dto.getParentid()));
-        }
 
         func.setComponent(compDao.getById(dto.getComponentid()));
 

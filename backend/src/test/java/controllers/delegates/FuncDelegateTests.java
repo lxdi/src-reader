@@ -23,7 +23,6 @@ public class FuncDelegateTests extends SpringTestConfig {
 
         Func subfunc1 = new Func();
         subfunc1.setTitle("subfunc1");
-        subfunc1.setParent(func1);
         funcDao.saveOrUpdate(subfunc1);
 
         Func func2 = new Func();

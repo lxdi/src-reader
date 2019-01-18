@@ -14,6 +14,9 @@ public class FuncFlow {
     @ManyToOne
     FuncFlow parent;
 
+    @OneToOne
+    FuncFlow next;
+
     @ManyToOne
     Func func;
 
@@ -58,5 +61,12 @@ public class FuncFlow {
 
     public void setScenario(Scenario scenario) {
         this.scenario = scenario;
+    }
+
+    public FuncFlow getNext() {
+        return next;
+    }
+    public void setNext(FuncFlow next) {
+        this.next = next;
     }
 }
