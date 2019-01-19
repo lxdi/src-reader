@@ -10,6 +10,8 @@ public class TestEntity {
 
     TestEnum testEnum;
 
+    TestSecondEntity testSecondEntity;
+
     public long getId() {
         return id;
     }
@@ -48,5 +50,13 @@ public class TestEntity {
 
     public void setTestEnum(TestEnum testEnum) {
         this.testEnum = testEnum;
+    }
+
+    public TestSecondEntity getTestSecondEntity() {
+        return testSecondEntity;
+    }
+
+    public void setTestSecondEntity(TestSecondEntity testSecondEntity) {
+        this.testSecondEntity = testSecondEntity;
     }
 }

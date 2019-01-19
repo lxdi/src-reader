@@ -16,7 +16,7 @@ public class FuncController {
     @Autowired
     FuncDelegate funcDelegate;
 
-    @RequestMapping(path = "/mean/all/lazy")
+    @RequestMapping(path = "/func/all")
     public ResponseEntity<List<Map<String, Object>>> getAllFuncs(){;
         return new ResponseEntity<>(funcDelegate.getAllFuncs(), HttpStatus.OK);
     }

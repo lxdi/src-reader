@@ -12,12 +12,19 @@ public class CommonMapperTests {
 
     TestEntity testEntityFromEntityById = new TestEntity();
 
+    TestSecondEntity testSecondEntityFromEntityById = new TestSecondEntity();
+
     IEntityById entityById = new IEntityById() {
         @Override
         public Object get(long id, Class clazz) {
-            if(TestEntity.class == clazz){
+            if(clazz == TestEntity.class){
                 if(id==56){
                     return testEntityFromEntityById;
+                }
+            }
+            if(clazz == TestSecondEntity.class){
+                if(id==73){
+                    return testSecondEntityFromEntityById;
                 }
             }
             return null;
@@ -28,6 +35,9 @@ public class CommonMapperTests {
     public void init(){
         testEntityFromEntityById.setId(56);
         testEntityFromEntityById.setTitle("test entity from entityById");
+
+        testSecondEntityFromEntityById.setId(73);
+        testSecondEntityFromEntityById.setTitle("test second ent from ent by id");
     }
 
     @Test
@@ -62,6 +72,7 @@ public class CommonMapperTests {
         dto.put("testEnum", "val_1");
         dto.put("anotherTestEntity2id", 56);
         dto.put("anotherTestEntityid", null);
+        dto.put("testSecondEntityid", 73);
 
         dto.put("notExisting", "someval");
         dto.put("notExistingid", 43);
@@ -74,6 +85,7 @@ public class CommonMapperTests {
         assertTrue(testEntity.getTestEnum()==TestEnum.val1);
         assertTrue(testEntity.getAnotherTestEntity2()==testEntityFromEntityById);
         assertTrue(testEntity.getAnotherTestEntity()==null);
+        assertTrue(testEntity.getTestSecondEntity()==testSecondEntityFromEntityById);
     }
 
     @Test

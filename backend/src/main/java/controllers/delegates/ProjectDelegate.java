@@ -1,8 +1,8 @@
 package controllers.delegates;
 
-import model.dao.IFuncDao;
+import model.dao.IProjectDao;
 import model.dto.common_mapper.CommonMapper;
-import model.entities.Func;
+import model.entities.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,23 +12,27 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class FuncDelegate {
+public class ProjectDelegate {
+
 
     @Autowired
-    IFuncDao funcDao;
+    IProjectDao projectDao;
 
     @Autowired
     CommonMapper commonMapper;
 
-//    @Autowired
-//    FuncDtoMapper funcDtoMapper;
-
-    public List<Map<String, Object>> getAllFuncs(){
+    public List<Map<String, Object>> getAll(){
         List<Map<String, Object>> result = new ArrayList<>();
-        for(Func func : funcDao.findAll()){
+        for(Project func : projectDao.findAll()){
             result.add(commonMapper.mapToDto(func, new HashMap<>()));
         }
         return result;
+    }
+
+    public Map<String, Object> createNew(Map<String, Object> projectDto){
+        Project project = (Project) commonMapper.mapToEntity(projectDto, new Project());
+        projectDao.save(project);
+        return commonMapper.mapToDto(project, new HashMap<>());
     }
 
 }

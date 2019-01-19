@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface IFuncDao extends JpaRepository<Func, Long> {
 
-    //Func findById(long id);
-    //Func save(Func func);
-
     @Query("from Func")
     List<Func> getAll();
 
