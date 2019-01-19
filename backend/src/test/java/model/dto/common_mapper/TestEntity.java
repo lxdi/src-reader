@@ -12,6 +12,8 @@ public class TestEntity {
 
     TestSecondEntity testSecondEntity;
 
+    boolean booleanVal;
+
     public long getId() {
         return id;
     }
@@ -58,5 +60,13 @@ public class TestEntity {
 
     public void setTestSecondEntity(TestSecondEntity testSecondEntity) {
         this.testSecondEntity = testSecondEntity;
+    }
+
+    public boolean getBooleanVal() {
+        return booleanVal;
+    }
+
+    public void setBooleanVal(boolean booleanVal) {
+        this.booleanVal = booleanVal;
     }
 }

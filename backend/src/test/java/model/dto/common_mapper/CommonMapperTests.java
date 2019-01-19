@@ -52,6 +52,7 @@ public class CommonMapperTests {
         testEntity.setTitle("test title");
         testEntity.setAnotherTestEntity(anotherEntity);
         testEntity.setTestEnum(TestEnum.val1);
+        testEntity.setBooleanVal(false);
 
         Map<String, Object> dto = commonMapperTest.mapToDto(testEntity, new HashMap<>());
 
@@ -60,6 +61,7 @@ public class CommonMapperTests {
         assertTrue((long)dto.get("anotherTestEntityid")==24);
         assertTrue(dto.get("anotherTestEntity2id")==null);
         assertTrue(dto.get("testEnum").equals("val_1"));
+        assertTrue((boolean)dto.get("booleanVal")==false);
     }
 
     @Test
@@ -73,6 +75,7 @@ public class CommonMapperTests {
         dto.put("anotherTestEntity2id", 56);
         dto.put("anotherTestEntityid", null);
         dto.put("testSecondEntityid", 73);
+        dto.put("booleanVal", true);
 
         dto.put("notExisting", "someval");
         dto.put("notExistingid", 43);
@@ -86,6 +89,7 @@ public class CommonMapperTests {
         assertTrue(testEntity.getAnotherTestEntity2()==testEntityFromEntityById);
         assertTrue(testEntity.getAnotherTestEntity()==null);
         assertTrue(testEntity.getTestSecondEntity()==testSecondEntityFromEntityById);
+        assertTrue(testEntity.getBooleanVal());
     }
 
     @Test

@@ -25,8 +25,9 @@ public class CommonMapper {
         try {
             Object fromGetter = method.invoke(entity);
             if (fromGetter != null) {
-                if (fromGetter instanceof String || fromGetter instanceof Number) {
-                    //Number or String
+                if (fromGetter instanceof String || fromGetter instanceof Number || fromGetter.getClass().isPrimitive()
+                    || fromGetter instanceof Boolean) {
+                    //Number/String/Boolean
                     result.put(transformGetterToFieldName(method.getName()), fromGetter);
                 } else {
                     if(fromGetter.getClass().isEnum()){
@@ -67,7 +68,7 @@ public class CommonMapper {
                     } else {
                         Class clazz = defineTypeByGetter(entity.getClass(), entry.getKey());
                         if (clazz != null) {
-                            mapToEntityBasicTypes(dto, entity, entry, clazz);
+                            mapToEntityBasicTypes(entity, entry, clazz);
                         }
                     }
                 }
@@ -83,19 +84,22 @@ public class CommonMapper {
         return entity;
     }
 
-    private void mapToEntityBasicTypes(Map<String, Object> dto, Object entity, Map.Entry<String, Object> entry, Class clazz) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    private void mapToEntityBasicTypes(Object entity, Map.Entry<String, Object> entry, Class clazz) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method setter = entity.getClass().getMethod(transformToSetter(entry.getKey()), clazz);
         if (Number.class.isAssignableFrom(clazz) || clazz.isPrimitive()) {
-            //Number
-            Method setter = entity.getClass().getMethod(transformToSetter(entry.getKey()), clazz);
-            setter.invoke(entity, Long.parseLong((String) entry.getValue()));
+            if(clazz==Boolean.class || clazz==boolean.class){
+                //Boolean
+                setter.invoke(entity, entry.getValue());
+            } else {
+                //Number
+                setter.invoke(entity, Long.parseLong((String) entry.getValue()));
+            }
         } else {
             if(clazz.isEnum()){
                 //Enum
-                Method setter = entity.getClass().getMethod(transformToSetter(entry.getKey()), clazz);
                 setter.invoke(entity, getEnumVal((String) entry.getValue(), clazz));
             } else {
                 //String
-                Method setter = entity.getClass().getMethod(transformToSetter(entry.getKey()), clazz);
                 setter.invoke(entity, entry.getValue());
             }
         }
