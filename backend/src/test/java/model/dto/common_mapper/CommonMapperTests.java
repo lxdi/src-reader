@@ -1,6 +1,5 @@
 package model.dto.common_mapper;
 
-import model.dto.IEntityById;
 import org.junit.Before;
 import org.junit.Test;
 

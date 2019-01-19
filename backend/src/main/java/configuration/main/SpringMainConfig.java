@@ -1,5 +1,7 @@
-package configuration;
+package configuration.main;
 
+import model.dto.common_mapper.CommonMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,22 +17,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 
 @Configuration
-@EnableWebMvc
-@ComponentScan(basePackages = {"configuration", "controllers" , "model", "services"})
+@ComponentScan(basePackages = {"configuration.main", "configuration.db", "controllers" , "model", "services"})
 @EnableJpaRepositories(basePackages="model.dao")
-public class SpringConfig extends WebMvcConfigurerAdapter {
-
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("");
-        viewResolver.setSuffix(".html");
-        return viewResolver;
-    }
-
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("/pages/");
-    }
+public class SpringMainConfig {
 
 }
