@@ -8,6 +8,8 @@ public class TestEntity {
     TestEntity anotherTestEntity;
     TestEntity anotherTestEntity2;
 
+    TestEnum testEnum;
+
     public long getId() {
         return id;
     }
@@ -38,5 +40,13 @@ public class TestEntity {
 
     public void setAnotherTestEntity2(TestEntity anotherTestEntity2) {
         this.anotherTestEntity2 = anotherTestEntity2;
+    }
+
+    public TestEnum getTestEnum() {
+        return testEnum;
+    }
+
+    public void setTestEnum(TestEnum testEnum) {
+        this.testEnum = testEnum;
     }
 }
