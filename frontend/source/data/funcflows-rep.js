@@ -1,5 +1,5 @@
 import {registerObject, registerEvent, viewStateVal, fireEvent} from '../utils/eventor'
-import {sendGet} from './postoffice'
+import {sendGet, sendPut} from './postoffice'
 import {makeSplitMap} from '../utils/import-utils'
 
 registerEvent('funcflows-rep', 'funcflows-request', (stateSetter)=>{
@@ -10,3 +10,18 @@ registerEvent('funcflows-rep', 'funcflows-request', (stateSetter)=>{
 })
 
 registerEvent('funcflows-rep', 'funcflows-received', (stateSetter)=>{})
+
+
+registerEvent('funcflows-rep', 'create-funcflow', (stateSetter, newfuncflow)=>{
+  console.log(newfuncflow)
+  sendPut('/funcflow/create', newfuncflow, (data)=>{
+    console.log(data)
+    if(viewStateVal('funcflows-rep', 'funcflows')[data.scenarioid]==null){
+      viewStateVal('funcflows-rep', 'funcflows')[data.scenarioid] = []
+    }
+    viewStateVal('funcflows-rep', 'funcflows')[data.scenarioid][data.id] = data
+    fireEvent('funcflows-rep', 'created-funcflow', [data])
+  })
+})
+
+registerEvent('funcflows-rep', 'created-funcflow', (stateSetter)=>{})

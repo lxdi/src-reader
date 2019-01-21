@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './data/common-rep'
+import './data/functions-rep'
 import './data/scenarios-rep'
 import './data/funcflows-rep'
-import './data/functions-rep'
 
 import {ProjectsList} from './ui/projects/projects-list'
 import {ProjectModal} from './ui/projects/project-modal'
 import {ScenarioModal} from './ui/scenarios/scenario-modal'
+import {FuncflowModal} from './ui/funcflows/funcflow-modal'
 
 import {fireEvent} from './utils/eventor'
 
@@ -22,6 +23,7 @@ class Main extends React.Component {
 
 		fireEvent('projects-rep', 'projects-request')
 		fireEvent('scenarios-rep', 'scenarios-request')
+		fireEvent('funcflows-rep', 'funcflows-request')
 	}
 
 	render() {
@@ -30,6 +32,7 @@ class Main extends React.Component {
 				<div>
 					<ProjectModal/>
 					<ScenarioModal/>
+					<FuncflowModal/>
 				</div>
 				<div>
 					<ProjectsList/>

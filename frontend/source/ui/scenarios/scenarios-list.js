@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap'
 
-import {ScenarioModal} from './scenario-modal'
+import {FuncFlows} from '../funcflows/funcflows-list'
 
 import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
 
@@ -38,6 +38,7 @@ const getScenariosListUI = function(reactcomp){
 			const curscen = scenarios[reactcomp.props.projectid][i]
 			result.push(<div key={curscen.id} style = {{marginTop:'3px', padding:'3px', border:'1px solid lightgrey'}}>
 											{curscen.title}
+											<FuncFlows scenarioid = {curscen.id} />
 										</div>)
 		}
 	} else {
