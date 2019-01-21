@@ -30,7 +30,12 @@ public class FuncFlowDelegate {
 
     public Map<String, Object> createNew(Map<String, Object> funcflowDto){
         FuncFlow funcflow = (FuncFlow) commonMapper.mapToEntity(funcflowDto, new FuncFlow());
-        FuncFlow lastFF = funcflow.getParent()==null?funcFlowDao.findLastAmongRoots():funcFlowDao.findLast(funcflow.getParent());
+        if(funcflow.getScenario()==null){
+            throw new RuntimeException("A FuncFlow must have a Scenario");
+        }
+        FuncFlow lastFF = funcflow.getParent()==null?
+                funcFlowDao.findLastAmongRoots(funcflow.getScenario())
+                :funcFlowDao.findLast(funcflow.getParent(), funcflow.getScenario());
         funcFlowDao.save(funcflow);
         Map<String, Object> funcflowDtoRs = commonMapper.mapToDto(funcflow, new HashMap<>());
         if(lastFF!=null){
