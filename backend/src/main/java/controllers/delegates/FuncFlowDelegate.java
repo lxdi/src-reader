@@ -30,8 +30,15 @@ public class FuncFlowDelegate {
 
     public Map<String, Object> createNew(Map<String, Object> funcflowDto){
         FuncFlow funcflow = (FuncFlow) commonMapper.mapToEntity(funcflowDto, new FuncFlow());
+        FuncFlow lastFF = funcflow.getParent()==null?funcFlowDao.findLastAmongRoots():funcFlowDao.findLast(funcflow.getParent());
         funcFlowDao.save(funcflow);
-        return commonMapper.mapToDto(funcflow, new HashMap<>());
+        Map<String, Object> funcflowDtoRs = commonMapper.mapToDto(funcflow, new HashMap<>());
+        if(lastFF!=null){
+            lastFF.setNext(funcflow);
+            funcFlowDao.save(lastFF);
+            funcflowDtoRs.put("previd", lastFF.getId());
+        }
+        return funcflowDtoRs;
     }
 
 }

@@ -13,11 +13,12 @@ registerEvent('funcflows-rep', 'funcflows-received', (stateSetter)=>{})
 
 
 registerEvent('funcflows-rep', 'create-funcflow', (stateSetter, newfuncflow)=>{
-  console.log(newfuncflow)
   sendPut('/funcflow/create', newfuncflow, (data)=>{
-    console.log(data)
     if(viewStateVal('funcflows-rep', 'funcflows')[data.scenarioid]==null){
       viewStateVal('funcflows-rep', 'funcflows')[data.scenarioid] = []
+    }
+    if(data.previd!=null){
+      viewStateVal('funcflows-rep', 'funcflows')[data.scenarioid][data.previd].nextid = data.id
     }
     viewStateVal('funcflows-rep', 'funcflows')[data.scenarioid][data.id] = data
     fireEvent('funcflows-rep', 'created-funcflow', [data])

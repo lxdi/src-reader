@@ -92,7 +92,7 @@ public class CommonMapper {
                 setter.invoke(entity, entry.getValue());
             } else {
                 //Number
-                setter.invoke(entity, Long.parseLong((String) entry.getValue()));
+                setter.invoke(entity, Long.parseLong(""+entry.getValue()));
             }
         } else {
             if(clazz.isEnum()){
