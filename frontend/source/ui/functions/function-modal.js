@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
 
-import {CommonModal} from './common-modal'
+import {CommonModal} from '../common-modal'
 
-import {registerEvent, fireEvent, registerReaction} from '../utils/eventor'
+import {registerEvent, fireEvent, registerReaction} from '../../utils/eventor'
 
 export class FunctionModal extends React.Component {
   constructor(props){
@@ -18,12 +18,13 @@ export class FunctionModal extends React.Component {
       this.setState({isOpen:false, node: null})
     })
 
-    registerReaction('function-modal', 'functions-rep', 'func-added', (stateSetter)=>fireEvent('function-modal', 'close'))
+    //registerReaction('function-modal', 'functions-rep', 'func-added', (stateSetter)=>fireEvent('function-modal', 'close'))
+    registerReaction('function-modal', 'functions-rep', 'created-function', (stateSetter)=>fireEvent('function-modal', 'close'))
   }
 
   render(){
     return <CommonModal title="Function" isOpen={this.state.isOpen}
-              okHandler={()=>fireEvent('functions-rep', 'add-func', [this.state.node])}
+              okHandler={()=>fireEvent('functions-rep', 'create-function', [this.state.node])}
               cancelHandler={()=>fireEvent('function-modal', 'close')}>
             {content(this)}
           </CommonModal>

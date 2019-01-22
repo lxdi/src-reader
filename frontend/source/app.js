@@ -11,6 +11,7 @@ import {ProjectModal} from './ui/projects/project-modal'
 import {ScenarioModal} from './ui/scenarios/scenario-modal'
 import {FuncflowModal} from './ui/funcflows/funcflow-modal'
 import {ComponentModal} from './ui/components-biz/component-modal'
+import {FunctionModal} from './ui/functions/function-modal'
 
 import {fireEvent} from './utils/eventor'
 
@@ -37,6 +38,7 @@ class Main extends React.Component {
 					<ScenarioModal/>
 					<FuncflowModal/>
 					<ComponentModal/>
+					<FunctionModal/>
 				</div>
 				<div>
 					<ProjectsList/>

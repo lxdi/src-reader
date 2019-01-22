@@ -18,7 +18,7 @@ public class FuncFlow {
     FuncFlow next;
 
     @ManyToOne
-    Func func;
+    Func function;
 
     @ManyToOne
     Scenario scenario;
@@ -39,12 +39,12 @@ public class FuncFlow {
         this.title = title;
     }
 
-    public Func getFunc() {
-        return func;
+    public Func getFunction() {
+        return function;
     }
 
-    public void setFunc(Func func) {
-        this.func = func;
+    public void setFunction(Func function) {
+        this.function = function;
     }
 
     public FuncFlow getParent() {

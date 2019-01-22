@@ -39,7 +39,7 @@ const getFuncflowsTree = function(reactcomp){
 
 const nodeView = function(node, scenarioid){
 	return <div>
-	 					<a href="#" >{node.title} </a>
+	 					<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}>{node.title} </a>
 						<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{title:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
 	 			</div>
 }
