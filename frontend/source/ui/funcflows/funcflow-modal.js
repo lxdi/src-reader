@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
+import {FormGroup, ControlLabel, FormControl, ButtonToolbar, DropdownButton} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
 
@@ -32,17 +32,45 @@ export class FuncflowModal extends React.Component {
 
 const content = function(component){
   if(component.state.funcflow!=null){
-    return  <FormGroup controlId="formBasicText">
-                  <div style={{display:'inline-block', paddingRight:'3px'}}>
-                    <ControlLabel>Title:</ControlLabel>
-                  </div>
-                  <div style={{display:'inline-block'}}>
-                    <FormControl
-                                type="text"
-                                value={component.state.funcflow.title}
-                                placeholder="Enter title"
-                                onChange={(e)=>{component.state.funcflow.title = e.target.value; component.setState({})}}/>
-                  </div>
-                </FormGroup>
+    return <div>
+            <div>
+
+            </div>
+            {textFieldsUI(component)}
+          </div>
   }
+}
+
+// const componentSelecting = function(reactcomp){
+//   return <div>
+//             <ButtonToolbar>
+//               <DropdownButton bsSize="small" title={targetsDropDownTitle} id="dropdown-size-small" onSelect={component.selectTargetHandler}>
+//                 {availableTargetsUI()}
+//               </DropdownButton>
+//             </ButtonToolbar>
+//           </div>
+// }
+
+// const availableTargetsUI = function(){
+//   const result = []
+//   iterateTree(viewStateVal('components-dao', 'targets')[viewStateVal('realms-dao', 'currentRealm').id], (target, level)=>{
+//     const style = {marginLeft: (level*10)+'px'}
+//     result.push(<MenuItem style={style} eventKey={target}>{target.toString()}</MenuItem>)
+//   })
+//   return result
+// }
+
+const textFieldsUI = function(reactcomp){
+  return <FormGroup controlId="formBasicText">
+                <div style={{display:'inline-block', paddingRight:'3px'}}>
+                  <ControlLabel>Title:</ControlLabel>
+                </div>
+                <div style={{display:'inline-block'}}>
+                  <FormControl
+                              type="text"
+                              value={reactcomp.state.funcflow.title}
+                              placeholder="Enter title"
+                              onChange={(e)=>{reactcomp.state.funcflow.title = e.target.value; reactcomp.setState({})}}/>
+                </div>
+              </FormGroup>
 }

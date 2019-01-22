@@ -10,6 +10,7 @@ import {ProjectsList} from './ui/projects/projects-list'
 import {ProjectModal} from './ui/projects/project-modal'
 import {ScenarioModal} from './ui/scenarios/scenario-modal'
 import {FuncflowModal} from './ui/funcflows/funcflow-modal'
+import {ComponentModal} from './ui/components-biz/component-modal'
 
 import {fireEvent} from './utils/eventor'
 
@@ -22,6 +23,8 @@ class Main extends React.Component {
 		this.state = {}
 
 		fireEvent('projects-rep', 'projects-request')
+		fireEvent('components-rep', 'components-request')
+		fireEvent('functions-rep', 'functions-request')
 		fireEvent('scenarios-rep', 'scenarios-request')
 		fireEvent('funcflows-rep', 'funcflows-request')
 	}
@@ -33,6 +36,7 @@ class Main extends React.Component {
 					<ProjectModal/>
 					<ScenarioModal/>
 					<FuncflowModal/>
+					<ComponentModal/>
 				</div>
 				<div>
 					<ProjectsList/>

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap'
-import {TreeComponent} from '../components/tree-component'
+import {TreeComponent} from '../common/components/tree-component'
 
 import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
 

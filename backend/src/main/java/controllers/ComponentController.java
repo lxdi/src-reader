@@ -1,6 +1,6 @@
 package controllers;
 
-import controllers.delegates.FuncDelegate;
+import controllers.delegates.ComponentDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +13,20 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class FuncController {
+public class ComponentController {
 
     @Autowired
-    FuncDelegate funcDelegate;
+    ComponentDelegate componentDelegate;
 
-    @RequestMapping(path = "/function/all")
+    @RequestMapping(path = "/component/all")
     public ResponseEntity<List<Map<String, Object>>> getAllFuncs(){;
-        return new ResponseEntity<>(funcDelegate.getAllFuncs(), HttpStatus.OK);
+        return new ResponseEntity<>(componentDelegate.getAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(path="/function/create", method = RequestMethod.PUT)
-    public ResponseEntity<Map<String, Object>> createNew(@RequestBody Map<String, Object> dto){
-        return new ResponseEntity<>(funcDelegate.createNew(dto), HttpStatus.OK);
+    @RequestMapping(path="/component/create", method = RequestMethod.PUT)
+    public ResponseEntity<Map<String, Object>> createNew(@RequestBody Map<String, Object> dto){;
+        return new ResponseEntity<>(componentDelegate.createNew(dto), HttpStatus.OK);
     }
+
 
 }
