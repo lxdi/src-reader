@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormGroup, ControlLabel, FormControl, ButtonToolbar, DropdownButton, MenuItem} from 'react-bootstrap'
+import {FormGroup, ControlLabel, FormControl, ButtonToolbar, DropdownButton, MenuItem, Button} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
 
@@ -38,31 +38,44 @@ const content = function(component){
   if(component.state.funcflow!=null){
     return <div>
             <div>
-              {componentSelecting(component)}
+              {componentUI(component)}
             </div>
             <div>
-              {functionSelecting(component)}
+              {functionUI(component)}
             </div>
             {textFieldsUI(component)}
           </div>
   }
 }
 
-const componentSelecting = function(reactcomp){
-  if(reactcomp.state.funcflow.functionid==null){ //|| (reactcomp.state.funcflow.functionid!=null && reactcomp.state.comptemp==null)){
-    return <div>
-              <div>
-                <a href='#' onClick={()=>fireEvent('component-modal', 'open', [{title:'', projectid: getProjectByScenarioId(reactcomp.state.funcflow.scenarioid).id}])}>+ Create New </a>
-              </div>
-              <ButtonToolbar>
-                <DropdownButton bsSize="small" title={'Components'} id="dropdown-size-small" onSelect={(e, comp)=>selectCompHandler(e, comp, reactcomp)}>
-                  {availableComponentsUI(reactcomp)}
-                </DropdownButton>
-              </ButtonToolbar>
-            </div>
-  } else {
-    return reactcomp.state.funcflow.functionid==null? viewStateVal('components-rep', 'components')[reactcomp.state.comptemp.id].title: getComponentByFunctionid(reactcomp.state.funcflow.functionid).title
+//------------------------------------------------------
+
+const componentUI = function(reactcomp){
+  var currentCompName = null
+  var componentSelecting = null
+  if(reactcomp.state.comptemp!=null){
+    currentCompName = reactcomp.state.comptemp.title
   }
+  if(reactcomp.state.funcflow.functionid!=null){
+    currentCompName = getComponentByFunctionid(reactcomp.state.funcflow.functionid).title
+  }
+  const availableComponents = availableComponentsUI(reactcomp)
+  if(availableComponents.length>0){
+    componentSelecting = <ButtonToolbar>
+                  <DropdownButton disabled={true} title={currentCompName==null?'<Select Component>': currentCompName} id="dropdown-size-small" onSelect={(e, comp)=>selectCompHandler(e, comp, reactcomp)}>
+                    {availableComponents}
+                  </DropdownButton>
+                </ButtonToolbar>
+  }
+  const style = {display:'inline-block', paddingRight:'3px', verticalAlign:'top'}
+  return <div style={{padding:'3px'}}>
+            <div style={style}>
+            {componentSelecting}
+            </div>
+            <div style={style}>
+              <Button onClick={()=>fireEvent('component-modal', 'open', [{title:'', projectid: getProjectByScenarioId(reactcomp.state.funcflow.scenarioid).id}])}>Create New</Button>
+            </div>
+          </div>
 }
 
 const availableComponentsUI = function(reactcomp){
@@ -82,25 +95,30 @@ const selectCompHandler = function(comp, e, reactcomp){
 
 //-------------------------------------------------------
 
-const functionSelecting = function(reactcomp){
-  if(reactcomp.state.funcflow.functionid==null && reactcomp.state.comptemp!=null){
-    const componentid = reactcomp.state.comptemp.id
-    return <div>
-              <div>
-                <a href='#' onClick={()=>fireEvent('function-modal', 'open', [{title:'', componentid: componentid}])}>+ Create New Function</a>
+const functionUI = function(reactcomp){
+  if(reactcomp.state.funcflow.functionid!=null || reactcomp.state.comptemp!=null){
+      const func = reactcomp.state.funcflow.functionid!=null? getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), reactcomp.state.funcflow.functionid): null
+      const componentid = func!=null? func.componentid: reactcomp.state.comptemp.id
+
+      var functionSelecting = null
+      const availableFunctions = availableFunctionsUI(reactcomp, componentid)
+      if(availableFunctions.length>0){
+        functionSelecting = <ButtonToolbar>
+                      <DropdownButton title={func==null?'<Select Function>': func.title} id="dropdown-size-small" onSelect={(e, func)=>selectFuncHandler(e, func, reactcomp)}>
+                        {availableFunctions}
+                      </DropdownButton>
+                    </ButtonToolbar>
+      }
+
+      const style = {display:'inline-block', paddingRight:'3px', verticalAlign:'top'}
+      return <div style={{padding:'3px'}}>
+                <div style={style}>
+                  {functionSelecting}
+                </div>
+                <div style={style}>
+                  <Button onClick={()=>fireEvent('function-modal', 'open', [{title:'', componentid: componentid}])}>Create New</Button>
+                </div>
               </div>
-              <ButtonToolbar>
-                <DropdownButton bsSize="small" title={'Functions'} id="dropdown-size-small" onSelect={(e, comp)=>selectFuncHandler(e, comp, reactcomp)}>
-                  {availableFunctionsUI(reactcomp, componentid)}
-                </DropdownButton>
-              </ButtonToolbar>
-            </div>
-  } else {
-    if(reactcomp.state.funcflow.functionid!=null){
-      return getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), reactcomp.state.funcflow.functionid).title
-    } else {
-      return null
-    }
   }
 }
 
@@ -122,14 +140,6 @@ const selectFuncHandler = function(func, e, reactcomp){
 
 const getProjectByScenarioId = function(scenarioid){
   var scenario = getFromMappedRepByid(viewStateVal('scenarios-rep', 'scenarios'), scenarioid)
-  // for(var projid in viewStateVal('scenarios-rep', 'scenarios')){
-  //   for(var scenid in viewStateVal('scenarios-rep', 'scenarios')[projid]){
-  //     if(viewStateVal('scenarios-rep', 'scenarios')[projid][scenid].id == scenarioid){
-  //         scenario = viewStateVal('scenarios-rep', 'scenarios')[projid][scenid]
-  //         break;
-  //     }
-  //   }
-  // }
   return viewStateVal('projects-rep', 'projects')[scenario.projectid]
 }
 
