@@ -1,5 +1,5 @@
 import {registerObject, registerEvent, viewStateVal, fireEvent} from '../utils/eventor'
-import {sendGet, sendPut} from './postoffice'
+import {sendGet, sendPut, sendPost} from './postoffice'
 import {makeMap, makeSplitMap} from '../utils/import-utils'
 
 //registerObject('projects-rep', {projects:[]})
@@ -20,6 +20,8 @@ const registerCommonEvents = function(){
   creatingInMap('scenario', 'projectid', false)
   creatingInMap('function', 'componentid', false)
   creatingInMap('funcflow', 'scenarioid', true)
+
+  updatingInMap('funcflow', 'scenarioid')
 
 }
 
@@ -68,6 +70,19 @@ const creatingInMap = function(repName, mapByField, isTree){
     })
   })
   registerEvent(repName+'s-rep', 'created-'+repName, (stateSetter)=>{})
+}
+
+const updatingInMap = function(repName, mapByField){
+  registerEvent(repName+'s-rep', 'update-'+repName, (stateSetter, objToUpdate)=>{
+    sendPost('/'+repName+'/update', objToUpdate, (data)=>{
+      if(viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]]==null){
+        viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]] = []
+      }
+      Object.assign(viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.id], data)
+      fireEvent(repName+'s-rep', 'updated-'+repName, [viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.id]])
+    })
+  })
+  registerEvent(repName+'s-rep', 'updated-'+repName, (stateSetter)=>{})
 }
 
 registerCommonEvents()

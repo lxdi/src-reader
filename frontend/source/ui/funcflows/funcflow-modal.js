@@ -20,17 +20,25 @@ export class FuncflowModal extends React.Component {
       this.setState({isOpen:false, funcflow: null, comptemp:null})
     })
 
-    registerReaction('funcflow-modal', 'funcflows-rep', 'created-funcflow', (stateSetter)=>fireEvent('funcflow-modal', 'close'))
+    registerReaction('funcflow-modal', 'funcflows-rep', ['created-funcflow', 'updated-funcflow'], (stateSetter)=>fireEvent('funcflow-modal', 'close'))
     registerReaction('funcflow-modal', 'components-rep', 'created-component', (stateSetter)=>this.setState({}))
     registerReaction('funcflow-modal', 'functions-rep', 'created-function', (stateSetter)=>this.setState({}))
   }
 
   render(){
     return <CommonModal title="Function flow" isOpen={this.state.isOpen}
-              okHandler={()=>fireEvent('funcflows-rep', 'create-funcflow', [this.state.funcflow])}
+              okHandler={()=>okHandler(this)}
               cancelHandler={()=>fireEvent('funcflow-modal', 'close')}>
             {content(this)}
           </CommonModal>
+  }
+}
+
+const okHandler = function(reactcomp){
+  if(reactcomp.state.funcflow.id!=0 && reactcomp.state.funcflow.id>0){
+    fireEvent('funcflows-rep', 'update-funcflow', [reactcomp.state.funcflow])
+  } else {
+    fireEvent('funcflows-rep', 'create-funcflow', [reactcomp.state.funcflow])
   }
 }
 
