@@ -17,6 +17,9 @@ public class ComponentDelegate extends CommonDelegate {
         if(component.getProject()==null){
             throw new RuntimeException("A Component must have a Project");
         }
+        if(component.getTitle()==null || component.getTitle().isEmpty()){
+            throw new RuntimeException("A Component must have a title");
+        }
     }
 
 }

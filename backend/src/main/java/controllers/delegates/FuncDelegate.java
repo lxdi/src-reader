@@ -12,9 +12,21 @@ public class FuncDelegate extends CommonDelegate {
 
     @Override
     protected void validateCreateNew(Object obj){
+        commonValidation(obj);
+    }
+
+    @Override
+    protected void validateUpdate(Object obj){
+        commonValidation(obj);
+    }
+
+    protected void commonValidation(Object obj){
         Func func = (Func) obj;
         if(func.getComponent()==null){
             throw new RuntimeException("A Function must have a Component");
+        }
+        if(func.getTitle()==null || func.getTitle().isEmpty()){
+            throw new RuntimeException("A Function must have a title");
         }
     }
 

@@ -14,20 +14,25 @@ public class ScenarioDelegate extends CommonDelegate {
 
     @Override
     protected void validateCreateNew(Object obj){
-        Scenario scenario = (Scenario) obj;
-        if(scenario.getProject()==null){
-            throw new RuntimeException("A Scenario must have a Project");
-        }
+        commonValidation(obj);
     }
 
     @Override
     protected void validateUpdate(Object obj){
+        commonValidation(obj);
+        Scenario scenario = (Scenario) obj;
+        if(scenario.getId()<=0){
+            throw new RuntimeException("Only persisted Scenario can be updated");
+        }
+    }
+
+    private void commonValidation(Object obj){
         Scenario scenario = (Scenario) obj;
         if(scenario.getProject()==null){
             throw new RuntimeException("A Scenario must have a Project");
         }
-        if(scenario.getId()<=0){
-            throw new RuntimeException("Only persisted Scenario can be updated");
+        if(scenario.getTitle()==null || scenario.getTitle().isEmpty()){
+            throw new RuntimeException("A Scenario must have a title");
         }
     }
 

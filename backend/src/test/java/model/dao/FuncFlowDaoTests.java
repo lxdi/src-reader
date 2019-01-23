@@ -6,6 +6,10 @@ import model.entities.Scenario;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static junit.framework.TestCase.assertTrue;
 
 public class FuncFlowDaoTests extends SpringTestConfig {
@@ -56,6 +60,28 @@ public class FuncFlowDaoTests extends SpringTestConfig {
 
         assertTrue(last.getId() == child.getId());
 
+    }
+
+    @Test
+    public void saveListTest(){
+        Scenario scenario = new Scenario();
+        scenario.setTitle("test scenario");
+        scenarioDao.save(scenario);
+
+        FuncFlow parent = new FuncFlow();
+        parent.setTitle("parent test");
+        parent.setScenario(scenario);
+        funcFlowDao.save(parent);
+
+        FuncFlow child = new FuncFlow();
+        child.setParent(parent);
+        child.setTitle("child test");
+        child.setScenario(scenario);
+        funcFlowDao.save(child);
+
+        List<FuncFlow> list = new ArrayList<>(Arrays.asList(parent, child));
+
+        funcFlowDao.save(list);
     }
 
 }

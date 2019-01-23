@@ -18,6 +18,7 @@ public class FuncFlowDelegate extends CommonDelegate {
     @Autowired
     CommonMapper commonMapper;
 
+    @Override
     public Map<String, Object> createNew(Map<String, Object> funcflowDto){
         FuncFlow funcflow = (FuncFlow) commonMapper.mapToEntity(funcflowDto, new FuncFlow());
         if(funcflow.getScenario()==null){
@@ -39,6 +40,23 @@ public class FuncFlowDelegate extends CommonDelegate {
     @Override
     protected Class getClassDao() {
         return FuncFlow.class;
+    }
+
+    @Override
+    protected void validateCreateNew(Object obj){
+        commonValidation(obj);
+    }
+
+    @Override
+    protected void validateUpdate(Object obj){
+        commonValidation(obj);
+    }
+
+    private void commonValidation(Object obj){
+        FuncFlow funcFlow = (FuncFlow) obj;
+        if(funcFlow.getFunction()==null){
+            throw new RuntimeException("A FuncFlow must have a Function");
+        }
     }
 
 }
