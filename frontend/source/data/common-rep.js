@@ -23,6 +23,8 @@ const registerCommonEvents = function(){
 
   updatingInMap('funcflow', 'scenarioid')
 
+  updatingList('funcflow')
+
 }
 
 const receivingSimple = function(repName){
@@ -83,6 +85,15 @@ const updatingInMap = function(repName, mapByField){
     })
   })
   registerEvent(repName+'s-rep', 'updated-'+repName, (stateSetter)=>{})
+}
+
+const updatingList = function(repName){
+  registerEvent(repName+'s-rep', 'update-list-'+repName, (stateSetter, objsToUpdate)=>{
+    sendPost('/'+repName+'/update/list', objsToUpdate, (data)=>{
+      fireEvent(repName+'s-rep', 'updated-list-'+repName)
+    })
+  })
+  registerEvent(repName+'s-rep', 'updated-list-'+repName, (stateSetter)=>{})
 }
 
 registerCommonEvents()

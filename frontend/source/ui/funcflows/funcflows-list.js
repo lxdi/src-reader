@@ -10,7 +10,7 @@ import {getFromMappedRepByid} from '../../utils/import-utils'
 export class FuncFlows extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {}
+		this.state = {isEdit:false}
 		const listName = 'funcflows-list-ui-'+this.props.scenarioid
 		registerReaction(listName, 'funcflows-rep', ['funcflows-received'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'components-rep', ['components-received'], (stateSetter)=>{this.setState({})})
@@ -19,10 +19,16 @@ export class FuncFlows extends React.Component {
 	}
 
 	render() {
+		const buttonStyle = {padding:'5px', display:'inline-block'}
 		return (
 			<div style={{margin:'5px'}}>
-				<div style={{padding:'5px'}}>
-					<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{title:'', scenarioid: this.props.scenarioid}])} bsSize="xs"> + Add FuncFlow </Button>
+				<div>
+					<div style={buttonStyle}>
+						<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{title:'', scenarioid: this.props.scenarioid}])} bsSize="xs"> + Add FuncFlow </Button>
+					</div>
+					<div style={buttonStyle}>
+						<Button onClick={()=>this.setState({isEdit: !this.state.isEdit})} bsSize="xs"> Edit/view </Button>
+					</div>
 				</div>
 				<div style={{padding:'5px'}}>
 					{getFuncflowsTree(this)}
@@ -34,7 +40,10 @@ export class FuncFlows extends React.Component {
 
 const getFuncflowsTree = function(reactcomp){
 	if(checkForRepositoriesLoaded()){
-			return <TreeComponent nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenarioid]} viewCallback={(node)=>nodeView(node, reactcomp.props.scenarioid)} />
+			return <TreeComponent isEdit={reactcomp.state.isEdit}
+			nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenarioid]}
+			viewCallback={(node)=>nodeView(node, reactcomp.props.scenarioid)}
+			onDropCallback = {(alteredList)=>{fireEvent('funcflows-rep', 'update-list-funcflow', [alteredList])}} />
 	} else {
 		return 'Loading...'
 	}
