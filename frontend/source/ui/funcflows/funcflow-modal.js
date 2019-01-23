@@ -62,7 +62,7 @@ const componentUI = function(reactcomp){
   const availableComponents = availableComponentsUI(reactcomp)
   if(availableComponents.length>0){
     componentSelecting = <ButtonToolbar>
-                  <DropdownButton disabled={true} title={currentCompName==null?'<Select Component>': currentCompName} id="dropdown-size-small" onSelect={(e, comp)=>selectCompHandler(e, comp, reactcomp)}>
+                  <DropdownButton disabled={reactcomp.state.funcflow.functionid!=null} title={currentCompName==null?'<Select Component>': currentCompName} id="dropdown-size-small" onSelect={(e, comp)=>selectCompHandler(e, comp, reactcomp)}>
                     {availableComponents}
                   </DropdownButton>
                 </ButtonToolbar>
@@ -117,6 +117,9 @@ const functionUI = function(reactcomp){
                 </div>
                 <div style={style}>
                   <Button onClick={()=>fireEvent('function-modal', 'open', [{title:'', componentid: componentid}])}>Create New</Button>
+                </div>
+                <div style={style}>
+                  <Button onClick={()=>{reactcomp.state.funcflow.functionid=null; reactcomp.setState({})}}>Remove</Button>
                 </div>
               </div>
   }

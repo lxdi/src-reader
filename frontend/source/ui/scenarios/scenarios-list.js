@@ -18,7 +18,7 @@ export class ScenariosList extends React.Component {
 
 	render() {
 		return (
-			<div style={{margin:'5px', border:'1px solid lightgrey'}}>
+			<div style={{margin:'5px'}}>
 				<div style={{padding:'5px'}}>
 					<Button onClick={()=>fireEvent('scenario-modal', 'open', [{title:'', projectid: this.props.projectid}])}> + Add Scenario </Button>
 				</div>

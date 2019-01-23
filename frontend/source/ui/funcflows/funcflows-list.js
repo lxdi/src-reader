@@ -17,9 +17,9 @@ export class FuncFlows extends React.Component {
 
 	render() {
 		return (
-			<div style={{margin:'5px', border:'1px solid lightgrey'}}>
+			<div style={{margin:'5px'}}>
 				<div style={{padding:'5px'}}>
-					<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{title:'', scenarioid: this.props.scenarioid}])}> + Add FuncFlow </Button>
+					<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{title:'', scenarioid: this.props.scenarioid}])} bsSize="xs"> + Add FuncFlow </Button>
 				</div>
 				<div style={{padding:'5px'}}>
 					{getFuncflowsTree(this)}
