@@ -24,7 +24,7 @@ export class FuncFlows extends React.Component {
 			<div style={{margin:'5px'}}>
 				<div>
 					<div style={buttonStyle}>
-						<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{title:'', scenarioid: this.props.scenarioid}])} bsSize="xs"> + Add FuncFlow </Button>
+						<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', scenarioid: this.props.scenarioid}])} bsSize="xs"> + Add FuncFlow </Button>
 					</div>
 					<div style={buttonStyle}>
 						<Button onClick={()=>this.setState({isEdit: !this.state.isEdit})} bsSize="xs"> Edit/view </Button>
@@ -61,14 +61,15 @@ const nodeView = function(node, scenarioid){
 	var funcflowname = null
 	if(node.functionid!=null){
 		const component = getComponentByFunctionid(node.functionid)
-		const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), component.id)
+		const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), node.functionid)
 		funcflowname = component.title+'.'+func.title
 	} else {
 		funcflowname = node.title
 	}
 	return <div>
 	 					<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}>{funcflowname} </a>
-						<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{title:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
+						<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
+						<span style={{color:'green', paddingLeft:'3px'}}>{node.tags}</span>
 	 			</div>
 }
 

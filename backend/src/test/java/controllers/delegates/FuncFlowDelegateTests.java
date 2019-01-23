@@ -37,7 +37,7 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
 
         FuncFlow newRoot = new FuncFlow();
         newRoot.setScenario(scenario);
-        newRoot.setTitle("newRoot test");
+        newRoot.setDesc("newRoot test");
 
         Map<String, Object> result = funcFlowDelegate.createNew(commonMapper.mapToDto(newRoot, new HashMap<>()));
 
@@ -53,20 +53,20 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
         scenarioDao.save(scenario);
 
         FuncFlow parent = new FuncFlow();
-        parent.setTitle("parent test");
+        parent.setDesc("parent test");
         parent.setScenario(scenario);
         funcFlowDao.save(parent);
 
         FuncFlow child = new FuncFlow();
         child.setParent(parent);
-        child.setTitle("child test");
+        child.setDesc("child test");
         child.setScenario(scenario);
         funcFlowDao.save(child);
 
         FuncFlow newchild = new FuncFlow();
         newchild.setParent(parent);
         newchild.setScenario(scenario);
-        newchild.setTitle("newchild test");
+        newchild.setDesc("newchild test");
 
         Map<String, Object> result = funcFlowDelegate.createNew(commonMapper.mapToDto(newchild, new HashMap<>()));
 
@@ -84,13 +84,13 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
         scenarioDao.save(scenario);
 
         FuncFlow parent = new FuncFlow();
-        parent.setTitle("root test");
+        parent.setDesc("root test");
         parent.setScenario(scenario);
         funcFlowDao.save(parent);
 
         FuncFlow newroot = new FuncFlow();
         newroot.setScenario(scenario);
-        newroot.setTitle("newroot test");
+        newroot.setDesc("newroot test");
 
         Map<String, Object> result = funcFlowDelegate.createNew(commonMapper.mapToDto(newroot, new HashMap<>()));
 

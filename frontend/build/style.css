@@ -1,0 +1,13 @@
+
+.funcflow-textfields-table {
+    width: 100%;
+    white-space: nowrap;
+}
+
+.funcflow-textfields-table td:last-child {
+    width: 100%;
+}
+
+.funcflow-modal {
+  width:80%
+}

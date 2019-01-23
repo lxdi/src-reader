@@ -27,6 +27,7 @@ export class FuncflowModal extends React.Component {
 
   render(){
     return <CommonModal title="Function flow" isOpen={this.state.isOpen}
+              styleClass="funcflow-modal"
               okHandler={()=>okHandler(this)}
               cancelHandler={()=>fireEvent('funcflow-modal', 'close')}>
             {content(this)}
@@ -160,16 +161,49 @@ const getComponentByFunctionid = function(functionid){
 }
 
 const textFieldsUI = function(reactcomp){
-  return <FormGroup controlId="formBasicText">
-                <div style={{display:'inline-block', paddingRight:'3px'}}>
-                  <ControlLabel>Title:</ControlLabel>
+  const fieldNameStyle = {textAlign:'right', borderRight:'1px solid lightgrey'}
+  const fieldStyle = {paddingLeft:'3px'}
+  return <table class='funcflow-textfields-table'>
+            <tr>
+              <td style={fieldNameStyle}>
+                <div style={{paddingRight:'3px'}}>
+                                <ControlLabel>Description:</ControlLabel>
                 </div>
-                <div style={{display:'inline-block'}}>
+              </td>
+              <td style={fieldStyle}>
+                {descTextField(reactcomp)}
+              </td>
+            </tr>
+            <tr>
+              <td style={fieldNameStyle}>
+                <div style={{paddingRight:'3px'}}>
+                                <ControlLabel>Tags:</ControlLabel>
+                </div>
+              </td>
+              <td style={fieldStyle}>
+                {tagsTextField(reactcomp)}
+              </td>
+            </tr>
+          </table>
+}
+
+const descTextField = function(reactcomp){
+  return <FormGroup controlId="formBasicText">
+                  <FormControl
+                              componentClass="textarea"
+                              type="input"
+                              value={reactcomp.state.funcflow.desc}
+                              placeholder="Enter description"
+                              onChange={(e)=>{reactcomp.state.funcflow.desc = e.target.value; reactcomp.setState({})}}/>
+              </FormGroup>
+}
+
+const tagsTextField = function(reactcomp){
+  return <FormGroup controlId="formBasicText">
                   <FormControl
                               type="text"
-                              value={reactcomp.state.funcflow.title}
-                              placeholder="Enter title"
-                              onChange={(e)=>{reactcomp.state.funcflow.title = e.target.value; reactcomp.setState({})}}/>
-                </div>
+                              value={reactcomp.state.funcflow.tags}
+                              placeholder="tags"
+                              onChange={(e)=>{reactcomp.state.funcflow.tags = e.target.value; reactcomp.setState({})}}/>
               </FormGroup>
 }

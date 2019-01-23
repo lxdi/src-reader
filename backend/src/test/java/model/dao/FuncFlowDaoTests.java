@@ -28,13 +28,13 @@ public class FuncFlowDaoTests extends SpringTestConfig {
         scenarioDao.save(scenario);
 
         FuncFlow parent = new FuncFlow();
-        parent.setTitle("parent test");
+        parent.setDesc("parent test");
         parent.setScenario(scenario);
         funcFlowDao.save(parent);
 
         FuncFlow child = new FuncFlow();
         child.setParent(parent);
-        child.setTitle("child test");
+        child.setDesc("child test");
         child.setScenario(scenario);
         funcFlowDao.save(child);
 
@@ -52,7 +52,7 @@ public class FuncFlowDaoTests extends SpringTestConfig {
         scenarioDao.save(scenario);
 
         FuncFlow child = new FuncFlow();
-        child.setTitle("root test");
+        child.setDesc("root test");
         child.setScenario(scenario);
         funcFlowDao.save(child);
 
@@ -69,13 +69,13 @@ public class FuncFlowDaoTests extends SpringTestConfig {
         scenarioDao.save(scenario);
 
         FuncFlow parent = new FuncFlow();
-        parent.setTitle("parent test");
+        parent.setDesc("parent test");
         parent.setScenario(scenario);
         funcFlowDao.save(parent);
 
         FuncFlow child = new FuncFlow();
         child.setParent(parent);
-        child.setTitle("child test");
+        child.setDesc("child test");
         child.setScenario(scenario);
         funcFlowDao.save(child);
 

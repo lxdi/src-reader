@@ -9,8 +9,6 @@ public class FuncFlow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    String title;
-
     @ManyToOne
     FuncFlow parent;
 
@@ -23,20 +21,16 @@ public class FuncFlow {
     @ManyToOne
     Scenario scenario;
 
+    String desc;
+
+    String tags;
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Func getFunction() {
@@ -68,5 +62,21 @@ public class FuncFlow {
     }
     public void setNext(FuncFlow next) {
         this.next = next;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }
