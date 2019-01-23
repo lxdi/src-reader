@@ -20,7 +20,7 @@ public class FuncController {
 
     @RequestMapping(path = "/function/all")
     public ResponseEntity<List<Map<String, Object>>> getAllFuncs(){;
-        return new ResponseEntity<>(funcDelegate.getAllFuncs(), HttpStatus.OK);
+        return new ResponseEntity<>(funcDelegate.getAll(), HttpStatus.OK);
     }
 
     @RequestMapping(path="/function/create", method = RequestMethod.PUT)

@@ -6,27 +6,17 @@ import model.entities.FuncFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
-public class FuncFlowDelegate {
+public class FuncFlowDelegate extends CommonDelegate {
 
     @Autowired
     IFuncFlowDao funcFlowDao;
 
     @Autowired
     CommonMapper commonMapper;
-
-    public List<Map<String, Object>> getAll(){
-        List<Map<String, Object>> result = new ArrayList<>();
-        for(FuncFlow funcflow : funcFlowDao.findAll()){
-            result.add(commonMapper.mapToDto(funcflow, new HashMap<>()));
-        }
-        return result;
-    }
 
     public Map<String, Object> createNew(Map<String, Object> funcflowDto){
         FuncFlow funcflow = (FuncFlow) commonMapper.mapToEntity(funcflowDto, new FuncFlow());
@@ -44,6 +34,11 @@ public class FuncFlowDelegate {
             funcflowDtoRs.put("previd", lastFF.getId());
         }
         return funcflowDtoRs;
+    }
+
+    @Override
+    protected Class getClassDao() {
+        return FuncFlow.class;
     }
 
 }

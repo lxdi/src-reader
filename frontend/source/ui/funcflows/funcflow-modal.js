@@ -76,7 +76,6 @@ const availableComponentsUI = function(reactcomp){
 }
 
 const selectCompHandler = function(comp, e, reactcomp){
-  console.log('selectCompHandler', comp)
   reactcomp.state.comptemp = comp
   reactcomp.setState({})
 }
@@ -115,7 +114,6 @@ const availableFunctionsUI = function(reactcomp, componentid){
 }
 
 const selectFuncHandler = function(func, e, reactcomp){
-  console.log('selectFuncHandler', func)
   reactcomp.state.funcflow.functionid = func.id
   reactcomp.setState({})
 }
