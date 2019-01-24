@@ -28,5 +28,10 @@ public class ScenarioController {
         return new ResponseEntity<>(scenarioDelegate.createNew(dto), HttpStatus.OK);
     }
 
+    @RequestMapping(path="/scenario/update", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> update(@RequestBody Map<String, Object> dto){
+        return new ResponseEntity<>(scenarioDelegate.update(dto), HttpStatus.OK);
+    }
+
 
 }

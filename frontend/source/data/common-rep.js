@@ -22,6 +22,7 @@ const registerCommonEvents = function(){
   creatingInMap('funcflow', 'scenarioid', true)
 
   updatingInMap('funcflow', 'scenarioid')
+  updatingInMap('scenario', 'projectid')
 
   updatingList('funcflow')
 

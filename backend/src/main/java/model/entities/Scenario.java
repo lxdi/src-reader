@@ -11,6 +11,8 @@ public class Scenario {
 
     String title;
 
+    String desc;
+
     @ManyToOne
     Project project;
 
@@ -36,5 +38,13 @@ public class Scenario {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

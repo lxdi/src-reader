@@ -25,6 +25,8 @@ public class FuncFlow {
 
     String tags;
 
+    boolean hideChildren = false;
+
     public long getId() {
         return id;
     }
@@ -78,5 +80,13 @@ public class FuncFlow {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public boolean isHideChildren() {
+        return hideChildren;
+    }
+
+    public void setHideChildren(boolean hideChildren) {
+        this.hideChildren = hideChildren;
     }
 }

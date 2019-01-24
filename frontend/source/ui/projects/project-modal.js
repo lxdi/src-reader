@@ -23,7 +23,7 @@ export class ProjectModal extends React.Component {
 
   render(){
     return <CommonModal title="Project" isOpen={this.state.isOpen}
-              okHandler={()=>fireEvent('projects-rep', 'create-project', [this.state.project])}
+              okHandler={this.state.project!=null && this.state.project.title!=null && this.state.project.title!=''?()=>fireEvent('projects-rep', 'create-project', [this.state.project]):null}
               cancelHandler={()=>fireEvent('project-modal', 'close')}>
             {content(this)}
           </CommonModal>
