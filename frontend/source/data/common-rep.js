@@ -5,11 +5,10 @@ import {makeMap, makeSplitMap} from '../utils/import-utils'
 //registerObject('projects-rep', {projects:[]})
 
 const registerCommonEvents = function(){
-  const repos = ['project']
-  for(var i in repos){
-    receivingSimple(repos[i])
-    creatingSimple(repos[i])
-  }
+
+  receivingSimple('project')
+  creatingSimple('project')
+  updatingSimple('project')
 
   receivingMakingMap('component', 'projectid')
   receivingMakingMap('scenario', 'projectid')
@@ -23,6 +22,8 @@ const registerCommonEvents = function(){
 
   updatingInMap('funcflow', 'scenarioid')
   updatingInMap('scenario', 'projectid')
+  updatingInMap('component', 'projectid')
+  updatingInMap('function', 'componentid')
 
   updatingList('funcflow')
 
@@ -73,6 +74,16 @@ const creatingInMap = function(repName, mapByField, isTree){
     })
   })
   registerEvent(repName+'s-rep', 'created-'+repName, (stateSetter)=>{})
+}
+
+const updatingSimple = function(repName){
+  registerEvent(repName+'s-rep', 'update-'+repName, (stateSetter, objToUpdate)=>{
+    sendPost('/'+repName+'/update', objToUpdate, (data)=>{
+      Object.assign(viewStateVal(repName+'s-rep', repName+'s')[data.id], data)
+      fireEvent(repName+'s-rep', 'updated-'+repName, [viewStateVal(repName+'s-rep', repName+'s')[data.id]])
+    })
+  })
+  registerEvent(repName+'s-rep', 'updated-'+repName, (stateSetter)=>{})
 }
 
 const updatingInMap = function(repName, mapByField){

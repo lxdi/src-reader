@@ -35,7 +35,7 @@ const getProjectsListUI = function(reactcomp){
 		for(var i in projects){
 			const curproj = projects[i]
 			result.push(<div key={curproj.id} style = {{marginTop:'3px', padding:'3px', border:'1px solid grey'}}>
-										<h4>{curproj.title}</h4>
+										<h4><a href='#' onClick={()=>fireEvent('project-modal', 'open', [curproj])}>{curproj.title}</a></h4>
 										<ScenariosList projectid = {curproj.id} />
 										</div>)
 		}

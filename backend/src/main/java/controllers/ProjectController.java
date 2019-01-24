@@ -28,5 +28,9 @@ public class ProjectController {
         return new ResponseEntity<>(projectDelegate.createNew(dto), HttpStatus.OK);
     }
 
+    @RequestMapping(path="/project/update", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> update(@RequestBody Map<String, Object> dto){
+        return new ResponseEntity<>(projectDelegate.update(dto), HttpStatus.OK);
+    }
 
 }

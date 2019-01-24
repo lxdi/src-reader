@@ -18,15 +18,23 @@ export class ComponentModal extends React.Component {
       this.setState({isOpen:false, component: null})
     })
 
-    registerReaction('component-modal', 'components-rep', 'created-component', (stateSetter)=>fireEvent('component-modal', 'close'))
+    registerReaction('component-modal', 'components-rep', ['created-component', 'updated-component'], (stateSetter)=>fireEvent('component-modal', 'close'))
   }
 
   render(){
     return <CommonModal title="component" isOpen={this.state.isOpen}
-              okHandler={this.state.component!=null && this.state.component.title!=null && this.state.component.title!=''?()=>fireEvent('components-rep', 'create-component', [this.state.component]):null}
+              okHandler={this.state.component!=null && this.state.component.title!=null && this.state.component.title!=''?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('component-modal', 'close')}>
             {content(this)}
           </CommonModal>
+  }
+}
+
+const okHandler = function(reactcomp){
+  if(reactcomp.state.component.id!=0 && reactcomp.state.component.id>0){
+    fireEvent('components-rep', 'update-component', [reactcomp.state.component])
+  } else {
+    fireEvent('components-rep', 'create-component', [reactcomp.state.component])
   }
 }
 

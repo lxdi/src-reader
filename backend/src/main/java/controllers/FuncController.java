@@ -28,4 +28,8 @@ public class FuncController {
         return new ResponseEntity<>(funcDelegate.createNew(dto), HttpStatus.OK);
     }
 
+    @RequestMapping(path="/function/update", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> update(@RequestBody Map<String, Object> dto){
+        return new ResponseEntity<>(funcDelegate.update(dto), HttpStatus.OK);
+    }
 }

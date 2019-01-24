@@ -28,5 +28,10 @@ public class ComponentController {
         return new ResponseEntity<>(componentDelegate.createNew(dto), HttpStatus.OK);
     }
 
+    @RequestMapping(path="/component/update", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> update(@RequestBody Map<String, Object> dto){
+        return new ResponseEntity<>(componentDelegate.update(dto), HttpStatus.OK);
+    }
+
 
 }

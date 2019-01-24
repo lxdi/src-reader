@@ -19,15 +19,23 @@ export class FunctionModal extends React.Component {
     })
 
     //registerReaction('function-modal', 'functions-rep', 'func-added', (stateSetter)=>fireEvent('function-modal', 'close'))
-    registerReaction('function-modal', 'functions-rep', 'created-function', (stateSetter)=>fireEvent('function-modal', 'close'))
+    registerReaction('function-modal', 'functions-rep', ['created-function', 'updated-function'], (stateSetter)=>fireEvent('function-modal', 'close'))
   }
 
   render(){
     return <CommonModal title="Function" isOpen={this.state.isOpen}
-              okHandler={this.state.node!=null && this.state.node.title!=null && this.state.node.title!=''?()=>fireEvent('functions-rep', 'create-function', [this.state.node]):null}
+              okHandler={this.state.node!=null && this.state.node.title!=null && this.state.node.title!=''?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('function-modal', 'close')}>
             {content(this)}
           </CommonModal>
+  }
+}
+
+const okHandler = function(reactcomp){
+  if(reactcomp.state.node.id!=0 && reactcomp.state.node.id>0){
+    fireEvent('functions-rep', 'update-function', [reactcomp.state.node])
+  } else {
+    fireEvent('functions-rep', 'create-function', [reactcomp.state.node])
   }
 }
 
