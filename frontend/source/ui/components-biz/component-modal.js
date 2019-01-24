@@ -23,7 +23,7 @@ export class ComponentModal extends React.Component {
 
   render(){
     return <CommonModal title="component" isOpen={this.state.isOpen}
-              okHandler={()=>fireEvent('components-rep', 'create-component', [this.state.component])}
+              okHandler={this.state.component!=null && this.state.component.title!=null && this.state.component.title!=''?()=>fireEvent('components-rep', 'create-component', [this.state.component]):null}
               cancelHandler={()=>fireEvent('component-modal', 'close')}>
             {content(this)}
           </CommonModal>

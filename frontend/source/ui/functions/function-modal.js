@@ -24,7 +24,7 @@ export class FunctionModal extends React.Component {
 
   render(){
     return <CommonModal title="Function" isOpen={this.state.isOpen}
-              okHandler={()=>fireEvent('functions-rep', 'create-function', [this.state.node])}
+              okHandler={this.state.node!=null && this.state.node.title!=null && this.state.node.title!=''?()=>fireEvent('functions-rep', 'create-function', [this.state.node]):null}
               cancelHandler={()=>fireEvent('function-modal', 'close')}>
             {content(this)}
           </CommonModal>

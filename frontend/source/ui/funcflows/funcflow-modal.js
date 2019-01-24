@@ -28,7 +28,7 @@ export class FuncflowModal extends React.Component {
   render(){
     return <CommonModal title="Function flow" isOpen={this.state.isOpen}
               styleClass="funcflow-modal"
-              okHandler={()=>okHandler(this)}
+              okHandler={this.state.funcflow!=null && this.state.funcflow.functionid!=null?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('funcflow-modal', 'close')}>
             {content(this)}
           </CommonModal>
