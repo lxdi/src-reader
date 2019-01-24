@@ -41,9 +41,9 @@ export class FuncFlows extends React.Component {
 const getFuncflowsTree = function(reactcomp){
 	if(checkForRepositoriesLoaded()){
 			return <TreeComponent isEdit={reactcomp.state.isEdit}
-			nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenarioid]}
-			viewCallback={(node)=>nodeView(reactcomp, node, reactcomp.props.scenarioid)}
-			onDropCallback = {(alteredList)=>{fireEvent('funcflows-rep', 'update-list-funcflow', [alteredList])}} />
+														nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenarioid]}
+														viewCallback={(node)=>nodeView(reactcomp, node, reactcomp.props.scenarioid)}
+														onDropCallback = {(alteredList)=>{fireEvent('funcflows-rep', 'update-list-funcflow', [alteredList])}} />
 	} else {
 		return 'Loading...'
 	}
@@ -66,7 +66,7 @@ const nodeView = function(reactcomp, node, scenarioid){
 	} else {
 		funcflowname = node.title
 	}
-	return <div>
+	return <div style={{borderLeft:'1px solid lightgrey', paddingLeft:'3px'}}>
 						<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
 	 					<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}>{funcflowname} </a>
 						<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>

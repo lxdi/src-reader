@@ -20,7 +20,7 @@ export class ScenariosList extends React.Component {
 		return (
 			<div style={{margin:'5px'}}>
 				<div style={{padding:'5px'}}>
-					<Button onClick={()=>fireEvent('scenario-modal', 'open', [{title:'', projectid: this.props.projectid}])}> + Add Scenario </Button>
+					<Button onClick={()=>fireEvent('scenario-modal', 'open', [{title:'', projectid: this.props.projectid}])} bsStyle='warning' bsSize='small'> + Add Scenario </Button>
 				</div>
 				<div style={{padding:'5px'}}>
 					{getScenariosListUI(this)}
@@ -36,7 +36,7 @@ const getScenariosListUI = function(reactcomp){
 	if(scenarios!=null){
 		for(var i in scenarios[reactcomp.props.projectid]){
 			const curscen = scenarios[reactcomp.props.projectid][i]
-			result.push(<div key={curscen.id} style = {{marginTop:'3px', padding:'3px', border:'1px solid lightgrey'}}>
+			result.push(<div key={curscen.id} style = {{marginTop:'3px', padding:'3px', border:'1px solid orange', borderRadius:'10px'}}>
 											<a href='#' onClick={()=>fireEvent('scenario-modal', 'open', [curscen])}>{curscen.title}</a>
 											<FuncFlows scenarioid = {curscen.id} />
 										</div>)

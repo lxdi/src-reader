@@ -15,53 +15,45 @@ export class ProjectsList extends React.Component {
 	}
 
 	render() {
-		return <div>
-							<table style={{width:'100%', border:'1px solid lightgrey'}}>
+		return <div style={{padding:'5px'}}>
+							<table style={{width:'100%', border:'1px solid grey'}}>
 								<tr>
-									<td style={{width:'200px', verticalAlign:'top'}}>
+									<td style={{width:'200px', verticalAlign:'top', borderRight:'1px solid lightgrey', borderRight:'2px solid DeepSkyBlue'}}>
 										{getProjectsListUI(this)}
 										<div style={{padding:'5px'}}>
-											<Button onClick={()=>fireEvent('project-modal', 'open', [{title:''}])}> + Add Project </Button>
+											<a href='#' onClick={()=>fireEvent('project-modal', 'open', [{title:''}])} bsSize='small' bsStyle='primary'> + Add Project </a>
 										</div>
 									</td>
-									<td>
+									<td style={{verticalAlign:'top'}}>
 										{scenariosByCurrentProject(this)}
 									</td>
 								</tr>
 							</table>
 						</div>
-		// return (
-		// 	<div style={{margin:'5px', border:'1px solid lightgrey'}}>
-		// 		<div style={{padding:'5px'}}>
-		// 			<Button onClick={()=>fireEvent('project-modal', 'open', [{title:''}])}> + Add Project </Button>
-		// 		</div>
-		// 		<div style={{padding:'5px'}}>
-		// 			{getProjectsListUI(this)}
-		// 		</div>
-		// 	</div>
-		// )
 	}
 }
 
+// <div style={{display:'inline-block', padding:'3px'}}>
+// 	<input type="radio" autocomplete="off" checked={curproj.iscurrent?"checked":null} style={{marginRight:'5px', marginLeft:'5px'}}
+// 				onClick={()=>fireEvent('projects-rep', 'change-current', [curproj])} />
+// </div>
+
+
 const getProjectsListUI = function(reactcomp){
 	const result = []
+	result.push(<div key={'title'} style={{borderBottom:'1px solid grey', textAlign:'center', color:'DeepSkyBlue'}}>
+								<h4>Projects</h4>
+						</div>)
 	const projects = viewStateVal('projects-rep', 'projects')
 	if(projects!=null){
 		for(var i in projects){
 			const curproj = projects[i]
-			result.push(<div key={curproj.id}>
-									<div style={{display:'inline-block'}}>
-										<input type="radio" autocomplete="off" checked={curproj.iscurrent?"checked":null} style={{marginRight:'5px'}}
-													onClick={()=>fireEvent('projects-rep', 'change-current', [curproj])} />
-									</div>
-									<div style={{display:'inline-block'}}>
-										<h4><a href='#' onClick={()=>fireEvent('project-modal', 'open', [curproj])}>{curproj.title}</a></h4>
-									</div>
+			result.push(<div key={''+curproj.id+'_'+curproj.iscurrent}
+												style={{borderBottom: (curproj.iscurrent?'2px solid DeepSkyBlue':'1px solid lightgrey'), padding:'5px', backgroundColor: curproj.iscurrent?'AliceBlue': 'none'}}
+												class='project-select'
+												onClick={()=>fireEvent('projects-rep', 'change-current', [curproj])}>
+										{curproj.iscurrent? <span style={{fontWeight:'bold', color:'DeepSkyBlue'}}>{curproj.title}</span>:curproj.title}
 								</div>)
-			// result.push(<div key={curproj.id} style = {{marginTop:'3px', padding:'3px', border:'1px solid grey'}}>
-			// 							<h4><a href='#' onClick={()=>fireEvent('project-modal', 'open', [curproj])}>{curproj.title}</a></h4>
-			// 							<ScenariosList projectid = {curproj.id} />
-			// 							</div>)
 		}
 	} else {
 		return 'Loading...'
@@ -73,8 +65,10 @@ const getProjectsListUI = function(reactcomp){
 const scenariosByCurrentProject = function(reactcomp){
 	const curproj = viewStateVal('projects-rep', 'current-project')
 	if(curproj!=null){
-		return <div key={curproj.id} style = {{marginTop:'3px', padding:'3px', border:'1px solid grey'}}>
-									<h4><a href='#' onClick={()=>fireEvent('project-modal', 'open', [curproj])}>{curproj.title}</a></h4>
+		return <div key={curproj.id} style = {{marginTop:'3px', padding:'3px'}}>
+									<div style={{marginLeft:'10px'}}>
+										<h4><a href='#' onClick={()=>fireEvent('project-modal', 'open', [curproj])}>{curproj.title}</a></h4>
+									</div>
 									<ScenariosList projectid = {curproj.id} />
 									</div>
 	}

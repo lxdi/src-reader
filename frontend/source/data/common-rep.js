@@ -6,7 +6,7 @@ import {makeMap, makeSplitMap} from '../utils/import-utils'
 
 const registerCommonEvents = function(){
 
-  receivingSimple('project')
+  receivingSimple('project', true)
   creatingSimple('project')
   updatingSimple('project')
 
@@ -29,10 +29,19 @@ const registerCommonEvents = function(){
 
 }
 
-const receivingSimple = function(repName){
+const receivingSimple = function(repName, withCurrent){
   registerEvent(repName+'s-rep', repName+'s-request', (stateSetter)=>{
     sendGet('/'+repName+'/all', function(data){
       stateSetter(repName+'s', makeMap(data, 'id'))
+      if(withCurrent!=null && withCurrent===true){
+          const nodes = viewStateVal(repName+'s-rep', repName+'s')
+          for(var id in nodes){
+            if(nodes[id].iscurrent){
+              stateSetter('current-'+repName, nodes[id])
+              break;
+            }
+          }
+      }
       fireEvent(repName+'s-rep', repName+'s-received')
     })
   })
