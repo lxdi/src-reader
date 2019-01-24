@@ -11,3 +11,7 @@
 .funcflow-modal {
   width:80%
 }
+
+.project-select:hover {
+  background-color: AliceBlue
+}
