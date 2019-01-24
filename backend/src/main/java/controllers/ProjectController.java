@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +32,12 @@ public class ProjectController {
     @RequestMapping(path="/project/update", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> update(@RequestBody Map<String, Object> dto){
         return new ResponseEntity<>(projectDelegate.update(dto), HttpStatus.OK);
+    }
+
+    @RequestMapping(path="/project/setcurrent/{projid}", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> setCurrent(@PathVariable("projid") long id){
+        projectDelegate.setCurrent(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

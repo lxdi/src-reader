@@ -15,6 +15,8 @@ public class Project {
 
     String title;
 
+    boolean iscurrent = false;
+
     public long getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class Project {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean getIscurrent() {
+        return iscurrent;
+    }
+
+    public void setIscurrent(boolean iscurrent) {
+        this.iscurrent = iscurrent;
     }
 }
