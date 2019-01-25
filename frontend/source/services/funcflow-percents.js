@@ -6,12 +6,15 @@ export const fillLinesForFuncflows = function(scenarioid){
 	for(var idx in leafsAndRoots.leafs){
 		var curff = leafsAndRoots.leafs[idx]
 		while(curff!=null){
-			const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), curff.functionid)
-			curff.sublines = curff.sublines + func.lines
+      if(curff.nativelines==null){
+        const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), curff.functionid)
+        curff.nativelines = func.lines
+      }
+      curff.allLines = curff.nativelines + curff.sublines
 			//const childrenLines = curff.sublines
 			if(curff.parentid!=null){
 				const parentff = viewStateVal('funcflows-rep', 'funcflows')[scenarioid][curff.parentid]
-				parentff.sublines = parentff.sublines + curff.sublines
+				parentff.sublines = parentff.sublines + curff.allLines
         curff = parentff
 			} else {
 				curff = null
@@ -20,7 +23,7 @@ export const fillLinesForFuncflows = function(scenarioid){
 	}
 	var onehundredInLines = 0;
 	for(var idx in leafsAndRoots.roots){
-		onehundredInLines = onehundredInLines + leafsAndRoots.roots[idx].sublines
+		onehundredInLines = onehundredInLines + leafsAndRoots.roots[idx].allLines
 	}
 	return onehundredInLines
 }

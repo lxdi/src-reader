@@ -67,7 +67,6 @@ const checkForRepositoriesLoaded = function(){
 }
 
 const nodeView = function(reactcomp, node, scenarioid, percents100){
-	console.log(percents100, node, node.sublines)
 	var fontSize = fontSizeDefaultPt
 	var funcflownameSplitted = null
 	if(node.functionid!=null){
@@ -83,7 +82,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	} else {
 		//funcflowname = node.title
 	}
-	const percentsPartialLength = percentsLength * (node.sublines/percents100)
+	const percentsPartialLength = percentsLength * (node.allLines/percents100)
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
 	return <div style={{borderLeft: '1px solid lightgrey', paddingLeft:'3px', fontSize:fontSize+'pt'}}>
 						<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
