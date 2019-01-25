@@ -13,6 +13,8 @@ public class Scenario {
 
     String desc;
 
+    boolean hidden;
+
     @ManyToOne
     Project project;
 
@@ -46,5 +48,13 @@ public class Scenario {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public boolean getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 }

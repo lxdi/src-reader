@@ -12,7 +12,7 @@ export class ScenariosList extends React.Component {
 		super(props);
 		this.state = {}
 		const listName = 'scenarios-list-ui-'+this.props.projectid
-		registerReaction(listName, 'scenarios-rep', ['scenarios-received'], (stateSetter)=>{this.setState({})})
+		registerReaction(listName, 'scenarios-rep', ['scenarios-received', 'updated-scenario'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'scenario-modal', ['close'], (stateSetter)=>this.setState({}))
 	}
 
@@ -38,11 +38,17 @@ const getScenariosListUI = function(reactcomp){
 			const curscen = scenarios[reactcomp.props.projectid][i]
 			result.push(<div key={curscen.id} style = {{marginTop:'3px', padding:'3px', border:'1px solid orange', borderRadius:'10px'}}>
 											<a href='#' onClick={()=>fireEvent('scenario-modal', 'open', [curscen])}>{curscen.title}</a>
-											<FuncFlows scenarioid = {curscen.id} />
+											<span style={{fontSize:'14pt', marginLeft:'5px'}}><a href='#' onClick={()=>hideShowHandler(reactcomp, curscen)}>{curscen.hidden?'+':'-'}</a></span>
+											{!curscen.hidden?<FuncFlows scenarioid = {curscen.id} />:null}
 										</div>)
 		}
 	} else {
 		return 'Loading...'
 	}
 	return result
+}
+
+const hideShowHandler = function(reactcomp, scenario){
+	 scenario.hidden = !scenario.hidden
+	 fireEvent('scenarios-rep', 'update-scenario', [scenario])
 }
