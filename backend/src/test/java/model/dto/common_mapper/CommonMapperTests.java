@@ -80,6 +80,7 @@ public class CommonMapperTests {
         dto.put("notExisting", "someval");
         dto.put("notExistingid", 43);
         dto.put("notExisting2id", "someval");
+        dto.put("intvalue", "20");
 
         TestEntity testEntity = (TestEntity) commonMapperTest.mapToEntity(dto, new TestEntity());
 
@@ -89,6 +90,7 @@ public class CommonMapperTests {
         assertTrue(testEntity.getAnotherTestEntity2()==testEntityFromEntityById);
         assertTrue(testEntity.getAnotherTestEntity()==null);
         assertTrue(testEntity.getTestSecondEntity()==testSecondEntityFromEntityById);
+        assertTrue(testEntity.getIntvalue()==20);
         assertTrue(testEntity.getBooleanVal());
     }
 

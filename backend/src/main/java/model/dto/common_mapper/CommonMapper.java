@@ -92,7 +92,7 @@ public class CommonMapper {
                 setter.invoke(entity, entry.getValue());
             } else {
                 //Number
-                setter.invoke(entity, Long.parseLong(""+entry.getValue()));
+                setter.invoke(entity, numberParse(""+entry.getValue(), clazz));
             }
         } else {
             if(clazz.isEnum()){
@@ -103,6 +103,16 @@ public class CommonMapper {
                 setter.invoke(entity, entry.getValue());
             }
         }
+    }
+
+    private Number numberParse(String val, Class clazz){
+        if(clazz == Integer.class || clazz == int.class){
+            return Integer.parseInt(val);
+        }
+        if(clazz == Long.class || clazz == long.class){
+            return Integer.parseInt(val);
+        }
+        throw new RuntimeException("numberParse: Not supported number class " + clazz.getName());
     }
 
     private Class defineTypeByGetter(Class clazz, String field){

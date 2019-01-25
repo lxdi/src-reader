@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
+import {TextFields} from '../common/components/text-fields'
 
 import {registerEvent, fireEvent, registerReaction, viewStateVal} from '../../utils/eventor'
 
@@ -62,17 +63,34 @@ const okHandler = function(reactcomp){
 
 const content = function(component){
   if(component.state.node!=null){
-    return  <FormGroup controlId="formBasicText">
-                  <div style={{display:'inline-block', paddingRight:'3px'}}>
-                    <ControlLabel>Title:</ControlLabel>
-                  </div>
-                  <div style={{display:'inline-block'}}>
+    return <TextFields content={[titleFieldUI(component), linesFieldUI(component)]}/>
+  }
+}
+
+const titleFieldUI = function(reactcomp){
+  return {
+    key: 'titleFieldUI',
+    label: <ControlLabel>Title:</ControlLabel>,
+    field: <FormGroup controlId="formBasicText">
                     <FormControl
                                 type="text"
-                                value={component.state.node.title}
+                                value={reactcomp.state.node.title}
                                 placeholder="Enter title"
-                                onChange={(e)=>{component.state.node.title = e.target.value; component.setState({})}}/>
-                  </div>
+                                onChange={(e)=>{reactcomp.state.node.title = e.target.value; reactcomp.setState({})}}/>
+                </FormGroup>
+  }
+}
+
+const linesFieldUI = function(reactcomp){
+  return {
+    key: 'linesFieldUI',
+    label: <ControlLabel>Lines:</ControlLabel>,
+    field: <FormGroup controlId="formBasicText">
+                    <FormControl
+                                type="text"
+                                value={reactcomp.state.node.lines}
+                                placeholder="Enter title"
+                                onChange={(e)=>{reactcomp.state.node.lines = e.target.value; reactcomp.setState({})}}/>
                 </FormGroup>
   }
 }

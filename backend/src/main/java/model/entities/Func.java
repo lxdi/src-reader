@@ -10,6 +10,7 @@ public class Func {
     long id;
 
     String title;
+    int lines;
 
     @ManyToOne
     Component component;
@@ -36,5 +37,13 @@ public class Func {
 
     public void setComponent(Component component) {
         this.component = component;
+    }
+
+    public int getLines() {
+        return lines;
+    }
+
+    public void setLines(int lines) {
+        this.lines = lines;
     }
 }

@@ -32,7 +32,7 @@ const getfunctionsListUI = function(reactcomp){
 		for(var i in functions[reactcomp.props.componentid]){
 			const curfunc = functions[reactcomp.props.componentid][i]
 			result.push(<div key={curfunc.id}>
-											<a href='#' onClick={()=>fireEvent('function-modal', 'open', [curfunc])}>{curfunc.title}</a>
+											<a href='#' onClick={()=>fireEvent('function-modal', 'open', [curfunc])}>{curfunc.title}{curfunc.lines!=null?':'+curfunc.lines:null}</a>
 										</div>)
 		}
 	} else {

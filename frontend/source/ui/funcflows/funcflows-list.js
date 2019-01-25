@@ -6,11 +6,14 @@ import {TreeComponent} from '../common/components/tree-component'
 import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
 import {getFromMappedRepByid} from '../../utils/import-utils'
 
+const fontSizeDefaultPt = 11
+const pivotLines = 20
+
 //props: scenarioid
 export class FuncFlows extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {isEdit:false}
+		this.state = {isEdit:false, sizing:true}
 		const listName = 'funcflows-list-ui-'+this.props.scenarioid
 		registerReaction(listName, 'funcflows-rep', ['funcflows-received'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'components-rep', ['components-received'], (stateSetter)=>{this.setState({})})
@@ -28,6 +31,9 @@ export class FuncFlows extends React.Component {
 					</div>
 					<div style={buttonStyle}>
 						<Button onClick={()=>this.setState({isEdit: !this.state.isEdit})} bsSize="xs"> Edit/view </Button>
+					</div>
+					<div style={buttonStyle}>
+						<Button onClick={()=>this.setState({sizing: !this.state.sizing})} bsSize="xs"> Sizing: {this.state.sizing?'on': 'off'} </Button>
 					</div>
 				</div>
 				<div style={{padding:'5px'}}>
@@ -59,19 +65,35 @@ const checkForRepositoriesLoaded = function(){
 
 const nodeView = function(reactcomp, node, scenarioid){
 	var funcflowname = null
+	var fontSize = fontSizeDefaultPt + 'pt'
 	if(node.functionid!=null){
 		const component = getComponentByFunctionid(node.functionid)
 		const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), node.functionid)
 		funcflowname = component.title+'.'+func.title
+		if(func.lines!=null && func.lines>0){
+			funcflowname = funcflowname + ':' + func.lines
+			if(reactcomp.state.sizing){
+				fontSize = calculateFontSize(func.lines) + 'pt'
+			}
+		}
 	} else {
 		funcflowname = node.title
 	}
-	return <div style={{borderLeft:'1px solid lightgrey', paddingLeft:'3px'}}>
+	return <div style={{borderLeft:'1px solid lightgrey', paddingLeft:'3px', fontSize:fontSize}}>
 						<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
 	 					<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}>{funcflowname} </a>
 						<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
 						<span style={{color:'green', paddingLeft:'3px'}}>{node.tags}</span>
 	 			</div>
+}
+
+const calculateFontSize = function(lines){
+	if(lines<10){
+		return fontSizeDefaultPt - 3
+	}
+	const dif = lines-pivotLines
+	const ratio = lines<50? dif/5 : dif/10
+	return fontSizeDefaultPt + ratio
 }
 
 const getComponentByFunctionid = function(functionid){

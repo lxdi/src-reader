@@ -14,6 +14,8 @@ public class TestEntity {
 
     boolean booleanVal;
 
+    int intvalue;
+
     public long getId() {
         return id;
     }
@@ -68,5 +70,13 @@ public class TestEntity {
 
     public void setBooleanVal(boolean booleanVal) {
         this.booleanVal = booleanVal;
+    }
+
+    public int getIntvalue() {
+        return intvalue;
+    }
+
+    public void setIntvalue(int intvalue) {
+        this.intvalue = intvalue;
     }
 }
