@@ -37,8 +37,8 @@ const getScenariosListUI = function(reactcomp){
 		for(var i in scenarios[reactcomp.props.projectid]){
 			const curscen = scenarios[reactcomp.props.projectid][i]
 			result.push(<div key={curscen.id} style = {{marginTop:'3px', padding:'3px', border:'1px solid orange', borderRadius:'10px'}}>
+											<span style={{fontSize:'14pt', marginRight:'5px'}}><a href='#' onClick={()=>hideShowHandler(reactcomp, curscen)}>{curscen.hidden?'+':'-'}</a></span>
 											<a href='#' onClick={()=>fireEvent('scenario-modal', 'open', [curscen])}>{curscen.title}</a>
-											<span style={{fontSize:'14pt', marginLeft:'5px'}}><a href='#' onClick={()=>hideShowHandler(reactcomp, curscen)}>{curscen.hidden?'+':'-'}</a></span>
 											{!curscen.hidden?<FuncFlows scenarioid = {curscen.id} />:null}
 										</div>)
 		}

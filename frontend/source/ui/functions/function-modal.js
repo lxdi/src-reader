@@ -46,7 +46,7 @@ const isTitleAlreadyExist = function(reactcomp){
   const component = viewStateVal('components-rep', 'components')[viewStateVal('projects-rep', 'current-project').id][reactcomp.state.node.componentid]
   const functions = viewStateVal('functions-rep', 'functions')[component.id]
   for(var id in functions){
-    if(functions[id].title == reactcomp.state.node.title){
+    if(functions[id].title == reactcomp.state.node.title && functions[id].id!=reactcomp.state.node.id){
       return true
     }
   }
