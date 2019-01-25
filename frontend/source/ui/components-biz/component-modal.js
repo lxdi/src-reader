@@ -4,7 +4,7 @@ import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
 
-import {registerEvent, fireEvent, registerReaction} from '../../utils/eventor'
+import {registerEvent, fireEvent, registerReaction, viewStateVal} from '../../utils/eventor'
 
 export class ComponentModal extends React.Component {
   constructor(props){
@@ -23,11 +23,32 @@ export class ComponentModal extends React.Component {
 
   render(){
     return <CommonModal title="component" isOpen={this.state.isOpen}
-              okHandler={this.state.component!=null && this.state.component.title!=null && this.state.component.title!=''?()=>okHandler(this):null}
+              okHandler={isShowOkButton(this)?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('component-modal', 'close')}>
             {content(this)}
           </CommonModal>
   }
+}
+
+const isShowOkButton = function(reactcomp){
+  if(reactcomp.state.component==null || reactcomp.state.component.title==null || reactcomp.state.component.title==''){
+    return false
+  }
+  if(isTitleAlreadyExist(reactcomp)){
+    return false
+  }
+  return true
+}
+
+const isTitleAlreadyExist = function(reactcomp){
+  const currentProject = viewStateVal('projects-rep', 'current-project')
+  const components = viewStateVal('components-rep', 'components')[currentProject.id]
+  for(var id in components){
+    if(components[id].title == reactcomp.state.component.title){
+      return true
+    }
+  }
+  return false
 }
 
 const okHandler = function(reactcomp){

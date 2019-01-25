@@ -4,7 +4,7 @@ import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
 
-import {registerEvent, fireEvent, registerReaction} from '../../utils/eventor'
+import {registerEvent, fireEvent, registerReaction, viewStateVal} from '../../utils/eventor'
 
 export class FunctionModal extends React.Component {
   constructor(props){
@@ -24,11 +24,32 @@ export class FunctionModal extends React.Component {
 
   render(){
     return <CommonModal title="Function" isOpen={this.state.isOpen}
-              okHandler={this.state.node!=null && this.state.node.title!=null && this.state.node.title!=''?()=>okHandler(this):null}
+              okHandler={isShowOkButton(this)?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('function-modal', 'close')}>
             {content(this)}
           </CommonModal>
   }
+}
+
+const isShowOkButton = function(reactcomp){
+  if(reactcomp.state.node==null || reactcomp.state.node.title==null || reactcomp.state.node.title==''){
+    return false
+  }
+  if(isTitleAlreadyExist(reactcomp)){
+    return false
+  }
+  return true
+}
+
+const isTitleAlreadyExist = function(reactcomp){
+  const component = viewStateVal('components-rep', 'components')[viewStateVal('projects-rep', 'current-project').id][reactcomp.state.node.componentid]
+  const functions = viewStateVal('functions-rep', 'functions')[component.id]
+  for(var id in functions){
+    if(functions[id].title == reactcomp.state.node.title){
+      return true
+    }
+  }
+  return false
 }
 
 const okHandler = function(reactcomp){
