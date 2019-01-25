@@ -92,7 +92,7 @@ const calculateFontSize = function(lines){
 		return fontSizeDefaultPt - 3
 	}
 	const dif = lines-pivotLines
-	const ratio = lines<50? dif/5 : dif/10
+	const ratio = dif/10
 	return fontSizeDefaultPt + ratio
 }
 
