@@ -1,6 +1,7 @@
 import {registerObject, registerEvent, viewStateVal, fireEvent} from '../utils/eventor'
-import {sendGet, sendPut, sendPost} from './postoffice'
-import {makeMap, makeSplitMap} from '../utils/import-utils'
+import {sendGet, sendPut, sendPost, sendDelete} from './postoffice'
+import {makeMap, makeSplitMap, deleteNode} from '../utils/import-utils'
+import {iterateLLfull} from '../utils/linked-list'
 
 //registerObject('projects-rep', {projects:[]})
 
@@ -26,6 +27,8 @@ const registerCommonEvents = function(){
   updatingInMap('function', 'componentid')
 
   updatingList('funcflow')
+
+  deletingInMap('funcflow', 'scenarioid')
 
 }
 
@@ -115,6 +118,22 @@ const updatingList = function(repName){
     })
   })
   registerEvent(repName+'s-rep', 'updated-list-'+repName, (stateSetter)=>{})
+}
+
+const deletingInMap = function(repName, mapByField){
+  registerEvent(repName+'s-rep', 'delete-'+repName, (stateSetter, obj)=>{
+    sendDelete('/'+repName+'/delete/'+obj.id, ()=>{
+      const rep = viewStateVal(repName+'s-rep', repName+'s')[obj[mapByField]]
+      deleteNode(rep, obj)
+      for(var id in rep){
+        if(rep[id].parentid==obj.id){
+          delete rep[id]
+        }
+      }
+      fireEvent(repName+'s-rep', 'deleted-'+repName, [obj])
+    })
+  })
+  registerEvent(repName+'s-rep', 'deleted-'+repName, (stateSetter, obj)=>obj)
 }
 
 registerCommonEvents()

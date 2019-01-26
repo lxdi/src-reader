@@ -21,7 +21,7 @@ export class FuncflowModal extends React.Component {
       this.setState({isOpen:false, funcflow: null, comptemp:null})
     })
 
-    registerReaction('funcflow-modal', 'funcflows-rep', ['created-funcflow', 'updated-funcflow'], (stateSetter)=>fireEvent('funcflow-modal', 'close'))
+    registerReaction('funcflow-modal', 'funcflows-rep', ['created-funcflow', 'updated-funcflow', 'deleted-funcflow'], (stateSetter)=>fireEvent('funcflow-modal', 'close'))
     registerReaction('funcflow-modal', 'components-rep', 'created-component', (stateSetter)=>this.setState({}))
     registerReaction('funcflow-modal', 'functions-rep', 'created-function', (stateSetter)=>this.setState({}))
   }
@@ -31,6 +31,9 @@ export class FuncflowModal extends React.Component {
               styleClass="funcflow-modal"
               okHandler={this.state.funcflow!=null && this.state.funcflow.functionid!=null?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('funcflow-modal', 'close')}>
+              {this.state.funcflow!=null && this.state.funcflow.id>0?
+                <Button onClick={()=>fireEvent('funcflows-rep', 'delete-funcflow', [this.state.funcflow])} bsStyle="danger">Delete</Button>
+                :null}
             {content(this)}
           </CommonModal>
   }

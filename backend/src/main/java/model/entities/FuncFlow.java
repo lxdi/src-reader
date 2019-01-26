@@ -27,6 +27,13 @@ public class FuncFlow {
 
     boolean hideChildren = false;
 
+    public FuncFlow(){}
+
+    public FuncFlow(Scenario scenario){
+        this.scenario = scenario;
+    }
+
+
     public long getId() {
         return id;
     }

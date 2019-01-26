@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -35,6 +36,25 @@ public class FuncFlowDelegate extends CommonDelegate {
             funcflowDtoRs.put("previd", lastFF.getId());
         }
         return funcflowDtoRs;
+    }
+
+    @Override
+    public void delete(long id){
+        FuncFlow funcFlow = funcFlowDao.findOne(id);
+        delete(funcFlow);
+    }
+
+    private void delete(FuncFlow ff){
+        List<FuncFlow> childen = funcFlowDao.findChildren(ff);
+        if(childen.size()>0){
+            childen.forEach(this::delete);
+        }
+        FuncFlow prev = funcFlowDao.findPrev(ff);
+        if(prev!=null){
+            prev.setNext(ff.getNext());
+            funcFlowDao.save(prev);
+        }
+        funcFlowDao.delete(ff);
     }
 
     @Override
