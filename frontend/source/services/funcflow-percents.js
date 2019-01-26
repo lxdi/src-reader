@@ -1,5 +1,7 @@
 import {getFromMappedRepByid} from '../utils/import-utils'
 import {viewStateVal} from '../utils/eventor'
+import {resolveNodes} from '../utils/draggable-tree-utils'
+import {iterateLLfull} from '../utils/linked-list'
 
 export const fillLinesForFuncflows = function(scenarioid){
 	const leafsAndRoots = findLeafsAndInvalidatePastVals(viewStateVal('funcflows-rep', 'funcflows')[scenarioid])
@@ -21,6 +23,7 @@ export const fillLinesForFuncflows = function(scenarioid){
 			}
 		}
 	}
+	calculateOffsets(viewStateVal('funcflows-rep', 'funcflows')[scenarioid])
 	var onehundredInLines = 0;
 	for(var idx in leafsAndRoots.roots){
 		onehundredInLines = onehundredInLines + leafsAndRoots.roots[idx].allLines
@@ -50,4 +53,20 @@ const findLeafsAndInvalidatePastVals = function(rep){
 		}
 	})
 	return {leafs:leafs, roots:roots}
+}
+
+const calculateOffsets = function(rep){
+	const resolved = resolveNodes(rep)
+	calculateOffsetsInArrs(resolved, resolved.root, 0)
+}
+
+const calculateOffsetsInArrs = function(resolved, arr, initialOffset){
+	var offset = initialOffset
+	iterateLLfull(arr, (funcflow)=>{
+		funcflow.offset = offset
+		offset = offset + funcflow.allLines
+		if(resolved.children[funcflow.id]!=null){
+				calculateOffsetsInArrs(resolved, resolved.children[funcflow.id], funcflow.offset+funcflow.nativelines)
+		}
+	})
 }

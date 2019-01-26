@@ -82,17 +82,13 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	} else {
 		//funcflowname = node.title
 	}
-	const percentsPartialLength = percentsLength * (node.allLines/percents100)
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
 	return <div style={{borderLeft: '1px solid lightgrey', paddingLeft:'3px', fontSize:fontSize+'pt'}}>
 						<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
 	 					<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}>{funcNameUI(funcflownameSplitted)}</a>
 						<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
 						<span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>
-
-						<div style={{borderBottom:'1px solid lightgrey', width:percentsLength+'px'}}></div>
-						<div style={{borderBottom:'1px solid coral', width:percentsPartialLength+'px'}}></div>
-						<div style={{borderBottom:'1px solid lightgrey', width:percentsLength+'px'}}></div>
+						{getPercentsLineUI(node, percents100)}
 	 			</div>
 }
 
@@ -111,6 +107,18 @@ const funcNameUI = function(funcflownameSplitted){
 						<span style={{color:'BlueViolet '}}>{funcflownameSplitted[1]}</span>
 						{funcflownameSplitted[2]!=null?<span style={{color:'LightCoral '}}>:{funcflownameSplitted[2]}</span>:null}
 					</div>
+}
+
+const getPercentsLineUI = function(node, percents100){
+	const allLinesLength = percentsLength * (node.allLines/percents100)
+	const nativeLinesLength = percentsLength * (node.nativelines/percents100)
+	const sublinesLength = percentsLength * (node.sublines/percents100)
+	const offsetPx = node.offset>0? percentsLength * (node.offset/percents100):0
+
+	return  <div style={{width:(percentsLength+2)+'px', height:'4px', border:'1px solid lightgrey' }}>
+								<div style={{backgroundColor: 'BlueViolet', width:nativeLinesLength+'px', marginLeft:offsetPx+'px', float:'left', height:'100%'}}></div>
+								<div style={{backgroundColor: 'Fuchsia', width:sublinesLength+'px', float:'left', height:'100%'}}></div>
+							</div>
 }
 
 const getComponentByFunctionid = function(functionid){
