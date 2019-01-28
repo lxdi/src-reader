@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
+import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
 
@@ -18,13 +18,16 @@ export class ComponentModal extends React.Component {
       this.setState({isOpen:false, component: null})
     })
 
-    registerReaction('component-modal', 'components-rep', ['created-component', 'updated-component'], (stateSetter)=>fireEvent('component-modal', 'close'))
+    registerReaction('component-modal', 'components-rep', ['created-component', 'updated-component', 'deleted-component'], (stateSetter)=>fireEvent('component-modal', 'close'))
   }
 
   render(){
     return <CommonModal title="component" isOpen={this.state.isOpen}
               okHandler={isShowOkButton(this)?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('component-modal', 'close')}>
+              {this.state.component!=null && this.state.component.id>0?
+                <Button onClick={()=>fireEvent('components-rep', 'delete-component', [this.state.component])} bsStyle="danger">Delete</Button>
+                :null}
             {content(this)}
           </CommonModal>
   }

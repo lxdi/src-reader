@@ -28,7 +28,9 @@ const registerCommonEvents = function(){
 
   updatingList('funcflow')
 
-  deletingInMap('funcflow', 'scenarioid')
+  deletingInMap('component', 'projectid')
+  deletingInMap('function', 'componentid')
+  deletingInMapLL('funcflow', 'scenarioid')
 
 }
 
@@ -121,6 +123,18 @@ const updatingList = function(repName){
 }
 
 const deletingInMap = function(repName, mapByField){
+  registerEvent(repName+'s-rep', 'delete-'+repName, (stateSetter, obj)=>{
+    sendDelete('/'+repName+'/delete/'+obj.id, ()=>{
+      //TODO delete depended objects
+      const rep = viewStateVal(repName+'s-rep', repName+'s')[obj[mapByField]]
+      delete rep[obj.id]
+      fireEvent(repName+'s-rep', 'deleted-'+repName, [obj])
+    })
+  })
+  registerEvent(repName+'s-rep', 'deleted-'+repName, (stateSetter, obj)=>obj)
+}
+
+const deletingInMapLL = function(repName, mapByField){
   registerEvent(repName+'s-rep', 'delete-'+repName, (stateSetter, obj)=>{
     sendDelete('/'+repName+'/delete/'+obj.id, ()=>{
       const rep = viewStateVal(repName+'s-rep', repName+'s')[obj[mapByField]]

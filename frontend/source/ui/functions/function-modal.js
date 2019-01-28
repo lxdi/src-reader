@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
+import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
 import {TextFields} from '../common/components/text-fields'
@@ -20,13 +20,16 @@ export class FunctionModal extends React.Component {
     })
 
     //registerReaction('function-modal', 'functions-rep', 'func-added', (stateSetter)=>fireEvent('function-modal', 'close'))
-    registerReaction('function-modal', 'functions-rep', ['created-function', 'updated-function'], (stateSetter)=>fireEvent('function-modal', 'close'))
+    registerReaction('function-modal', 'functions-rep', ['created-function', 'updated-function', 'deleted-function'], (stateSetter)=>fireEvent('function-modal', 'close'))
   }
 
   render(){
     return <CommonModal title="Function" isOpen={this.state.isOpen}
               okHandler={isShowOkButton(this)?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('function-modal', 'close')}>
+              {this.state.node!=null && this.state.node.id>0?
+                <Button onClick={()=>fireEvent('functions-rep', 'delete-function', [this.state.node])} bsStyle="danger">Delete</Button>
+                :null}
             {content(this)}
           </CommonModal>
   }
