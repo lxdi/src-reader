@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Button} from 'react-bootstrap'
+import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import {TreeComponent} from '../common/components/tree-component'
 
 import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
@@ -95,8 +95,6 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	 			</div>
 }
 
-//<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}>{funcNameUI(funcflownameSplitted)}</a>
-
 const calculateFontSize = function(lines){
 	if(lines<10){
 		return fontSizeDefaultPt - 3
@@ -108,11 +106,27 @@ const calculateFontSize = function(lines){
 
 const funcNameUI = function(funcflownameSplitted){
 	return <div style={{display:'inline-block'}}>
-						<span class='funcflow-comp funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[0], e)}>{funcflownameSplitted[0]}.</span>
-						<span class='funcflow-func funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[1], e)}>{funcflownameSplitted[1]}</span>
-						<span class='funcflow-startline funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[2], e)}>:{funcflownameSplitted[2]}</span>
-						{funcflownameSplitted[3]!=null?<span class='funcflow-lines funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[3], e)}>|{funcflownameSplitted[3]}</span>:null}
+						<OverlayTrigger placement="left" overlay={tooltip('Copy component name to buffer')}>
+							<span class='funcflow-comp funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[0], e)}>{funcflownameSplitted[0]}.</span>
+						</OverlayTrigger>
+						<OverlayTrigger placement="bottom" overlay={tooltip('Copy function name to buffer')}>
+							<span class='funcflow-func funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[1], e)}>{funcflownameSplitted[1]}</span>
+						</OverlayTrigger>
+						<OverlayTrigger placement="top" overlay={tooltip('Copy start line to buffer')}>
+							<span class='funcflow-startline funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[2], e)}>:{funcflownameSplitted[2]}</span>
+						</OverlayTrigger>
+						{funcflownameSplitted[3]!=null?
+							<OverlayTrigger placement="bottom" overlay={tooltip('Copy function length to buffer')}>
+								<span class='funcflow-lines funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[3], e)}>|{funcflownameSplitted[3]}</span>
+							</OverlayTrigger>
+							:null}
 					</div>
+}
+
+const tooltip = function(text){
+  return <Tooltip id="tooltip">
+    {text}
+  </Tooltip>
 }
 
 const copyToClipboard = (text) => {

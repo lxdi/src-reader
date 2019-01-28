@@ -21,6 +21,7 @@ public class FuncFlow {
     @ManyToOne
     Scenario scenario;
 
+    @Column(name = "description")
     String desc;
 
     String tags;

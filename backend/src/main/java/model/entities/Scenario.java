@@ -11,6 +11,7 @@ public class Scenario {
 
     String title;
 
+    @Column(name = "description")
     String desc;
 
     boolean hidden;
