@@ -66,7 +66,7 @@ const okHandler = function(reactcomp){
 
 const content = function(component){
   if(component.state.node!=null){
-    return <TextFields content={[titleFieldUI(component), startLineFieldUI(component), linesFieldUI(component)]}/>
+    return <TextFields content={[titleFieldUI(component), startLineFieldUI(component), linesFieldUI(component), descTextField(component)]}/>
   }
 }
 
@@ -108,6 +108,21 @@ const startLineFieldUI = function(reactcomp){
                                 value={reactcomp.state.node.startLine}
                                 placeholder="Enter title"
                                 onChange={(e)=>{reactcomp.state.node.startLine = e.target.value; reactcomp.setState({})}}/>
+                </FormGroup>
+  }
+}
+
+const descTextField = function(reactcomp){
+  return {
+    key: 'descTextField',
+    label: <ControlLabel>Description:</ControlLabel>,
+    field: <FormGroup controlId="formBasicText">
+                    <FormControl
+                                componentClass="textarea"
+                                type="input"
+                                value={reactcomp.state.node.description}
+                                placeholder="Enter description"
+                                onChange={(e)=>{reactcomp.state.node.description = e.target.value; reactcomp.setState({})}}/>
                 </FormGroup>
   }
 }

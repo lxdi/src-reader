@@ -10,6 +10,7 @@ public class Component {
     long id;
 
     String title;
+    String description;
 
     @ManyToOne
     Project project;
@@ -36,5 +37,12 @@ public class Component {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

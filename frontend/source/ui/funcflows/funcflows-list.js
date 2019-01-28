@@ -89,7 +89,8 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	 					<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
 						<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
 						<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
-						<span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>
+						{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}> #desc </span>:null}
+						{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>:null}
 						{getPercentsLineUI(node, percents100)}
 	 			</div>
 }

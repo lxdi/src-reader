@@ -10,6 +10,7 @@ public class Func {
     long id;
 
     String title;
+    String description;
     int lines;
     int startLine;
 
@@ -54,5 +55,12 @@ public class Func {
 
     public void setStartLine(int startLine) {
         this.startLine = startLine;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
