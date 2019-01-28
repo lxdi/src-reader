@@ -11,6 +11,7 @@ public class Func {
 
     String title;
     int lines;
+    int startLine;
 
     @ManyToOne
     Component component;
@@ -45,5 +46,13 @@ public class Func {
 
     public void setLines(int lines) {
         this.lines = lines;
+    }
+
+    public int getStartLine() {
+        return startLine;
+    }
+
+    public void setStartLine(int startLine) {
+        this.startLine = startLine;
     }
 }

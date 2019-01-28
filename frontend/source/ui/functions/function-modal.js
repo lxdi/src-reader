@@ -63,7 +63,7 @@ const okHandler = function(reactcomp){
 
 const content = function(component){
   if(component.state.node!=null){
-    return <TextFields content={[titleFieldUI(component), linesFieldUI(component)]}/>
+    return <TextFields content={[titleFieldUI(component), startLineFieldUI(component), linesFieldUI(component)]}/>
   }
 }
 
@@ -91,6 +91,20 @@ const linesFieldUI = function(reactcomp){
                                 value={reactcomp.state.node.lines}
                                 placeholder="Enter title"
                                 onChange={(e)=>{reactcomp.state.node.lines = e.target.value; reactcomp.setState({})}}/>
+                </FormGroup>
+  }
+}
+
+const startLineFieldUI = function(reactcomp){
+  return {
+    key: 'startLineFieldUI',
+    label: <ControlLabel>Start line:</ControlLabel>,
+    field: <FormGroup controlId="formBasicText">
+                    <FormControl
+                                type="text"
+                                value={reactcomp.state.node.startLine}
+                                placeholder="Enter title"
+                                onChange={(e)=>{reactcomp.state.node.startLine = e.target.value; reactcomp.setState({})}}/>
                 </FormGroup>
   }
 }
