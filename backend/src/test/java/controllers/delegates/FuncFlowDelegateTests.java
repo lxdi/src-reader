@@ -120,6 +120,27 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
 
     }
 
+    @Test
+    public void deletingParentTest(){
+        Scenario scenario = new Scenario();
+        scenarioDao.save(scenario);
+
+        FuncFlow parent = createFF(scenario, null, null);
+
+        FuncFlow child2 = createFF(scenario, parent, null);
+        FuncFlow child1 = createFF(scenario, parent, child2);
+
+        FuncFlow child2Child1 = createFF(scenario, child2, null);
+
+        funcFlowDelegate.delete(parent.getId());
+
+        assertTrue(funcFlowDao.findOne(parent.getId())==null);
+        assertTrue(funcFlowDao.findOne(child2Child1.getId())==null);
+        assertTrue(funcFlowDao.findOne(child2.getId())==null);
+        assertTrue(funcFlowDao.findOne(child1.getId())==null);
+
+    }
+
     private FuncFlow createFF(Scenario scenario, FuncFlow parent, FuncFlow next){
         FuncFlow ff = new FuncFlow(scenario);
         ff.setParent(parent);

@@ -1,5 +1,6 @@
 package model.dao;
 
+import model.entities.Func;
 import model.entities.FuncFlow;
 import model.entities.Scenario;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,5 +22,8 @@ public interface IFuncFlowDao extends JpaRepository<FuncFlow, Long> {
 
     @Query("from FuncFlow where next = :current")
     FuncFlow findPrev(@Param("current") FuncFlow current);
+
+    @Query("from FuncFlow where function = :function")
+    List<FuncFlow> funcFlowsByFunction(@Param("function") Func func);
 
 }

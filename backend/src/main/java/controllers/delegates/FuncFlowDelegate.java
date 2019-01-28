@@ -54,6 +54,8 @@ public class FuncFlowDelegate extends CommonDelegate {
             prev.setNext(ff.getNext());
             funcFlowDao.save(prev);
         }
+        ff.setNext(null);
+        ff.setParent(null);
         funcFlowDao.delete(ff);
     }
 
