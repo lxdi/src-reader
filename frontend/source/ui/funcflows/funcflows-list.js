@@ -9,13 +9,14 @@ import {fillLinesForFuncflows} from '../../services/funcflow-percents'
 
 const fontSizeDefaultPt = 11
 const pivotLines = 20
-const percentsLength = 300
+const percentsLength = 400
 
 //props: scenarioid
 export class FuncFlows extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {isEdit:false, sizing:true}
+		this.compref = React.createRef();
 		const listName = 'funcflows-list-ui-'+this.props.scenarioid
 		registerReaction(listName, 'funcflows-rep', ['funcflows-received'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'components-rep', ['components-received'], (stateSetter)=>{this.setState({})})
@@ -72,7 +73,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	if(node.functionid!=null){
 		const component = getComponentByFunctionid(node.functionid)
 		const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), node.functionid)
-		funcflownameSplitted = [component.title, func.title]
+		funcflownameSplitted = [component.title, func.title, func.startLine]
 		if(func.lines!=null && func.lines>0){
 			funcflownameSplitted.push(func.lines)
 			if(reactcomp.state.sizing){
@@ -85,12 +86,15 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
 	return <div style={{borderLeft: '1px solid lightgrey', paddingLeft:'3px', fontSize:fontSize+'pt'}}>
 						<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
-	 					<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}>{funcNameUI(funcflownameSplitted)}</a>
+	 					<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
+						<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
 						<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
 						<span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>
 						{getPercentsLineUI(node, percents100)}
 	 			</div>
 }
+
+//<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}>{funcNameUI(funcflownameSplitted)}</a>
 
 const calculateFontSize = function(lines){
 	if(lines<10){
@@ -103,11 +107,27 @@ const calculateFontSize = function(lines){
 
 const funcNameUI = function(funcflownameSplitted){
 	return <div style={{display:'inline-block'}}>
-						<span style={{color:'green '}}>{funcflownameSplitted[0]}.</span>
-						<span style={{color:'BlueViolet '}}>{funcflownameSplitted[1]}</span>
-						{funcflownameSplitted[2]!=null?<span style={{color:'LightCoral '}}>:{funcflownameSplitted[2]}</span>:null}
+						<span class='funcflow-comp funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[0], e)}>{funcflownameSplitted[0]}.</span>
+						<span class='funcflow-func funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[1], e)}>{funcflownameSplitted[1]}</span>
+						<span class='funcflow-startline funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[2], e)}>:{funcflownameSplitted[2]}</span>
+						{funcflownameSplitted[3]!=null?<span class='funcflow-lines funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[3], e)}>|{funcflownameSplitted[3]}</span>:null}
 					</div>
 }
+
+const copyToClipboard = (text) => {
+	var textField = document.createElement('textarea')
+	textField.innerText = text
+	document.body.appendChild(textField)
+	textField.select()
+	document.execCommand('copy')
+	textField.remove()
+	// var range = document.createRange();
+	// range.selectNodeContents(e.target);
+	// console.log(range)
+	// var sel = window.getSelection();
+	// sel.removeAllRanges();
+	// sel.addRange(range);
+};
 
 const getPercentsLineUI = function(node, percents100){
 	const allLinesLength = percentsLength * (node.allLines/percents100)

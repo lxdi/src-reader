@@ -15,3 +15,23 @@
 .project-select:hover {
   background-color: AliceBlue
 }
+
+.funcflow-comp {
+  color:green
+}
+
+.funcflow-func {
+  color:BlueViolet
+}
+
+.funcflow-startline {
+  color:LightCoral
+}
+
+.funcflow-lines {
+  color:LightCoral
+}
+
+.funcflow-cfl:active {
+  color:red
+}
