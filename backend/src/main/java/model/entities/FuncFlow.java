@@ -1,5 +1,7 @@
 package model.entities;
 
+import model.enums.FuncFlowRelevance;
+
 import javax.persistence.*;
 
 @Entity
@@ -25,6 +27,9 @@ public class FuncFlow {
     String desc;
 
     String tags;
+
+    @Enumerated(EnumType.STRING)
+    FuncFlowRelevance relevance = FuncFlowRelevance.normal;
 
     boolean hideChildren = false;
 
@@ -96,5 +101,13 @@ public class FuncFlow {
 
     public void setHideChildren(boolean hideChildren) {
         this.hideChildren = hideChildren;
+    }
+
+    public FuncFlowRelevance getRelevance() {
+        return relevance;
+    }
+
+    public void setRelevance(FuncFlowRelevance relevance) {
+        this.relevance = relevance;
     }
 }

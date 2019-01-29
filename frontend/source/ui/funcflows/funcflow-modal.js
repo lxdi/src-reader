@@ -194,7 +194,7 @@ const getComponentByFunctionid = function(functionid){
 //Text fields ---------------------------------------------
 
 const textFieldsUI = function(reactcomp){
-  return <TextFields content={[descTextField(reactcomp), tagsTextField(reactcomp)]} />
+  return <TextFields content={[descTextField(reactcomp), tagsTextField(reactcomp), relevanceField(reactcomp)]} />
 }
 
 const descTextField = function(reactcomp){
@@ -224,4 +224,30 @@ const tagsTextField = function(reactcomp){
                                 onChange={(e)=>{reactcomp.state.funcflow.tags = e.target.value; reactcomp.setState({})}}/>
                 </FormGroup>
   }
+}
+
+const relevanceField = function(reactcomp){
+  const funcflow = reactcomp.state.funcflow
+  if(funcflow.relevance==null){
+    funcflow.relevance = 'Normal'
+  }
+  return {
+    key: 'relevanceField',
+    label: <ControlLabel>Relevance:</ControlLabel>,
+    field: <ButtonToolbar>
+                  <DropdownButton title={funcflow.relevance} id="dropdown-size-small" onSelect={(relVal)=>{funcflow.relevance = relVal; reactcomp.setState({})}}>
+                    {relevanceValuesMenuItems()}
+                  </DropdownButton>
+                </ButtonToolbar>
+  }
+}
+
+const relevanceValues = ['High', 'Normal', 'Low', 'Transitional']
+
+const relevanceValuesMenuItems = function(){
+  const result = []
+  for(var i in relevanceValues){
+    result.push(<MenuItem eventKey={relevanceValues[i]}>{relevanceValues[i]}</MenuItem>)
+  }
+  return result
 }
