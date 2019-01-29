@@ -22,8 +22,8 @@ export class FuncflowModal extends React.Component {
     })
 
     registerReaction('funcflow-modal', 'funcflows-rep', ['created-funcflow', 'updated-funcflow', 'deleted-funcflow'], (stateSetter)=>fireEvent('funcflow-modal', 'close'))
-    registerReaction('funcflow-modal', 'components-rep', 'created-component', (stateSetter)=>this.setState({}))
-    registerReaction('funcflow-modal', 'functions-rep', 'created-function', (stateSetter)=>this.setState({}))
+    registerReaction('funcflow-modal', 'components-rep', 'created-component', (stateSetter, newcomp)=>{this.state.comptemp = newcomp; this.setState({})})
+    registerReaction('funcflow-modal', 'functions-rep', 'created-function', (stateSetter, newfunc)=>{this.state.funcflow.functionid=newfunc.id; this.setState({})})
   }
 
   render(){

@@ -87,7 +87,7 @@ const creatingInMap = function(repName, mapByField, isTree){
       fireEvent(repName+'s-rep', 'created-'+repName, [data])
     })
   })
-  registerEvent(repName+'s-rep', 'created-'+repName, (stateSetter)=>{})
+  registerEvent(repName+'s-rep', 'created-'+repName, (stateSetter, obj)=>obj)
 }
 
 const updatingSimple = function(repName){

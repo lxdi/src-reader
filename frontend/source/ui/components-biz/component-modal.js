@@ -66,18 +66,6 @@ const okHandler = function(reactcomp){
 const content = function(component){
   if(component.state.component!=null){
     return <TextFields content={[titleFieldUI(component), descTextField(component)]}/>
-    // return  <FormGroup controlId="formBasicText">
-    //               <div style={{display:'inline-block', paddingRight:'3px'}}>
-    //                 <ControlLabel>Title:</ControlLabel>
-    //               </div>
-    //               <div style={{display:'inline-block'}}>
-    //                 <FormControl
-    //                             type="text"
-    //                             value={component.state.component.title}
-    //                             placeholder="Enter title"
-    //                             onChange={(e)=>{component.state.component.title = e.target.value; component.setState({})}}/>
-    //               </div>
-    //             </FormGroup>
   }
 }
 
