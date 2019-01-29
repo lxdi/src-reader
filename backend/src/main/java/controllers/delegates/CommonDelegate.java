@@ -25,6 +25,18 @@ abstract public class CommonDelegate {
         return result;
     }
 
+    public List<Map<String, Object>> getAllLazy(){
+        List<Map<String, Object>> result = new ArrayList<>();
+        for(Object obj : daoReceiver.getDAO(this.getClassDao()).findAll()){
+            result.add(commonMapper.mapToDtoLazy(obj, new HashMap<>()));
+        }
+        return result;
+    }
+
+    public Map<String, Object> getFull(long id){
+        return commonMapper.mapToDto(daoReceiver.getDAO(this.getClassDao()).findOne(id), new HashMap<>());
+    }
+
     public Map<String, Object> createNew(Map<String, Object> objDto){
         Object obj = unmarshall(objDto);
         this.validateCreateNew(obj);

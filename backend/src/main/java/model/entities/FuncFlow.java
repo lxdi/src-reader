@@ -24,7 +24,7 @@ public class FuncFlow {
     @ManyToOne
     Scenario scenario;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 4096)
     String desc;
 
     String tags;
@@ -88,13 +88,6 @@ public class FuncFlow {
         this.tags = tags;
     }
 
-    public String getDesc() {
-        return desc;
-    }
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
     @MapForLazy
     public boolean isHideChildren() {
         return hideChildren;
@@ -109,5 +102,12 @@ public class FuncFlow {
     }
     public void setRelevance(FuncFlowRelevance relevance) {
         this.relevance = relevance;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

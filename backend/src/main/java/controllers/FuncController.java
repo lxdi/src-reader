@@ -24,6 +24,16 @@ public class FuncController {
         return new ResponseEntity<>(funcDelegate.getAll(), HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/function/all/lazy")
+    public ResponseEntity<List<Map<String, Object>>> getAllLazy(){;
+        return new ResponseEntity<>(funcDelegate.getAllLazy(), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/function/{funcid}")
+    public ResponseEntity<Map<String, Object>> getFull(@PathVariable("funcid") long id){
+        return new ResponseEntity<>(funcDelegate.getFull(id), HttpStatus.OK);
+    }
+
     @RequestMapping(path="/function/create", method = RequestMethod.PUT)
     public ResponseEntity<Map<String, Object>> createNew(@RequestBody Map<String, Object> dto){
         return new ResponseEntity<>(funcDelegate.createNew(dto), HttpStatus.OK);

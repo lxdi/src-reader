@@ -24,6 +24,16 @@ public class ScenarioController {
         return new ResponseEntity<>(scenarioDelegate.getAll(), HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/scenario/all/lazy")
+    public ResponseEntity<List<Map<String, Object>>> getAllLazy(){;
+        return new ResponseEntity<>(scenarioDelegate.getAllLazy(), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/scenario/{scenid}")
+    public ResponseEntity<Map<String, Object>> getFull(@PathVariable("scenid") long id){
+        return new ResponseEntity<>(scenarioDelegate.getFull(id), HttpStatus.OK);
+    }
+
     @RequestMapping(path="/scenario/create", method = RequestMethod.PUT)
     public ResponseEntity<Map<String, Object>> createNew(@RequestBody Map<String, Object> dto){;
         return new ResponseEntity<>(scenarioDelegate.createNew(dto), HttpStatus.OK);

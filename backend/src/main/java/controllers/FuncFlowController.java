@@ -24,6 +24,16 @@ public class FuncFlowController {
         return new ResponseEntity<>(funcFlowDelegate.getAll(), HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/funcflow/all/lazy")
+    public ResponseEntity<List<Map<String, Object>>> getAllLazy(){;
+        return new ResponseEntity<>(funcFlowDelegate.getAllLazy(), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/funcflow/{ffid}")
+    public ResponseEntity<Map<String, Object>> getFull(@PathVariable("ffid") long id){
+        return new ResponseEntity<>(funcFlowDelegate.getFull(id), HttpStatus.OK);
+    }
+
     @RequestMapping(path="/funcflow/create", method = RequestMethod.PUT)
     public ResponseEntity<Map<String, Object>> createNew(@RequestBody Map<String, Object> dto){
         return new ResponseEntity<>(funcFlowDelegate.createNew(dto), HttpStatus.OK);
@@ -34,10 +44,10 @@ public class FuncFlowController {
         return new ResponseEntity<>(funcFlowDelegate.update(dto), HttpStatus.OK);
     }
 
-    @RequestMapping(path="/funcflow/update/list", method = RequestMethod.POST)
-    public ResponseEntity<List<Map<String, Object>>> updateList(@RequestBody List<Map<String, Object>> dtolist){
-        return new ResponseEntity<>(funcFlowDelegate.updateList(dtolist), HttpStatus.OK);
-    }
+//    @RequestMapping(path="/funcflow/update/list", method = RequestMethod.POST)
+//    public ResponseEntity<List<Map<String, Object>>> updateList(@RequestBody List<Map<String, Object>> dtolist){
+//        return new ResponseEntity<>(funcFlowDelegate.updateList(dtolist), HttpStatus.OK);
+//    }
 
     @RequestMapping(path="/funcflow/reposition/list", method = RequestMethod.POST)
     public ResponseEntity<List<Map<String, Object>>> reposition(@RequestBody List<Map<String, Object>> dtolist){

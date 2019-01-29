@@ -89,7 +89,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	}
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
 	if(reactcomp.state.transitional || (!reactcomp.state.transitional && node.relevance!='Transitional')){
-		return <div style={{borderLeft: '1px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt'}}>
+		return <div style={{borderLeft: '2px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt'}}>
 							<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
 							<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
@@ -99,7 +99,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 							{getPercentsLineUI(node, percents100)}
 					</div>
 	} else {
-			return <div style={{borderLeft: '1px solid lightgrey', paddingLeft:'3px'}}>
+			return <div style={{borderLeft: '2px solid lightgrey', paddingLeft:'3px'}}>
 								{getPercentsLineUI(node, percents100)}
 						</div>
 	}
@@ -156,12 +156,6 @@ const copyToClipboard = (text) => {
 	textField.select()
 	document.execCommand('copy')
 	textField.remove()
-	// var range = document.createRange();
-	// range.selectNodeContents(e.target);
-	// console.log(range)
-	// var sel = window.getSelection();
-	// sel.removeAllRanges();
-	// sel.addRange(range);
 };
 
 const getPercentsLineUI = function(node, percents100){

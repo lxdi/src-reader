@@ -20,8 +20,18 @@ public class ComponentController {
     ComponentDelegate componentDelegate;
 
     @RequestMapping(path = "/component/all")
-    public ResponseEntity<List<Map<String, Object>>> getAllFuncs(){;
+    public ResponseEntity<List<Map<String, Object>>> getAll(){;
         return new ResponseEntity<>(componentDelegate.getAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/component/all/lazy")
+    public ResponseEntity<List<Map<String, Object>>> getAllLazy(){;
+        return new ResponseEntity<>(componentDelegate.getAllLazy(), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/component/{compid}")
+    public ResponseEntity<Map<String, Object>> getFull(@PathVariable("compid") long id){
+        return new ResponseEntity<>(componentDelegate.getFull(id), HttpStatus.OK);
     }
 
     @RequestMapping(path="/component/create", method = RequestMethod.PUT)

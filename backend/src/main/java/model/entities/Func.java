@@ -12,6 +12,8 @@ public class Func {
     long id;
 
     String title;
+
+    @Column(length = 4096)
     String description;
     int lines;
     int startLine;
@@ -23,39 +25,38 @@ public class Func {
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
 
+    @MapForLazy
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
 
+    @MapForLazy
     public Component getComponent() {
         return component;
     }
-
     public void setComponent(Component component) {
         this.component = component;
     }
 
+    @MapForLazy
     public int getLines() {
         return lines;
     }
-
     public void setLines(int lines) {
         this.lines = lines;
     }
 
+    @MapForLazy
     public int getStartLine() {
         return startLine;
     }
-
     public void setStartLine(int startLine) {
         this.startLine = startLine;
     }
