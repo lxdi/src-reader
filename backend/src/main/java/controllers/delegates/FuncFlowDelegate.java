@@ -4,11 +4,10 @@ import model.dao.IFuncFlowDao;
 import model.dto.common_mapper.CommonMapper;
 import model.entities.FuncFlow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class FuncFlowDelegate extends CommonDelegate {
@@ -57,6 +56,19 @@ public class FuncFlowDelegate extends CommonDelegate {
         ff.setNext(null);
         ff.setParent(null);
         funcFlowDao.delete(ff);
+    }
+
+    public List<Map<String, Object>> reposition(List<Map<String, Object>> dtoListLazies){
+        List<Map<String, Object>> result = new ArrayList<>();
+        for(Map<String, Object> dtoLazy : dtoListLazies){
+            FuncFlow lazyFF = (FuncFlow) commonMapper.mapToEntity(dtoLazy, new FuncFlow());
+            FuncFlow fullFF = funcFlowDao.findOne(lazyFF.getId());
+            fullFF.setNext(lazyFF.getNext());
+            fullFF.setParent(lazyFF.getParent());
+            funcFlowDao.save(fullFF);
+            result.add(commonMapper.mapToDtoLazy(fullFF, new HashMap<>()));
+        }
+        return result;
     }
 
     @Override

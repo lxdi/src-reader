@@ -8,9 +8,9 @@ import model.entities.FuncFlow;
 import model.entities.Scenario;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -138,6 +138,32 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
         assertTrue(funcFlowDao.findOne(child2Child1.getId())==null);
         assertTrue(funcFlowDao.findOne(child2.getId())==null);
         assertTrue(funcFlowDao.findOne(child1.getId())==null);
+
+    }
+
+    @Test
+    public void repositionTest(){
+
+        FuncFlow parent = createFF(null, null, null);
+        FuncFlow child2= createFF(null, parent, null);
+        FuncFlow child= createFF(null, parent, child2);
+
+        child2.setParent(null);
+        child.setNext(null);
+        parent.setNext(child2);
+
+        List<Map<String, Object>> dtoLazies = Arrays.asList(
+                commonMapper.mapToDtoLazy(child2, new HashMap<>()),
+                commonMapper.mapToDtoLazy(child, new HashMap<>()),
+                commonMapper.mapToDtoLazy(parent, new HashMap<>())
+        );
+
+        List<Map<String, Object>> result = funcFlowDelegate.reposition(dtoLazies);
+
+        assertTrue(funcFlowDao.findOne(child2.getId()).getParent()==null);
+        assertTrue(funcFlowDao.findOne(child.getId()).getNext()==null);
+        assertTrue(funcFlowDao.findOne(parent.getId()).getNext().getId()==child2.getId());
+
 
     }
 

@@ -1,5 +1,7 @@
 package model.entities;
 
+import model.dto.common_mapper.annotations.MapForLazy;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +19,7 @@ public class Func {
     @ManyToOne
     Component component;
 
+    @MapForLazy
     public long getId() {
         return id;
     }

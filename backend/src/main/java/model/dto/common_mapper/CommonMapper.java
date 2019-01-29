@@ -1,8 +1,11 @@
 package model.dto.common_mapper;
 
+import model.dto.common_mapper.annotations.MapForLazy;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Set;
 
 public class CommonMapper {
 
@@ -13,13 +16,34 @@ public class CommonMapper {
     }
 
     public Map<String, Object> mapToDto(Object entity, Map<String, Object> result) {
+//        for (Method m : entity.getClass().getDeclaredMethods()) {
+//            if (m.getName().startsWith("get")) {
+//                mapFromMethod(entity, result, m);
+//            }
+//        }
+        return mapToDtoWithIncludes(entity, result, null);
+    }
+
+    public Map<String, Object> mapToDtoWithIncludes(Object entity, Map<String, Object> result, Set<String> toInclude) {
         for (Method m : entity.getClass().getDeclaredMethods()) {
-            if (m.getName().startsWith("get")) {
+            if (m.getName().startsWith("get")
+                    && (toInclude==null || (toInclude!=null && toInclude.contains(transformGetterToFieldName(m.getName()))))) {
                 mapFromMethod(entity, result, m);
             }
         }
         return result;
     }
+
+    public Map<String, Object> mapToDtoLazy(Object entity, Map<String, Object> result) {
+        for (Method m : entity.getClass().getDeclaredMethods()) {
+
+            if (m.getName().startsWith("get") && m.isAnnotationPresent(MapForLazy.class)) {
+                mapFromMethod(entity, result, m);
+            }
+        }
+        return result;
+    }
+
 
     private void mapFromMethod(Object entity, Map<String, Object> result, Method method) {
         try {

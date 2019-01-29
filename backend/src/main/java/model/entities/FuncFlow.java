@@ -1,5 +1,6 @@
 package model.entities;
 
+import model.dto.common_mapper.annotations.MapForLazy;
 import model.enums.FuncFlowRelevance;
 
 import javax.persistence.*;
@@ -39,39 +40,39 @@ public class FuncFlow {
         this.scenario = scenario;
     }
 
-
+    @MapForLazy
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
 
+    @MapForLazy
     public Func getFunction() {
         return function;
     }
-
     public void setFunction(Func function) {
         this.function = function;
     }
 
+    @MapForLazy
     public FuncFlow getParent() {
         return parent;
     }
-
     public void setParent(FuncFlow parent) {
         this.parent = parent;
     }
 
+    @MapForLazy
     public Scenario getScenario() {
         return scenario;
     }
-
     public void setScenario(Scenario scenario) {
         this.scenario = scenario;
     }
 
+    @MapForLazy
     public FuncFlow getNext() {
         return next;
     }
@@ -79,10 +80,10 @@ public class FuncFlow {
         this.next = next;
     }
 
+    @MapForLazy
     public String getTags() {
         return tags;
     }
-
     public void setTags(String tags) {
         this.tags = tags;
     }
@@ -90,23 +91,22 @@ public class FuncFlow {
     public String getDesc() {
         return desc;
     }
-
     public void setDesc(String desc) {
         this.desc = desc;
     }
 
+    @MapForLazy
     public boolean isHideChildren() {
         return hideChildren;
     }
-
     public void setHideChildren(boolean hideChildren) {
         this.hideChildren = hideChildren;
     }
 
+    @MapForLazy
     public FuncFlowRelevance getRelevance() {
         return relevance;
     }
-
     public void setRelevance(FuncFlowRelevance relevance) {
         this.relevance = relevance;
     }

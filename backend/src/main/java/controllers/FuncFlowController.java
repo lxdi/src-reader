@@ -39,6 +39,11 @@ public class FuncFlowController {
         return new ResponseEntity<>(funcFlowDelegate.updateList(dtolist), HttpStatus.OK);
     }
 
+    @RequestMapping(path="/funcflow/reposition/list", method = RequestMethod.POST)
+    public ResponseEntity<List<Map<String, Object>>> reposition(@RequestBody List<Map<String, Object>> dtolist){
+        return new ResponseEntity<>(funcFlowDelegate.reposition(dtolist), HttpStatus.OK);
+    }
+
     @RequestMapping(path="/funcflow/delete/{funcflowid}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable("funcflowid") long id){
         funcFlowDelegate.delete(id);

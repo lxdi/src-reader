@@ -1,5 +1,7 @@
 package model.dto.common_mapper;
 
+import model.dto.common_mapper.annotations.MapForLazy;
+
 public class TestEntity {
 
     long id;
@@ -19,15 +21,14 @@ public class TestEntity {
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
 
+    @MapForLazy
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -72,10 +73,10 @@ public class TestEntity {
         this.booleanVal = booleanVal;
     }
 
+    @MapForLazy
     public int getIntvalue() {
         return intvalue;
     }
-
     public void setIntvalue(int intvalue) {
         this.intvalue = intvalue;
     }
