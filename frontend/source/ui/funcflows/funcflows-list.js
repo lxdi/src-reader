@@ -11,17 +11,18 @@ const fontSizeDefaultPt = 11
 const pivotLines = 20
 const percentsLength = 400
 
-//props: scenarioid
+//props: scenario
 export class FuncFlows extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {isEdit:false, sizing:true}
+		this.state = {isEdit:false}
 		this.compref = React.createRef();
-		const listName = 'funcflows-list-ui-'+this.props.scenarioid
+		const listName = 'funcflows-list-ui-'+this.props.scenario.id
 		registerReaction(listName, 'funcflows-rep', ['funcflows-received'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'components-rep', ['components-received'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'functions-rep', ['functions-received'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'funcflow-modal', ['close'], (stateSetter)=>this.setState({}))
+		registerReaction(listName, 'scenarios-rep', 'sizing-switched', (stateSetter)=>this.setState({}))
 	}
 
 	render() {
@@ -30,13 +31,13 @@ export class FuncFlows extends React.Component {
 			<div style={{margin:'5px'}}>
 				<div>
 					<div style={buttonStyle}>
-						<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', scenarioid: this.props.scenarioid}])} bsSize="xs"> + Add FuncFlow </Button>
+						<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', scenarioid: this.props.scenario.id}])} bsSize="xs"> + Add FuncFlow </Button>
 					</div>
 					<div style={buttonStyle}>
 						<Button onClick={()=>this.setState({isEdit: !this.state.isEdit})} bsSize="xs"> Edit/view </Button>
 					</div>
 					<div style={buttonStyle}>
-						<Button onClick={()=>this.setState({sizing: !this.state.sizing})} bsSize="xs"> Sizing: {this.state.sizing?'on': 'off'} </Button>
+						<Button onClick={()=>fireEvent('scenarios-rep', 'switch-sizing', [this.props.scenario])} bsSize="xs"> Sizing: {this.props.scenario.sizing?'on': 'off'} </Button>
 					</div>
 				</div>
 				<div style={{padding:'5px'}}>
@@ -49,10 +50,10 @@ export class FuncFlows extends React.Component {
 
 const getFuncflowsTree = function(reactcomp){
 	if(checkForRepositoriesLoaded()){
-			var percents100 =  fillLinesForFuncflows(reactcomp.props.scenarioid)
+			var percents100 =  fillLinesForFuncflows(reactcomp.props.scenario.id)
 			return <TreeComponent isEdit={reactcomp.state.isEdit}
-														nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenarioid]}
-														viewCallback={(node)=>nodeView(reactcomp, node, reactcomp.props.scenarioid, percents100)}
+														nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenario.id]}
+														viewCallback={(node)=>nodeView(reactcomp, node, reactcomp.props.scenario.id, percents100)}
 														onDropCallback = {(alteredList)=>{fireEvent('funcflows-rep', 'update-list-funcflow', [alteredList])}} />
 	} else {
 		return 'Loading...'
@@ -76,7 +77,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 		funcflownameSplitted = [component.title, func.title, func.startLine]
 		if(func.lines!=null && func.lines>0){
 			funcflownameSplitted.push(func.lines)
-			if(reactcomp.state.sizing){
+			if(reactcomp.props.scenario.sizing){
 				fontSize = calculateFontSize(func.lines)
 			}
 		}

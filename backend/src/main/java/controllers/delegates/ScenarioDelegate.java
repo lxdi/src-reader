@@ -1,15 +1,26 @@
 package controllers.delegates;
 
 
+import model.dao.IScenarioDao;
 import model.entities.Scenario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ScenarioDelegate extends CommonDelegate {
 
+    @Autowired
+    IScenarioDao scenarioDao;
+
     @Override
     protected Class getClassDao() {
         return Scenario.class;
+    }
+
+    public void switchSizing(long id){
+        Scenario scenario = scenarioDao.findOne(id);
+        scenario.setSizing(!scenario.getSizing());
+        scenarioDao.save(scenario);
     }
 
     @Override

@@ -15,6 +15,7 @@ public class Scenario {
     String desc;
 
     boolean hidden;
+    boolean sizing = true;
 
     @ManyToOne
     Project project;
@@ -57,5 +58,13 @@ public class Scenario {
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public boolean getSizing() {
+        return sizing;
+    }
+
+    public void setSizing(boolean sizing) {
+        this.sizing = sizing;
     }
 }
