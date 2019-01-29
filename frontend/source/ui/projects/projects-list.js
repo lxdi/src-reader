@@ -9,7 +9,7 @@ import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../ut
 export class ProjectsList extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {}
+		this.state = {hideProjects:false}
 		registerReaction('projects-list-ui', 'projects-rep', ['projects-received', 'changed-current'], (stateSetter)=>this.setState({}))
 		registerReaction('projects-list-ui', 'project-modal', ['close'], (stateSetter)=>this.setState({}))
 	}
@@ -18,12 +18,7 @@ export class ProjectsList extends React.Component {
 		return <div style={{padding:'5px'}}>
 							<table style={{width:'100%', border:'1px solid grey'}}>
 								<tr>
-									<td style={{width:'200px', verticalAlign:'top', borderRight:'1px solid lightgrey', borderRight:'2px solid DeepSkyBlue'}}>
-										{getProjectsListUI(this)}
-										<div style={{padding:'5px'}}>
-											<a href='#' onClick={()=>fireEvent('project-modal', 'open', [{title:''}])} bsSize='small' bsStyle='primary'> + Add Project </a>
-										</div>
-									</td>
+									{getProjectsSideBarUI(this)}
 									<td style={{verticalAlign:'top'}}>
 										{scenariosByCurrentProject(this)}
 									</td>
@@ -33,11 +28,29 @@ export class ProjectsList extends React.Component {
 	}
 }
 
-// <div style={{display:'inline-block', padding:'3px'}}>
-// 	<input type="radio" autocomplete="off" checked={curproj.iscurrent?"checked":null} style={{marginRight:'5px', marginLeft:'5px'}}
-// 				onClick={()=>fireEvent('projects-rep', 'change-current', [curproj])} />
-// </div>
-
+const getProjectsSideBarUI = function(reactcomp){
+	if(reactcomp.state.hideProjects){
+		const curproj = viewStateVal('projects-rep', 'current-project')
+		return <td style={{verticalAlign:'top', borderRight:'1px solid lightgrey', borderRight:'2px solid DeepSkyBlue', width:'30px'}}>
+												<div style={{writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(-180deg)', marginTop:'15px'}}>
+													<span>
+														<a href='#' onClick={()=>reactcomp.setState({hideProjects: !reactcomp.state.hideProjects})} style={{fontWeight:'bold', color:'DeepSkyBlue'}}>{curproj.title}</a>
+														<a href='#' onClick={()=>reactcomp.setState({hideProjects: !reactcomp.state.hideProjects})} style={{fontWeight:'bold', color:'DeepSkyBlue'}}>...</a>
+													</span>
+												</div>
+										</td>
+	} else {
+			return 	<td style={{width:'200px', verticalAlign:'top', borderRight:'1px solid lightgrey', borderRight:'2px solid DeepSkyBlue'}}>
+												{getProjectsListUI(reactcomp)}
+												<div style={{padding:'5px'}}>
+													<a href='#' onClick={()=>fireEvent('project-modal', 'open', [{title:''}])} bsSize='small' bsStyle='primary'> + Add Project </a>
+												</div>
+												<div style={{padding:'5px'}}>
+													<a href='#' onClick={()=>reactcomp.setState({hideProjects: !reactcomp.state.hideProjects})}> Hide </a>
+												</div>
+											</td>
+	}
+}
 
 const getProjectsListUI = function(reactcomp){
 	const result = []
