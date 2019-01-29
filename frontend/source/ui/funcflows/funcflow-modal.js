@@ -23,7 +23,9 @@ export class FuncflowModal extends React.Component {
 
     registerReaction('funcflow-modal', 'funcflows-rep', ['created-funcflow', 'updated-funcflow', 'deleted-funcflow'], (stateSetter)=>fireEvent('funcflow-modal', 'close'))
     registerReaction('funcflow-modal', 'components-rep', 'created-component', (stateSetter, newcomp)=>{this.state.comptemp = newcomp; this.setState({})})
+    registerReaction('funcflow-modal', 'components-rep', 'updated-component', (stateSetter)=>this.setState({}))
     registerReaction('funcflow-modal', 'functions-rep', 'created-function', (stateSetter, newfunc)=>{this.state.funcflow.functionid=newfunc.id; this.setState({})})
+    registerReaction('funcflow-modal', 'functions-rep', 'updated-function', (stateSetter)=>this.setState({}))
   }
 
   render(){
@@ -61,7 +63,7 @@ const content = function(component){
   }
 }
 
-//------------------------------------------------------
+//Component selecting ------------------------------------------------------
 
 const componentUI = function(reactcomp){
   var currentCompName = null
@@ -88,7 +90,23 @@ const componentUI = function(reactcomp){
             <div style={style}>
               <Button onClick={()=>fireEvent('component-modal', 'open', [{title:'', projectid: getProjectByScenarioId(reactcomp.state.funcflow.scenarioid).id}])}>Create New</Button>
             </div>
+            <div style={style}>
+              {viewCompButton(reactcomp)}
+            </div>
           </div>
+}
+
+const viewCompButton = function(reactcomp){
+  var comp = null
+  if(reactcomp.state.comptemp!=null){
+    comp = reactcomp.state.comptemp
+  }
+  if(reactcomp.state.funcflow.functionid!=null){
+    comp = getComponentByFunctionid(reactcomp.state.funcflow.functionid)
+  }
+  if(comp!=null){
+    return <Button onClick={()=>fireEvent('component-modal', 'open', [comp])}> View/Edit </Button>
+  }
 }
 
 const availableComponentsUI = function(reactcomp){
@@ -106,7 +124,7 @@ const selectCompHandler = function(comp, e, reactcomp){
   reactcomp.setState({})
 }
 
-//-------------------------------------------------------
+//Function selecting -------------------------------------------------------
 
 const functionUI = function(reactcomp){
   if(reactcomp.state.funcflow.functionid!=null || reactcomp.state.comptemp!=null){
@@ -134,7 +152,16 @@ const functionUI = function(reactcomp){
                 <div style={style}>
                   <Button onClick={()=>{reactcomp.state.funcflow.functionid=null; reactcomp.setState({})}}>Remove</Button>
                 </div>
+                <div style={style}>
+                  {viewFuncButton(func)}
+                </div>
               </div>
+  }
+}
+
+const viewFuncButton = function(func){
+  if(func!=null){
+    return <Button onClick={()=>fireEvent('function-modal', 'open', [func])}> View/Edit </Button>
   }
 }
 
@@ -152,7 +179,7 @@ const selectFuncHandler = function(func, e, reactcomp){
   reactcomp.setState({})
 }
 
-//-----------------------------------------
+//Util functions-----------------------------------------
 
 const getProjectByScenarioId = function(scenarioid){
   var scenario = getFromMappedRepByid(viewStateVal('scenarios-rep', 'scenarios'), scenarioid)
@@ -163,6 +190,8 @@ const getComponentByFunctionid = function(functionid){
   const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), functionid)
   return getFromMappedRepByid(viewStateVal('components-rep', 'components'), func.componentid)
 }
+
+//Text fields ---------------------------------------------
 
 const textFieldsUI = function(reactcomp){
   return <TextFields content={[descTextField(reactcomp), tagsTextField(reactcomp)]} />
