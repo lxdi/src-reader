@@ -15,7 +15,7 @@ const percentsLength = 400
 export class FuncFlows extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {isEdit:false}
+		this.state = {isEdit:false, transitional:false}
 		this.compref = React.createRef();
 		const listName = 'funcflows-list-ui-'+this.props.scenario.id
 		registerReaction(listName, 'funcflows-rep', ['funcflows-received'], (stateSetter)=>{this.setState({})})
@@ -38,6 +38,9 @@ export class FuncFlows extends React.Component {
 					</div>
 					<div style={buttonStyle}>
 						<Button onClick={()=>fireEvent('scenarios-rep', 'switch-sizing', [this.props.scenario])} bsSize="xs"> Sizing: {this.props.scenario.sizing?'on': 'off'} </Button>
+					</div>
+					<div style={buttonStyle}>
+						<Button onClick={()=>this.setState({transitional: !this.state.transitional})} bsSize="xs"> Show Transitional: {this.state.transitional?'on': 'off'} </Button>
 					</div>
 				</div>
 				<div style={{padding:'5px'}}>
@@ -85,15 +88,21 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 		//funcflowname = node.title
 	}
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
-	return <div style={{borderLeft: '1px solid lightgrey', paddingLeft:'3px', fontSize:fontSize+'pt'}}>
-						<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
-	 					<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
-						<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
-						<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
-						{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}> #desc </span>:null}
-						{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>:null}
-						{getPercentsLineUI(node, percents100)}
-	 			</div>
+	if(reactcomp.state.transitional || (!reactcomp.state.transitional && node.relevance!='Transitional')){
+		return <div style={{borderLeft: '1px solid lightgrey', paddingLeft:'3px', fontSize:fontSize+'pt'}}>
+							<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
+							<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
+							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
+							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
+							{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}> #desc </span>:null}
+							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>:null}
+							{getPercentsLineUI(node, percents100)}
+					</div>
+	} else {
+			return <div style={{borderLeft: '1px solid lightgrey', paddingLeft:'3px'}}>
+								{getPercentsLineUI(node, percents100)}
+						</div>
+	}
 }
 
 const calculateFontSize = function(lines){
