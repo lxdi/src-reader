@@ -89,7 +89,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	}
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
 	if(reactcomp.state.transitional || (!reactcomp.state.transitional && node.relevance!='Transitional')){
-		return <div style={{borderLeft: '1px solid lightgrey', paddingLeft:'3px', fontSize:fontSize+'pt'}}>
+		return <div style={{borderLeft: '1px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt'}}>
 							<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
 							<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
@@ -112,6 +112,16 @@ const calculateFontSize = function(lines){
 	const dif = lines-pivotLines
 	const ratio = dif/10
 	return fontSizeDefaultPt + ratio
+}
+
+const getLeftBorderColor = function(relevance){
+	if(relevance=='High')
+		return 'red'
+	if(relevance=='Normal')
+		return 'orange'
+	if(relevance=='Low')
+		return 'green'
+	return 'lightgrey'
 }
 
 const funcNameUI = function(funcflownameSplitted){
