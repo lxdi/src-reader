@@ -21,6 +21,7 @@ export class FunctionModal extends React.Component {
 
     //registerReaction('function-modal', 'functions-rep', 'func-added', (stateSetter)=>fireEvent('function-modal', 'close'))
     registerReaction('function-modal', 'functions-rep', ['created-function', 'updated-function', 'deleted-function'], (stateSetter)=>fireEvent('function-modal', 'close'))
+    registerReaction('function-modal', 'functions-rep', ['full-received-function'], (stateSetter)=>this.setState({}))
   }
 
   render(){
@@ -64,9 +65,14 @@ const okHandler = function(reactcomp){
   }
 }
 
-const content = function(component){
-  if(component.state.node!=null){
-    return <TextFields content={[titleFieldUI(component), startLineFieldUI(component), linesFieldUI(component), descTextField(component)]}/>
+const content = function(reactcomp){
+  if(reactcomp.state.node!=null){
+    if(reactcomp.state.node.id==null || reactcomp.state.node.id<1 || reactcomp.state.node.isFull==true){
+      return <TextFields content={[titleFieldUI(reactcomp), startLineFieldUI(reactcomp), linesFieldUI(reactcomp), descTextField(reactcomp)]}/>
+    } else {
+      fireEvent('functions-rep', 'get-function', [reactcomp.state.node])
+      return 'Loading...'
+    }
   }
 }
 

@@ -20,6 +20,7 @@ export class ComponentModal extends React.Component {
     })
 
     registerReaction('component-modal', 'components-rep', ['created-component', 'updated-component', 'deleted-component'], (stateSetter)=>fireEvent('component-modal', 'close'))
+    registerReaction('component-modal', 'components-rep', ['full-received-component'], (stateSetter)=>this.setState({}))
   }
 
   render(){
@@ -63,9 +64,14 @@ const okHandler = function(reactcomp){
   }
 }
 
-const content = function(component){
-  if(component.state.component!=null){
-    return <TextFields content={[titleFieldUI(component), descTextField(component)]}/>
+const content = function(reactcomp){
+  if(reactcomp.state.component!=null){
+    if(reactcomp.state.component.id==null || reactcomp.state.component.id<1 || reactcomp.state.component.isFull==true){
+      return <TextFields content={[titleFieldUI(reactcomp), descTextField(reactcomp)]}/>
+    } else {
+      fireEvent('components-rep', 'get-component', [reactcomp.state.component])
+      return 'Loading ...'
+    }
   }
 }
 

@@ -11,10 +11,10 @@ const registerCommonEvents = function(){
   creatingSimple('project')
   updatingSimple('project')
 
-  receivingMakingMap('component', 'projectid')
-  receivingMakingMap('scenario', 'projectid')
-  receivingMakingMap('function', 'componentid')
-  receivingMakingMap('funcflow', 'scenarioid')
+  receivingMakingMap('component', 'projectid', true)
+  receivingMakingMap('scenario', 'projectid', true)
+  receivingMakingMap('function', 'componentid', true)
+  receivingMakingMap('funcflow', 'scenarioid', true)
 
   creatingInMap('component', 'projectid', false)
   creatingInMap('scenario', 'projectid', false)
@@ -31,6 +31,11 @@ const registerCommonEvents = function(){
   deletingInMap('component', 'projectid')
   deletingInMap('function', 'componentid')
   deletingInMapLL('funcflow', 'scenarioid')
+
+  getFullInMap('component', 'projectid')
+  getFullInMap('funcflow', 'scenarioid')
+  getFullInMap('function', 'componentid')
+  getFullInMap('scenario', 'projectid')
 
 }
 
@@ -63,14 +68,26 @@ const creatingSimple = function(repName){
   registerEvent(repName+'s-rep', 'created-'+repName, (stateSetter)=>{})
 }
 
-const receivingMakingMap = function(repName, mapByField){
+const receivingMakingMap = function(repName, mapByField, isLazy){
+  const url = isLazy!=null && isLazy==true? '/'+repName+'/all/lazy': '/'+repName+'/all'
   registerEvent(repName+'s-rep', repName+'s-request', (stateSetter)=>{
-    sendGet('/'+repName+'/all', function(data){
+    sendGet(url, function(data){
       stateSetter(repName+'s', makeSplitMap(data, 'id', mapByField))
       fireEvent(repName+'s-rep', repName+'s-received')
     })
   })
   registerEvent(repName+'s-rep', repName+'s-received', (stateSetter)=>{})
+}
+
+const getFullInMap = function(repName, mapByField){
+  registerEvent(repName+'s-rep', 'get-'+repName, (stateSetter, lazyObj)=>{
+    sendGet('/'+repName+'/'+lazyObj.id, (data)=>{
+      data.isFull = true
+      Object.assign(viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.id], data)
+      fireEvent(repName+'s-rep', 'full-received-'+repName, [viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.id]])
+    })
+  })
+  registerEvent(repName+'s-rep', 'full-received-'+repName, (stateSetter, fullObj)=>fullObj)
 }
 
 const creatingInMap = function(repName, mapByField, isTree){

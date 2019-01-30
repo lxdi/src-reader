@@ -26,6 +26,7 @@ export class FuncflowModal extends React.Component {
     registerReaction('funcflow-modal', 'components-rep', 'updated-component', (stateSetter)=>this.setState({}))
     registerReaction('funcflow-modal', 'functions-rep', 'created-function', (stateSetter, newfunc)=>{this.state.funcflow.functionid=newfunc.id; this.setState({})})
     registerReaction('funcflow-modal', 'functions-rep', 'updated-function', (stateSetter)=>this.setState({}))
+    registerReaction('funcflow-modal', 'funcflows-rep', ['full-received-funcflow'], (stateSetter)=>this.setState({}))
   }
 
   render(){
@@ -49,17 +50,22 @@ const okHandler = function(reactcomp){
   }
 }
 
-const content = function(component){
-  if(component.state.funcflow!=null){
-    return <div>
-            <div>
-              {componentUI(component)}
+const content = function(reactcomp){
+  if(reactcomp.state.funcflow!=null){
+    if(reactcomp.state.funcflow.id==null || reactcomp.state.funcflow.id<1 || reactcomp.state.funcflow.isFull==true){
+      return <div>
+              <div>
+                {componentUI(reactcomp)}
+              </div>
+              <div>
+                {functionUI(reactcomp)}
+              </div>
+              {textFieldsUI(reactcomp)}
             </div>
-            <div>
-              {functionUI(component)}
-            </div>
-            {textFieldsUI(component)}
-          </div>
+    } else {
+      fireEvent('funcflows-rep', 'get-funcflow', [reactcomp.state.funcflow])
+      return 'Loading ...'
+    }
   }
 }
 

@@ -31,7 +31,7 @@ export class FuncFlows extends React.Component {
 			<div style={{margin:'5px'}}>
 				<div>
 					<div style={buttonStyle}>
-						<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', scenarioid: this.props.scenario.id}])} bsSize="xs"> + Add FuncFlow </Button>
+						<Button onClick={()=>fireEvent('funcflow-modal', 'open', [{scenarioid: this.props.scenario.id}])} bsSize="xs"> + Add FuncFlow </Button>
 					</div>
 					<div style={buttonStyle}>
 						<Button onClick={()=>this.setState({isEdit: !this.state.isEdit})} bsSize="xs"> Edit/view </Button>
@@ -93,8 +93,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 							<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
 							<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
-							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{desc:'', parentid: node.id, scenarioid:scenarioid}])}>+</a>
-							{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}> #desc </span>:null}
+							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>
 							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>:null}
 							{getPercentsLineUI(node, percents100)}
 					</div>
@@ -104,6 +103,8 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 						</div>
 	}
 }
+
+//{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}> #desc </span>:null}
 
 const calculateFontSize = function(lines){
 	if(lines<10){

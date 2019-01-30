@@ -20,6 +20,7 @@ export class ScenarioModal extends React.Component {
     })
 
     registerReaction('scenario-modal', 'scenarios-rep', ['created-scenario', 'updated-scenario'], (stateSetter)=>fireEvent('scenario-modal', 'close'))
+    registerReaction('scenario-modal', 'scenarios-rep', ['full-received-scenario'], (stateSetter)=>this.setState({}))
   }
 
   render(){
@@ -39,9 +40,14 @@ const okHandler = function(reactcomp){
   }
 }
 
-const content = function(component){
-  if(component.state.scenario!=null){
-    return <TextFields content={[titleFieldUI(component), descFieldUI(component)]}/>
+const content = function(reactcomp){
+  if(reactcomp.state.scenario!=null){
+      if(reactcomp.state.scenario.id==null || reactcomp.state.scenario.id<1 || reactcomp.state.scenario.isFull==true){
+        return <TextFields content={[titleFieldUI(reactcomp), descFieldUI(reactcomp)]}/>
+      } else {
+        fireEvent('scenarios-rep', 'get-scenario', [reactcomp.state.scenario])
+        return 'Loading...'
+      }
   }
 }
 
