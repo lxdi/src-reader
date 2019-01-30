@@ -5,6 +5,8 @@ import {mergeArrays, resolveNodes, replaceDraggableUtil, addAsChildDraggableUtil
 
 const offsetVal = 20
 
+// 31012019 - removed style:'inline-block' in draggableWrapper
+
 // props: nodes, viewCallback(node)
 // props (not required): isEdit(default: false), onDragStartCallback(draggableNode) onDropCallback(alteredList)
 // props(styles): rootStyle, groupStyle, shiftpx
@@ -82,7 +84,7 @@ const nodeUI = function(component, node, level){
 }
 
 const draggableWrapper = function(component, node, content){
-    return <div style={{display:'inline-block'}}
+    return <div
                     draggable='true'
                     onDragStart={(e)=>{e.draggableNode = node; if(component.props.onDragStartCallback!=null) component.props.onDragStartCallback(node)}}
                     onDragOver={(e)=>{e.preventDefault(); component.onDragOver(e, node, 'replace')}}>
