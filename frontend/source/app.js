@@ -26,7 +26,7 @@ class Main extends React.Component {
 		//fireEvent('components-rep', 'components-request')
 		//fireEvent('functions-rep', 'functions-request')
 		//fireEvent('scenarios-rep', 'scenarios-request')
-		fireEvent('funcflows-rep', 'funcflows-request')
+		//fireEvent('funcflows-rep', 'funcflows-request')
 	}
 
 	render() {

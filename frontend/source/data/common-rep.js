@@ -16,11 +16,13 @@ const registerCommonEvents = function(){
   //receivingMakingMap('component', 'projectid', true)
   //receivingMakingMap('scenario', 'projectid', true)
   //receivingMakingMap('function', 'componentid', true)
-  receivingMakingMap('funcflow', 'scenarioid', true)
+  //receivingMakingMap('funcflow', 'scenarioid', true)
 
   receivingInMap('scenario', 'project')
   receivingInMap('component', 'project')
-  receivingInMap('function', 'component')
+
+  receivingInMapWithTransit('function', 'component', 'project')
+  receivingInMapWithTransit('funcflow', 'scenario', 'project')
 
   creatingInMap('component', 'projectid', false)
   creatingInMap('scenario', 'projectid', false)
@@ -45,7 +47,9 @@ const registerCommonEvents = function(){
 
   registerReaction('common-rep', 'projects-rep', 'changed-current', (stateSetter, proj)=>{
     fireEvent('components-rep', 'request-by-projectid', [proj.id])
-    //fireEvent('functions-rep', 'request-by-projectid', [proj])
+    fireEvent('functions-rep', 'request-by-projectid', [proj.id])
+    fireEvent('scenarios-rep', 'request-by-projectid', [proj.id])
+    fireEvent('funcflows-rep', 'request-by-projectid', [proj.id])
   })
 
 }
@@ -118,6 +122,21 @@ const receivingInMap = function(repName, mapByObj){
         for(var i in data){
           importMap[objid][data[i].id] = data[i]
         }
+        fireEvent(repName + 's-rep', 'received-by-'+mapByObj+'id')
+    })
+  })
+  registerEvent(repName + 's-rep', 'received-by-'+mapByObj+'id', (stateSetter)=>{})
+}
+
+const receivingInMapWithTransit = function(repName, transitName, mapByObj){
+  registerEvent(repName+'s-rep', 'request-by-'+mapByObj+'id', (stateSetter, objid)=>{
+    sendGet('/'+repName+'/all/lazy/by/'+mapByObj+'/'+objid, (data)=>{
+        var importMap = viewStateVal(repName+'s-rep', repName+'s')
+        if(importMap==null){
+          importMap = []
+          stateSetter(repName+'s', importMap)
+        }
+        Object.assign(importMap, makeSplitMap(data, 'id', transitName+'id'))
         fireEvent(repName + 's-rep', 'received-by-'+mapByObj+'id')
     })
   })

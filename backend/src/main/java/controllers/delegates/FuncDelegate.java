@@ -37,6 +37,14 @@ public class FuncDelegate extends CommonDelegate {
         return result;
     }
 
+    public List<Map<String, Object>> getByProjectId(long projid){
+        List<Map<String, Object>> result = new ArrayList<>();
+        for(Func func : iFuncDao.findByProjectId(projid)){
+            result.add(commonMapper.mapToDtoLazy(func, new HashMap<>()));
+        }
+        return result;
+    }
+
     @Override
     public void delete(long id){
         Func func = iFuncDao.findOne(id);

@@ -34,6 +34,11 @@ public class FuncFlowController {
         return new ResponseEntity<>(funcFlowDelegate.getByScenid(scenid), HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/funcflow/all/lazy/by/project/{projid}")
+    public ResponseEntity<List<Map<String, Object>>> getByProjid(@PathVariable("projid") long projid){;
+        return new ResponseEntity<>(funcFlowDelegate.getByProjid(projid), HttpStatus.OK);
+    }
+
     @RequestMapping(path = "/funcflow/{ffid}")
     public ResponseEntity<Map<String, Object>> getFull(@PathVariable("ffid") long id){
         return new ResponseEntity<>(funcFlowDelegate.getFull(id), HttpStatus.OK);

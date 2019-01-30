@@ -26,6 +26,14 @@ public class FuncFlowDelegate extends CommonDelegate {
         return result;
     }
 
+    public List<Map<String, Object>> getByProjid(long projid){
+        List<Map<String, Object>> result = new ArrayList<>();
+        for(FuncFlow funcFlow : funcFlowDao.findByProjectid(projid)){
+            result.add(commonMapper.mapToDtoLazy(funcFlow, new HashMap<>()));
+        }
+        return result;
+    }
+
     @Override
     public Map<String, Object> createNew(Map<String, Object> funcflowDto){
         FuncFlow funcflow = (FuncFlow) commonMapper.mapToEntity(funcflowDto, new FuncFlow());

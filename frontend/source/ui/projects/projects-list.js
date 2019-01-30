@@ -13,8 +13,9 @@ export class ProjectsList extends React.Component {
 		registerReaction('projects-list-ui', 'projects-rep', ['projects-received', 'changed-current'], (stateSetter)=>this.setState({}))
 		registerReaction('projects-list-ui', 'project-modal', ['close'], (stateSetter)=>this.setState({}))
 
-		registerReactionCombo('projects-list-ui', {'projects-rep':'current-changed',
+		registerReactionCombo('projects-list-ui', {'projects-rep':'changed-current',
 																							'scenarios-rep': 'received-by-projectid',
+																							'funcflows-rep': 'received-by-projectid',
 																							'components-rep': 'received-by-projectid',
 																							'functions-rep': 'received-by-projectid'}, ()=>this.setState({}))
 	}
@@ -89,6 +90,8 @@ const scenariosByCurrentProject = function(reactcomp){
 									</div>
 									<ScenariosList projectid = {curproj.id} />
 									</div>
+	} else {
+		return 'Loading...'
 	}
 }
 
@@ -96,7 +99,7 @@ const checkRepositoriesLoaded = function(reactcomp){
 	const curproj = viewStateVal('projects-rep', 'current-project')
 	const scenarios = viewStateVal('scenarios-rep', 'scenarios')
 	const components = viewStateVal('components-rep', 'components')
-	if(curproj == null || scenarios==null || scenarios[curproj.id]==null || components==null || components[curproj.id]==null){
+	if(curproj == null || scenarios==null || components==null){
 		return false
 	}
 	return true

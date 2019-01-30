@@ -34,7 +34,10 @@ public class FuncController {
         return new ResponseEntity<>(funcDelegate.getByComponentLazy(compid), HttpStatus.OK);
     }
 
-    //TODO functions by project
+    @RequestMapping(path = "/function/all/lazy/by/project/{projid}")
+    public ResponseEntity<List<Map<String, Object>>> getByProjectId(@PathVariable("projid") long projid){;
+        return new ResponseEntity<>(funcDelegate.getByProjectId(projid), HttpStatus.OK);
+    }
 
     @RequestMapping(path = "/function/{funcid}")
     public ResponseEntity<Map<String, Object>> getFull(@PathVariable("funcid") long id){
