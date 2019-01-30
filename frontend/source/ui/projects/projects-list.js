@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap'
 
 import {ScenariosList} from '../scenarios/scenarios-list'
 
-import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
+import {fireEvent, viewStateVal, registerEvent, registerReaction, registerReactionCombo} from '../../utils/eventor'
 
 export class ProjectsList extends React.Component {
 	constructor(props){
@@ -12,6 +12,11 @@ export class ProjectsList extends React.Component {
 		this.state = {hideProjects:false}
 		registerReaction('projects-list-ui', 'projects-rep', ['projects-received', 'changed-current'], (stateSetter)=>this.setState({}))
 		registerReaction('projects-list-ui', 'project-modal', ['close'], (stateSetter)=>this.setState({}))
+
+		registerReactionCombo('projects-list-ui', {'projects-rep':'current-changed',
+																							'scenarios-rep': 'received-by-projectid',
+																							'components-rep': 'received-by-projectid',
+																							'functions-rep': 'received-by-projectid'}, ()=>this.setState({}))
 	}
 
 	render() {
@@ -89,7 +94,9 @@ const scenariosByCurrentProject = function(reactcomp){
 
 const checkRepositoriesLoaded = function(reactcomp){
 	const curproj = viewStateVal('projects-rep', 'current-project')
-	if(viewStateVal('scenarios-rep', 'scenarios')[curproj.id]==null || viewStateVal('components-rep', 'components')[curproj.id]==null){
+	const scenarios = viewStateVal('scenarios-rep', 'scenarios')
+	const components = viewStateVal('components-rep', 'components')
+	if(curproj == null || scenarios==null || scenarios[curproj.id]==null || components==null || components[curproj.id]==null){
 		return false
 	}
 	return true

@@ -1,4 +1,4 @@
-import {registerObject, registerEvent, viewStateVal, fireEvent} from '../utils/eventor'
+import {registerObject, registerEvent, viewStateVal, fireEvent, registerReaction} from '../utils/eventor'
 import {sendGet, sendPut, sendPost, sendDelete} from './postoffice'
 import {makeMap, makeSplitMap, deleteNode} from '../utils/import-utils'
 import {iterateLLfull} from '../utils/linked-list'
@@ -43,6 +43,11 @@ const registerCommonEvents = function(){
   getFullInMap('function', 'componentid')
   getFullInMap('scenario', 'projectid')
 
+  registerReaction('common-rep', 'projects-rep', 'changed-current', (stateSetter, proj)=>{
+    fireEvent('components-rep', 'request-by-projectid', [proj.id])
+    //fireEvent('functions-rep', 'request-by-projectid', [proj])
+  })
+
 }
 
 const receivingSimple = function(repName, withCurrent){
@@ -54,7 +59,7 @@ const receivingSimple = function(repName, withCurrent){
           for(var id in nodes){
             if(nodes[id].iscurrent){
               stateSetter('current-'+repName, nodes[id])
-              fireEvent(repName+'s', 'changed-current')
+              fireEvent(repName+'s-rep', 'changed-current', [nodes[id]])
               break;
             }
           }
@@ -73,11 +78,11 @@ const changingCurrent = function(repName){
       }
       viewStateVal(repName+'s-rep', repName+'s')[curobj.id].iscurrent = true
       stateSetter('current-'+repName, curobj)
-      fireEvent(repName+'s-rep', 'changed-current')
+      fireEvent(repName+'s-rep', 'changed-current', [curobj])
     })
   })
 
-  registerEvent(repName+'s-rep', 'changed-current', (stateSetter)=>{})
+  registerEvent(repName+'s-rep', 'changed-current', (stateSetter, curobj)=>curobj)
 }
 
 const creatingSimple = function(repName){
