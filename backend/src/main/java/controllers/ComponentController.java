@@ -29,6 +29,11 @@ public class ComponentController {
         return new ResponseEntity<>(componentDelegate.getAllLazy(), HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/component/all/lazy/by/project/{projectid}")
+    public ResponseEntity<List<Map<String, Object>>> getByProjid(@PathVariable("projectid") long projid){;
+        return new ResponseEntity<>(componentDelegate.getByProjectLazy(projid), HttpStatus.OK);
+    }
+
     @RequestMapping(path = "/component/{compid}")
     public ResponseEntity<Map<String, Object>> getFull(@PathVariable("compid") long id){
         return new ResponseEntity<>(componentDelegate.getFull(id), HttpStatus.OK);

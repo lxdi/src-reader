@@ -7,7 +7,10 @@ import model.entities.FuncFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FuncDelegate extends CommonDelegate {
@@ -26,6 +29,13 @@ public class FuncDelegate extends CommonDelegate {
         return Func.class;
     }
 
+    public List<Map<String, Object>> getByComponentLazy(long compid){
+        List<Map<String, Object>> result = new ArrayList<>();
+        for(Func func : iFuncDao.findByComponentid(compid)){
+            result.add(commonMapper.mapToDtoLazy(func, new HashMap<>()));
+        }
+        return result;
+    }
 
     @Override
     public void delete(long id){

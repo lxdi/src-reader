@@ -12,7 +12,7 @@ export class ScenariosList extends React.Component {
 		super(props);
 		this.state = {}
 		const listName = 'scenarios-list-ui-'+this.props.projectid
-		registerReaction(listName, 'scenarios-rep', ['scenarios-received', 'updated-scenario'], (stateSetter)=>{this.setState({})})
+		registerReaction(listName, 'scenarios-rep', ['scenarios-received', 'updated-scenario', 'received-by-projectid'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'scenario-modal', ['close'], (stateSetter)=>this.setState({}))
 	}
 
@@ -33,7 +33,7 @@ export class ScenariosList extends React.Component {
 const getScenariosListUI = function(reactcomp){
 	const result = []
 	const scenarios = viewStateVal('scenarios-rep', 'scenarios')
-	if(scenarios!=null){
+	if(scenarios!=null && scenarios[reactcomp.props.projectid]!=null){
 		for(var i in scenarios[reactcomp.props.projectid]){
 			const curscen = scenarios[reactcomp.props.projectid][i]
 			result.push(<div key={curscen.id} style = {{marginTop:'3px', padding:'3px', border:'1px solid orange', borderRadius:'10px'}}>
@@ -43,6 +43,7 @@ const getScenariosListUI = function(reactcomp){
 										</div>)
 		}
 	} else {
+		fireEvent('scenarios-rep', 'request-by-projectid', [reactcomp.props.projectid])
 		return 'Loading...'
 	}
 	return result

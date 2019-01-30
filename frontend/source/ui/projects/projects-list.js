@@ -77,7 +77,7 @@ const getProjectsListUI = function(reactcomp){
 
 const scenariosByCurrentProject = function(reactcomp){
 	const curproj = viewStateVal('projects-rep', 'current-project')
-	if(curproj!=null){
+	if(checkRepositoriesLoaded(reactcomp)){
 		return <div key={curproj.id} style = {{marginTop:'3px', padding:'3px'}}>
 									<div style={{marginLeft:'10px'}}>
 										<h4><a href='#' onClick={()=>fireEvent('project-modal', 'open', [curproj])}>{curproj.title}</a></h4>
@@ -85,4 +85,12 @@ const scenariosByCurrentProject = function(reactcomp){
 									<ScenariosList projectid = {curproj.id} />
 									</div>
 	}
+}
+
+const checkRepositoriesLoaded = function(reactcomp){
+	const curproj = viewStateVal('projects-rep', 'current-project')
+	if(viewStateVal('scenarios-rep', 'scenarios')[curproj.id]==null || viewStateVal('components-rep', 'components')[curproj.id]==null){
+		return false
+	}
+	return true
 }

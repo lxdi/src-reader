@@ -23,9 +23,9 @@ class Main extends React.Component {
 		this.state = {}
 
 		fireEvent('projects-rep', 'projects-request')
-		fireEvent('components-rep', 'components-request')
-		fireEvent('functions-rep', 'functions-request')
-		fireEvent('scenarios-rep', 'scenarios-request')
+		//fireEvent('components-rep', 'components-request')
+		//fireEvent('functions-rep', 'functions-request')
+		//fireEvent('scenarios-rep', 'scenarios-request')
 		fireEvent('funcflows-rep', 'funcflows-request')
 	}
 

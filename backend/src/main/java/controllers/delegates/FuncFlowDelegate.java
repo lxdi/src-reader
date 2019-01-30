@@ -18,6 +18,14 @@ public class FuncFlowDelegate extends CommonDelegate {
     @Autowired
     CommonMapper commonMapper;
 
+    public List<Map<String, Object>> getByScenid(long scenid){
+        List<Map<String, Object>> result = new ArrayList<>();
+        for(FuncFlow funcFlow : funcFlowDao.findByScenarioid(scenid)){
+            result.add(commonMapper.mapToDtoLazy(funcFlow, new HashMap<>()));
+        }
+        return result;
+    }
+
     @Override
     public Map<String, Object> createNew(Map<String, Object> funcflowDto){
         FuncFlow funcflow = (FuncFlow) commonMapper.mapToEntity(funcflowDto, new FuncFlow());

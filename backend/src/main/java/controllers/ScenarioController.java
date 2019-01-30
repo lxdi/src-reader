@@ -29,6 +29,11 @@ public class ScenarioController {
         return new ResponseEntity<>(scenarioDelegate.getAllLazy(), HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/scenario/all/lazy/by/project/{projectid}")
+    public ResponseEntity<List<Map<String, Object>>> getByProjid(@PathVariable("projectid") long projid){;
+        return new ResponseEntity<>(scenarioDelegate.getByProjectLazy(projid), HttpStatus.OK);
+    }
+
     @RequestMapping(path = "/scenario/{scenid}")
     public ResponseEntity<Map<String, Object>> getFull(@PathVariable("scenid") long id){
         return new ResponseEntity<>(scenarioDelegate.getFull(id), HttpStatus.OK);

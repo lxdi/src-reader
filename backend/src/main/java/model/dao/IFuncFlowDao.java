@@ -26,4 +26,7 @@ public interface IFuncFlowDao extends JpaRepository<FuncFlow, Long> {
     @Query("from FuncFlow where function = :function")
     List<FuncFlow> funcFlowsByFunction(@Param("function") Func func);
 
+    @Query("from FuncFlow where scenario.id = :id")
+    List<FuncFlow> findByScenarioid(@Param("id") long id);
+
 }

@@ -7,14 +7,20 @@ import {iterateLLfull} from '../utils/linked-list'
 
 const registerCommonEvents = function(){
 
+
   receivingSimple('project', true)
   creatingSimple('project')
   updatingSimple('project')
+  changingCurrent('project')
 
-  receivingMakingMap('component', 'projectid', true)
-  receivingMakingMap('scenario', 'projectid', true)
-  receivingMakingMap('function', 'componentid', true)
+  //receivingMakingMap('component', 'projectid', true)
+  //receivingMakingMap('scenario', 'projectid', true)
+  //receivingMakingMap('function', 'componentid', true)
   receivingMakingMap('funcflow', 'scenarioid', true)
+
+  receivingInMap('scenario', 'project')
+  receivingInMap('component', 'project')
+  receivingInMap('function', 'component')
 
   creatingInMap('component', 'projectid', false)
   creatingInMap('scenario', 'projectid', false)
@@ -48,6 +54,7 @@ const receivingSimple = function(repName, withCurrent){
           for(var id in nodes){
             if(nodes[id].iscurrent){
               stateSetter('current-'+repName, nodes[id])
+              fireEvent(repName+'s', 'changed-current')
               break;
             }
           }
@@ -56,6 +63,21 @@ const receivingSimple = function(repName, withCurrent){
     })
   })
   registerEvent(repName+'s-rep', repName+'s-received', (stateSetter)=>{})
+}
+
+const changingCurrent = function(repName){
+  registerEvent(repName+'s-rep', 'change-current', (stateSetter, curobj)=>{
+    sendPost('/'+repName+'/setcurrent/'+curobj.id, null, (data)=>{
+      for(var i in viewStateVal(repName+'s-rep', repName+'s')){
+        viewStateVal(repName+'s-rep', repName+'s')[i].iscurrent = false
+      }
+      viewStateVal(repName+'s-rep', repName+'s')[curobj.id].iscurrent = true
+      stateSetter('current-'+repName, curobj)
+      fireEvent(repName+'s-rep', 'changed-current')
+    })
+  })
+
+  registerEvent(repName+'s-rep', 'changed-current', (stateSetter)=>{})
 }
 
 const creatingSimple = function(repName){
@@ -77,6 +99,24 @@ const receivingMakingMap = function(repName, mapByField, isLazy){
     })
   })
   registerEvent(repName+'s-rep', repName+'s-received', (stateSetter)=>{})
+}
+
+const receivingInMap = function(repName, mapByObj){
+  registerEvent(repName+'s-rep', 'request-by-'+mapByObj+'id', (stateSetter, objid)=>{
+    sendGet('/'+repName+'/all/lazy/by/'+mapByObj+'/'+objid, (data)=>{
+        var importMap = viewStateVal(repName+'s-rep', repName+'s')
+        if(importMap==null){
+          importMap = []
+          stateSetter(repName+'s', importMap)
+        }
+        importMap[objid] = []
+        for(var i in data){
+          importMap[objid][data[i].id] = data[i]
+        }
+        fireEvent(repName + 's-rep', 'received-by-'+mapByObj+'id')
+    })
+  })
+  registerEvent(repName + 's-rep', 'received-by-'+mapByObj+'id', (stateSetter)=>{})
 }
 
 const getFullInMap = function(repName, mapByField){

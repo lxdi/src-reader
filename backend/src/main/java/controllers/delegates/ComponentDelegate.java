@@ -4,10 +4,14 @@ import model.dao.ICompDao;
 import model.dao.IFuncDao;
 import model.entities.Component;
 import model.entities.Func;
+import model.entities.Scenario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ComponentDelegate extends CommonDelegate {
@@ -24,6 +28,14 @@ public class ComponentDelegate extends CommonDelegate {
     @Override
     protected Class getClassDao() {
         return Component.class;
+    }
+
+    public List<Map<String, Object>> getByProjectLazy(long projectid){
+        List<Map<String, Object>> result = new ArrayList<>();
+        for(Component comp : compDao.findByProjectid(projectid)){
+            result.add(commonMapper.mapToDtoLazy(comp, new HashMap<>()));
+        }
+        return result;
     }
 
     @Override

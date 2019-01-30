@@ -29,6 +29,11 @@ public class FuncController {
         return new ResponseEntity<>(funcDelegate.getAllLazy(), HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/function/all/lazy/by/component/{compid}")
+    public ResponseEntity<List<Map<String, Object>>> getByCompId(@PathVariable("compid") long compid){;
+        return new ResponseEntity<>(funcDelegate.getByComponentLazy(compid), HttpStatus.OK);
+    }
+
     @RequestMapping(path = "/function/{funcid}")
     public ResponseEntity<Map<String, Object>> getFull(@PathVariable("funcid") long id){
         return new ResponseEntity<>(funcDelegate.getFull(id), HttpStatus.OK);

@@ -17,4 +17,7 @@ public interface IFuncDao extends JpaRepository<Func, Long> {
     @Query("from Func where component = :comp")
     List<Func> funcByComp(@Param("comp") Component comp);
 
+    @Query("from Func where component.id = :id")
+    List<Func> findByComponentid(@Param("id") long id);
+
 }
