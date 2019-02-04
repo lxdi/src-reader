@@ -56,7 +56,7 @@ const getFuncflowsTree = function(reactcomp){
 			var percents100 =  fillLinesForFuncflows(reactcomp.props.scenario.id)
 			return <TreeComponent isEdit={reactcomp.state.isEdit}
 														nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenario.id]}
-														viewCallback={(node)=>nodeView(reactcomp, node, reactcomp.props.scenario.id, percents100)}
+														viewCallback={(node, level, cache)=>nodeView(reactcomp, node, reactcomp.props.scenario.id, percents100, cache)}
 														onDropCallback = {(alteredList)=>{fireEvent('funcflows-rep', 'reposition-list', [alteredList])}}
 														shiftpx={10} />
 	} else {
@@ -72,7 +72,7 @@ const checkForRepositoriesLoaded = function(){
 	}
 }
 
-const nodeView = function(reactcomp, node, scenarioid, percents100){
+const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	var fontSize = fontSizeDefaultPt
 	var funcflownameSplitted = null
 	if(node.functionid!=null){
@@ -91,7 +91,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
 	if(reactcomp.state.transitional || (!reactcomp.state.transitional && node.relevance!='Transitional')){
 		return <div style={{borderLeft: '2px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt', paddingTop:'3px'}}>
-							<a href="#" onClick={()=>{fireEvent('funcflows-rep', 'hide-show-children', [node])}}>{node.hideChildren?'+':'-'} </a>
+							{hideShowChildrenHandlerUI(node, cache)}
 							<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
 							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>
@@ -105,7 +105,38 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	}
 }
 
-//{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}> #desc </span>:null}
+const hideShowChildrenHandlerUI = function(node, cache){
+	if(node.hideChildren){
+		return 	<a href="#" onClick={()=>{fireEvent('funcflows-rep', 'hide-show-children', [node])}}
+										onMouseEnter={()=>fireEvent('overlay-info', 'show', [overlayContent(node, cache)])}
+										onMouseOver={(e)=>fireEvent('overlay-info', 'update-pos', [e.nativeEvent.clientX+15, e.nativeEvent.clientY-10])}
+										onMouseLeave={()=>fireEvent('overlay-info', 'hide')}>{node.hideChildren?'+':'-'} </a>
+		} else {
+			return <a href="#" onClick={()=>{fireEvent('funcflows-rep', 'hide-show-children', [node])}}
+											onMouseLeave={()=>fireEvent('overlay-info', 'hide')}>{node.hideChildren?'+':'-'} </a>
+	}
+}
+
+const overlayContent = function(node, cache){
+		const result = []
+		gatherTags(result, node, cache)
+		const resultUI = []
+		for(var i in result){
+			resultUI.push(<div style={{color:'LightSeaGreen'}}>{result[i]}</div>)
+		}
+		return <div>{resultUI}</div>
+}
+
+const gatherTags = function(result, node, cache){
+	if(node.tags!=null){
+		result.push(node.tags)
+	}
+	if(cache.children[node.id]!=null){
+		for(var i in cache.children[node.id]){
+			gatherTags(result, cache.children[node.id][i], cache)
+		}
+	}
+}
 
 const calculateFontSize = function(lines){
 	if(lines<10){

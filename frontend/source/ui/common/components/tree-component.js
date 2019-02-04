@@ -5,9 +5,11 @@ import {mergeArrays, resolveNodes, replaceDraggableUtil, addAsChildDraggableUtil
 
 const offsetVal = 20
 
+// - - isEdit false by default
 // 31012019 - removed style:'inline-block' in draggableWrapper
+// 5022019 - passing cache to viewCallback
 
-// props: nodes, viewCallback(node)
+// props: nodes, viewCallback(node, level, children)
 // props (not required): isEdit(default: false), onDragStartCallback(draggableNode) onDropCallback(alteredList)
 // props(styles): rootStyle, groupStyle, shiftpx
 // nodes - map, access by id;  node - {id, parentid, nextid}
@@ -76,7 +78,7 @@ const nodeUI = function(component, node, level){
   const nextLevel = level + 1
   const shiftPx = component.props.shiftpx!=null? component.props.shiftpx: offsetVal
   return <div key={'node_'+node.id} style={component.props.groupStyle}>
-          {draggableWrapper(component, node, component.props.viewCallback(node, level))}
+          {draggableWrapper(component, node, component.props.viewCallback(node, level, component.state.cache))}
           <div style={{paddingLeft:shiftPx}}>
             {node.hideChildren==null || (node.hideChildren!=null && node.hideChildren==false)? childrenNodeUI(component, node, nextLevel):null}
           </div>

@@ -13,6 +13,8 @@ import {FuncflowModal} from './ui/funcflows/funcflow-modal'
 import {ComponentModal} from './ui/components-biz/component-modal'
 import {FunctionModal} from './ui/functions/function-modal'
 
+import {OverlayInfo} from './ui/overlay'
+
 import {fireEvent} from './utils/eventor'
 
 ReactDOM.render(<div id="app" />, document.body);
@@ -39,6 +41,7 @@ class Main extends React.Component {
 					<FuncflowModal/>
 					<ComponentModal/>
 					<FunctionModal/>
+					<OverlayInfo/>
 				</div>
 				<div>
 					<ProjectsList/>
