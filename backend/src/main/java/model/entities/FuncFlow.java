@@ -89,7 +89,7 @@ public class FuncFlow {
     }
 
     @MapForLazy
-    public boolean isHideChildren() {
+    public boolean getHideChildren() {
         return hideChildren;
     }
     public void setHideChildren(boolean hideChildren) {

@@ -4,11 +4,14 @@ import model.entities.Func;
 import model.entities.FuncFlow;
 import model.entities.Scenario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public interface IFuncFlowDao extends JpaRepository<FuncFlow, Long> {
 
     @Query("from FuncFlow where scenario = :scenario and parent = :parent and next is null")
@@ -31,5 +34,9 @@ public interface IFuncFlowDao extends JpaRepository<FuncFlow, Long> {
 
     @Query("from FuncFlow where scenario.project.id = :id")
     List<FuncFlow> findByProjectid(@Param("id") long id);
+
+    @Modifying
+    @Query("update FuncFlow set hideChildren = (CASE hideChildren WHEN true THEN false ELSE true END) where id = :id ")
+    void changeHideChildren(@Param("id") long id);
 
 }

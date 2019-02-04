@@ -34,7 +34,7 @@ const registerCommonEvents = function(){
   updatingInMap('component', 'projectid')
   updatingInMap('function', 'componentid')
 
-  updatingList('funcflow')
+  //updatingList('funcflow')
 
   deletingInMap('component', 'projectid')
   deletingInMap('function', 'componentid')
@@ -194,14 +194,14 @@ const updatingInMap = function(repName, mapByField){
   registerEvent(repName+'s-rep', 'updated-'+repName, (stateSetter)=>{})
 }
 
-const updatingList = function(repName){
-  registerEvent(repName+'s-rep', 'update-list-'+repName, (stateSetter, objsToUpdate)=>{
-    sendPost('/'+repName+'/update/list', objsToUpdate, (data)=>{
-      fireEvent(repName+'s-rep', 'updated-list-'+repName)
-    })
-  })
-  registerEvent(repName+'s-rep', 'updated-list-'+repName, (stateSetter)=>{})
-}
+// const updatingList = function(repName){
+//   registerEvent(repName+'s-rep', 'update-list-'+repName, (stateSetter, objsToUpdate)=>{
+//     sendPost('/'+repName+'/update/list', objsToUpdate, (data)=>{
+//       fireEvent(repName+'s-rep', 'updated-list-'+repName)
+//     })
+//   })
+//   registerEvent(repName+'s-rep', 'updated-list-'+repName, (stateSetter)=>{})
+// }
 
 const deletingInMap = function(repName, mapByField){
   registerEvent(repName+'s-rep', 'delete-'+repName, (stateSetter, obj)=>{

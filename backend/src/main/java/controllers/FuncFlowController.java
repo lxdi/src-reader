@@ -64,6 +64,12 @@ public class FuncFlowController {
         return new ResponseEntity<>(funcFlowDelegate.reposition(dtolist), HttpStatus.OK);
     }
 
+    @RequestMapping(path="/funcflow/hidechildren/{ffid}", method = RequestMethod.POST)
+    public ResponseEntity<List<Map<String, Object>>> hideChildren(@PathVariable("ffid") long ffid){
+        funcFlowDelegate.hideChildren(ffid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @RequestMapping(path="/funcflow/delete/{funcflowid}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable("funcflowid") long id){
         funcFlowDelegate.delete(id);

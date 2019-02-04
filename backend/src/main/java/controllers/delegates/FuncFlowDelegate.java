@@ -4,7 +4,6 @@ import model.dao.IFuncFlowDao;
 import model.dto.common_mapper.CommonMapper;
 import model.entities.FuncFlow;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -85,6 +84,10 @@ public class FuncFlowDelegate extends CommonDelegate {
             result.add(commonMapper.mapToDtoLazy(fullFF, new HashMap<>()));
         }
         return result;
+    }
+
+    public void hideChildren(long id){
+        funcFlowDao.changeHideChildren(id);
     }
 
     @Override

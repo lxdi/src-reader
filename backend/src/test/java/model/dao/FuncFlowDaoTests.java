@@ -84,4 +84,19 @@ public class FuncFlowDaoTests extends SpringTestConfig {
         funcFlowDao.save(list);
     }
 
+    @Test
+    public void hideChildrenTest(){
+        FuncFlow funcFlow = new FuncFlow();
+        funcFlow.setHideChildren(false);
+        funcFlowDao.save(funcFlow);
+
+        funcFlowDao.changeHideChildren(funcFlow.getId());
+        funcFlow = funcFlowDao.findOne(funcFlow.getId());
+        assertTrue(funcFlow.getHideChildren());
+
+        funcFlowDao.changeHideChildren(funcFlow.getId());
+        funcFlow = funcFlowDao.findOne(funcFlow.getId());
+        assertTrue(!funcFlow.getHideChildren());
+    }
+
 }

@@ -18,7 +18,7 @@ export class FuncFlows extends React.Component {
 		this.state = {isEdit:false, transitional:false}
 		this.compref = React.createRef();
 		const listName = 'funcflows-list-ui-'+this.props.scenario.id
-		registerReaction(listName, 'funcflows-rep', ['funcflows-received'], (stateSetter)=>{this.setState({})})
+		registerReaction(listName, 'funcflows-rep', ['funcflows-received', 'children-hidden-shown'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'components-rep', ['components-received'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'functions-rep', ['functions-received'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'funcflow-modal', ['close'], (stateSetter)=>this.setState({}))
@@ -57,7 +57,8 @@ const getFuncflowsTree = function(reactcomp){
 			return <TreeComponent isEdit={reactcomp.state.isEdit}
 														nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenario.id]}
 														viewCallback={(node)=>nodeView(reactcomp, node, reactcomp.props.scenario.id, percents100)}
-														onDropCallback = {(alteredList)=>{fireEvent('funcflows-rep', 'update-list-funcflow', [alteredList])}} />
+														onDropCallback = {(alteredList)=>{fireEvent('funcflows-rep', 'reposition-list', [alteredList])}}
+														shiftpx={10} />
 	} else {
 		return 'Loading...'
 	}
@@ -90,7 +91,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100){
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
 	if(reactcomp.state.transitional || (!reactcomp.state.transitional && node.relevance!='Transitional')){
 		return <div style={{borderLeft: '2px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt', paddingTop:'3px'}}>
-							<a href="#" onClick={()=>{node.hideChildren = !node.hideChildren; reactcomp.setState({})}}>{node.hideChildren?'+':'-'} </a>
+							<a href="#" onClick={()=>{fireEvent('funcflows-rep', 'hide-show-children', [node])}}>{node.hideChildren?'+':'-'} </a>
 							<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
 							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>

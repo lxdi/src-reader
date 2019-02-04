@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import './data/common-rep'
 import './data/projects-rep'
 import './data/scenarios-rep'
+import './data/funcflows-rep'
 
 import {ProjectsList} from './ui/projects/projects-list'
 import {ProjectModal} from './ui/projects/project-modal'
