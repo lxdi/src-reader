@@ -11,7 +11,7 @@ const offsetVal = 20
 
 // props: nodes, viewCallback(node, level, children)
 // props (not required): isEdit(default: false), onDragStartCallback(draggableNode) onDropCallback(alteredList)
-// props(styles): rootStyle, groupStyle, shiftpx
+// props(styles): rootStyle, groupStyle, childrenStyle, shiftpx
 // nodes - map, access by id;  node - {id, parentid, nextid}
 export class TreeComponent extends React.Component {
   constructor(props){
@@ -77,9 +77,11 @@ const nodesView = function(component){
 const nodeUI = function(component, node, level){
   const nextLevel = level + 1
   const shiftPx = component.props.shiftpx!=null? component.props.shiftpx: offsetVal
+  const childrenStyle = component.props.childrenStyle!=null?component.props.childrenStyle:{}
+  Object.assign(childrenStyle, {paddingLeft:shiftPx})
   return <div key={'node_'+node.id} style={component.props.groupStyle}>
           {draggableWrapper(component, node, component.props.viewCallback(node, level, component.state.cache))}
-          <div style={{paddingLeft:shiftPx}}>
+          <div style={childrenStyle}>
             {node.hideChildren==null || (node.hideChildren!=null && node.hideChildren==false)? childrenNodeUI(component, node, nextLevel):null}
           </div>
         </div>

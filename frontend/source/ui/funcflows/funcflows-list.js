@@ -58,6 +58,7 @@ const getFuncflowsTree = function(reactcomp){
 														nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenario.id]}
 														viewCallback={(node, level, cache)=>nodeView(reactcomp, node, reactcomp.props.scenario.id, percents100, cache)}
 														onDropCallback = {(alteredList)=>{fireEvent('funcflows-rep', 'reposition-list', [alteredList])}}
+														childrenStyle={{borderLeft:'1px dotted grey'}}
 														shiftpx={10} />
 	} else {
 		return 'Loading...'
@@ -106,15 +107,10 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 }
 
 const hideShowChildrenHandlerUI = function(node, cache){
-	if(node.hideChildren){
 		return 	<a href="#" onClick={()=>{fireEvent('funcflows-rep', 'hide-show-children', [node])}}
 										onMouseEnter={()=>fireEvent('overlay-info', 'show', [overlayContent(node, cache)])}
 										onMouseOver={(e)=>fireEvent('overlay-info', 'update-pos', [e.nativeEvent.clientX+15, e.nativeEvent.clientY-10])}
 										onMouseLeave={()=>fireEvent('overlay-info', 'hide')}>{node.hideChildren?'+':'-'} </a>
-		} else {
-			return <a href="#" onClick={()=>{fireEvent('funcflows-rep', 'hide-show-children', [node])}}
-											onMouseLeave={()=>fireEvent('overlay-info', 'hide')}>{node.hideChildren?'+':'-'} </a>
-	}
 }
 
 const overlayContent = function(node, cache){
