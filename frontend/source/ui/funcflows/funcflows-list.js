@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap'
+import {Button, OverlayTrigger, Tooltip, DropdownButton, MenuItem, ButtonGroup} from 'react-bootstrap'
 import {TreeComponent} from '../common/components/tree-component'
 
 import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
@@ -9,13 +9,13 @@ import {fillLinesForFuncflows} from '../../services/funcflow-percents'
 
 const fontSizeDefaultPt = 11
 const pivotLines = 20
-const percentsLength = 400
+const percentsLength = 700
 
 //props: scenario
 export class FuncFlows extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {isEdit:false, transitional:false}
+		this.state = {isEdit:false, transitional:false, relevanceFilter:'Low'}
 		this.compref = React.createRef();
 		const listName = 'funcflows-list-ui-'+this.props.scenario.id
 		registerReaction(listName, 'funcflows-rep', ['funcflows-received', 'children-hidden-shown'], (stateSetter)=>{this.setState({})})
@@ -26,7 +26,7 @@ export class FuncFlows extends React.Component {
 	}
 
 	render() {
-		const buttonStyle = {padding:'5px', display:'inline-block'}
+		const buttonStyle = {padding:'5px', display:'inline-block', verticalAlign:'top'}
 		return (
 			<div style={{margin:'5px'}}>
 				<div>
@@ -40,7 +40,14 @@ export class FuncFlows extends React.Component {
 						<Button onClick={()=>fireEvent('scenarios-rep', 'switch-sizing', [this.props.scenario])} bsSize="xs"> Sizing: {this.props.scenario.sizing?'on': 'off'} </Button>
 					</div>
 					<div style={buttonStyle}>
-						<Button onClick={()=>this.setState({transitional: !this.state.transitional})} bsSize="xs"> Show Transitional: {this.state.transitional?'on': 'off'} </Button>
+						<ButtonGroup>
+				                  <DropdownButton title={this.state.relevanceFilter} bsSize="xs" onSelect={(newval, e)=>this.setState({relevanceFilter:newval})}>
+														<MenuItem eventKey={"High"}>High</MenuItem>
+				                    <MenuItem eventKey={"Normal"}>High|Normal</MenuItem>
+														<MenuItem eventKey={"Low"}>High|Normal|Low</MenuItem>
+														<MenuItem eventKey={"Transitional"}>High|Normal|Low|Transitional</MenuItem>
+				                  </DropdownButton>
+				      </ButtonGroup>
 					</div>
 				</div>
 				<div style={{padding:'5px'}}>
@@ -90,7 +97,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 		//funcflowname = node.title
 	}
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
-	if(reactcomp.state.transitional || (!reactcomp.state.transitional && node.relevance!='Transitional')){
+	if(filterByRelevance(reactcomp, node)){
 		return <div style={{borderLeft: '2px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt', paddingTop:'3px'}}>
 							{hideShowChildrenHandlerUI(node, cache)}
 							<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
@@ -100,10 +107,27 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 							{getPercentsLineUI(node, percents100)}
 					</div>
 	} else {
-			return <div style={{borderLeft: '2px solid lightgrey', paddingLeft:'3px', paddingTop:'3px'}}>
+			return <div style={{borderLeft: '2px solid ' +getLeftBorderColor(node.relevance), paddingLeft:'3px', paddingTop:'3px'}}>
 								{getPercentsLineUI(node, percents100)}
 						</div>
 	}
+}
+
+const filterByRelevance = function(reactcomp, node){
+	const filterNum = relevanceToNumber(reactcomp.state.relevanceFilter)
+	const nodenum = relevanceToNumber(node.relevance)
+	if(nodenum>=filterNum){
+		return true
+	} else {
+		false
+	}
+}
+
+const relevanceToNumber = function(relevance){
+	if(relevance=='Transitional') return 0
+	if(relevance=='Low') return 1
+	if(relevance=='Normal') return 2
+	if(relevance=='High') return 3
 }
 
 const hideShowChildrenHandlerUI = function(node, cache){
