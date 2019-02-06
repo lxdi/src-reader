@@ -192,7 +192,6 @@ const getPercentsLineUI = function(node, percents100){
 	const nativeLinesLength = percentsLength * (node.nativelines/percents100)
 	const sublinesLength = percentsLength * (node.sublines/percents100)
 	const offsetPx = node.offset>0? percentsLength * (node.offset/percents100):0
-
 	return  <div style={{width:(percentsLength+2)+'px', height:'4px', border:'1px solid lightgrey' }}>
 								<div style={{backgroundColor: 'BlueViolet', width:nativeLinesLength+'px', marginLeft:offsetPx+'px', float:'left', height:'100%'}}></div>
 								<div style={{backgroundColor: 'Fuchsia', width:sublinesLength+'px', float:'left', height:'100%'}}></div>

@@ -4,55 +4,25 @@ import {resolveNodes} from '../utils/draggable-tree-utils'
 import {iterateLLfull} from '../utils/linked-list'
 
 export const fillLinesForFuncflows = function(scenarioid){
-	const leafsAndRoots = findLeafsAndInvalidatePastVals(viewStateVal('funcflows-rep', 'funcflows')[scenarioid])
-	for(var idx in leafsAndRoots.leafs){
-		var curff = leafsAndRoots.leafs[idx]
-		while(curff!=null){
-      if(curff.nativelines==null){
-        const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), curff.functionid)
-        curff.nativelines = func.lines
-      }
-      curff.allLines = curff.nativelines + curff.sublines
-			//const childrenLines = curff.sublines
-			if(curff.parentid!=null){
-				const parentff = viewStateVal('funcflows-rep', 'funcflows')[scenarioid][curff.parentid]
-				parentff.sublines = parentff.sublines + curff.allLines
-        curff = parentff
-			} else {
-				curff = null
-			}
-		}
-	}
+	const resolved = resolveNodes(viewStateVal('funcflows-rep', 'funcflows')[scenarioid])
+	const result = calculateLines(resolved, resolved.root)
 	calculateOffsets(viewStateVal('funcflows-rep', 'funcflows')[scenarioid])
-	var onehundredInLines = 0;
-	for(var idx in leafsAndRoots.roots){
-		onehundredInLines = onehundredInLines + leafsAndRoots.roots[idx].allLines
-	}
-	return onehundredInLines
+	return result
 }
 
-const findLeafsAndInvalidatePastVals = function(rep){
-	const funcFlowLinksMap = new Map()
-	const roots = []
-	for(var id in rep){
-    if(rep[id].parentid!=null){
-      funcFlowLinksMap.set(rep[rep[id].parentid], true)
-    } else {
-      roots.push(rep[id])
-    }
-		if(funcFlowLinksMap.get(rep[id])==null){
-			funcFlowLinksMap.set(rep[id], false)
+const calculateLines = function(resolved, arr){
+	var result = 0
+	iterateLLfull(arr, (funcflow)=>{
+		funcflow.nativelines = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), funcflow.functionid).lines
+		if(resolved.children[funcflow.id]!=null){
+			funcflow.sublines = calculateLines(resolved, resolved.children[funcflow.id])
+		} else {
+			funcflow.sublines = 0
 		}
-		rep[id].sublines = null
-	}
-
-	const leafs = []
-	funcFlowLinksMap.forEach((key, entry)=>{
-		if(key==false){
-			leafs.push(entry)
-		}
+		funcflow.allLines = funcflow.nativelines + funcflow.sublines
+		result = result + funcflow.allLines
 	})
-	return {leafs:leafs, roots:roots}
+	return result
 }
 
 const calculateOffsets = function(rep){
@@ -64,9 +34,17 @@ const calculateOffsetsInArrs = function(resolved, arr, initialOffset){
 	var offset = initialOffset
 	iterateLLfull(arr, (funcflow)=>{
 		funcflow.offset = offset
-		offset = offset + funcflow.allLines
+		offset = offset + getNumber(funcflow.allLines)
 		if(resolved.children[funcflow.id]!=null){
-				calculateOffsetsInArrs(resolved, resolved.children[funcflow.id], funcflow.offset+funcflow.nativelines)
+				calculateOffsetsInArrs(resolved, resolved.children[funcflow.id], (getNumber(funcflow.offset)+getNumber(funcflow.nativelines)))
 		}
 	})
+}
+
+const getNumber = function(val){
+	if(val!=null){
+		return Number.parseInt(val)
+	} else {
+		return 0
+	}
 }

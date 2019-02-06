@@ -8,6 +8,7 @@ const offsetVal = 20
 // - - isEdit false by default
 // 31012019 - removed style:'inline-block' in draggableWrapper
 // 5022019 - passing cache to viewCallback
+// 5022019 - added childrenStyle to props
 
 // props: nodes, viewCallback(node, level, children)
 // props (not required): isEdit(default: false), onDragStartCallback(draggableNode) onDropCallback(alteredList)
