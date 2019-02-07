@@ -19,6 +19,8 @@ public class Component {
     @ManyToOne
     Project project;
 
+    String color = "green";
+
     @MapForLazy
     public long getId() {
         return id;
@@ -43,10 +45,19 @@ public class Component {
         this.project = project;
     }
 
+    @MapForLazy
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

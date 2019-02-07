@@ -82,13 +82,12 @@ const checkForRepositoriesLoaded = function(){
 
 const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	var fontSize = fontSizeDefaultPt
-	var funcflownameSplitted = null
+	var component = null
+	var func = null
 	if(node.functionid!=null){
-		const component = getComponentByFunctionid(node.functionid)
-		const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), node.functionid)
-		funcflownameSplitted = [component.title, func.title, func.startLine]
+		component = getComponentByFunctionid(node.functionid)
+		func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), node.functionid)
 		if(func.lines!=null && func.lines>0){
-			funcflownameSplitted.push(func.lines)
 			if(reactcomp.props.scenario.sizing){
 				fontSize = calculateFontSize(func.lines)
 			}
@@ -100,7 +99,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	if(filterByRelevance(reactcomp, node)){
 		return <div style={{borderLeft: '2px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt', paddingTop:'3px'}}>
 							{hideShowChildrenHandlerUI(node, cache)}
-							<div style={{display:'inline-block'}}>{funcNameUI(funcflownameSplitted)}</div>
+							<div style={{display:'inline-block'}}>{funcNameUI(component, func)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
 							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>
 							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>:null}
@@ -177,20 +176,20 @@ const getLeftBorderColor = function(relevance){
 	return 'lightgrey'
 }
 
-const funcNameUI = function(funcflownameSplitted){
+const funcNameUI = function(component, func){
 	return <div style={{display:'inline-block'}}>
 						<OverlayTrigger placement="left" overlay={tooltip('Copy component name to buffer')}>
-							<span class='funcflow-comp funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[0], e)}>{funcflownameSplitted[0]}.</span>
+							<span class='funcflow-cfl' style={{color:component.color}} onClick={(e)=>copyToClipboard(component.title, e)}>{component.title}.</span>
 						</OverlayTrigger>
 						<OverlayTrigger placement="bottom" overlay={tooltip('Copy function name to buffer')}>
-							<span class='funcflow-func funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[1], e)}>{funcflownameSplitted[1]}</span>
+							<span class='funcflow-cfl' style={{color:func.color}} onClick={(e)=>copyToClipboard(func.title, e)}>{func.title}</span>
 						</OverlayTrigger>
 						<OverlayTrigger placement="top" overlay={tooltip('Copy start line to buffer')}>
-							<span class='funcflow-startline funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[2], e)}>:{funcflownameSplitted[2]}</span>
+							<span class='funcflow-startline funcflow-cfl' onClick={(e)=>copyToClipboard(func.startLine, e)}>:{func.startLine}</span>
 						</OverlayTrigger>
-						{funcflownameSplitted[3]!=null?
+						{func.lines!=null?
 							<OverlayTrigger placement="bottom" overlay={tooltip('Copy function length to buffer')}>
-								<span class='funcflow-lines funcflow-cfl' onClick={(e)=>copyToClipboard(funcflownameSplitted[3], e)}>|{funcflownameSplitted[3]}</span>
+								<span class='funcflow-lines funcflow-cfl' onClick={(e)=>copyToClipboard(func.lines, e)}>|{func.lines}</span>
 							</OverlayTrigger>
 							:null}
 					</div>

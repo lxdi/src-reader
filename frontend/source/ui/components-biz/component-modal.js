@@ -4,6 +4,7 @@ import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
 import {TextFields} from '../common/components/text-fields'
+import {ColorChooser} from '../common/components/color-chooser'
 
 import {registerEvent, fireEvent, registerReaction, viewStateVal} from '../../utils/eventor'
 
@@ -67,7 +68,7 @@ const okHandler = function(reactcomp){
 const content = function(reactcomp){
   if(reactcomp.state.component!=null){
     if(reactcomp.state.component.id==null || reactcomp.state.component.id<1 || reactcomp.state.component.isFull==true){
-      return <TextFields content={[titleFieldUI(reactcomp), descTextField(reactcomp)]}/>
+      return <TextFields content={[titleFieldUI(reactcomp), descTextField(reactcomp), colorField(reactcomp)]}/>
     } else {
       fireEvent('components-rep', 'get-component', [reactcomp.state.component])
       return 'Loading ...'
@@ -101,5 +102,13 @@ const descTextField = function(reactcomp){
                                 placeholder="Enter description"
                                 onChange={(e)=>{reactcomp.state.component.description = e.target.value; reactcomp.setState({})}}/>
                 </FormGroup>
+  }
+}
+
+const colorField = function(reactcomp){
+  return {
+    key: 'colorField',
+    label: <ControlLabel>Color:</ControlLabel>,
+    field: <ColorChooser title={reactcomp.state.component.color} colors={['Green', 'Orange', 'Red']} callback={(newval)=>{reactcomp.state.component.color = newval; reactcomp.setState({})}} />
   }
 }

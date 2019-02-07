@@ -21,6 +21,8 @@ public class Func {
     @ManyToOne
     Component component;
 
+    String color = "BlueViolet";
+
     @MapForLazy
     public long getId() {
         return id;
@@ -59,6 +61,14 @@ public class Func {
     }
     public void setStartLine(int startLine) {
         this.startLine = startLine;
+    }
+
+    @MapForLazy
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getDescription() {
