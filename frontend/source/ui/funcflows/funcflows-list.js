@@ -81,6 +81,12 @@ const checkForRepositoriesLoaded = function(){
 }
 
 const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
+	if(node.todoMark==true){
+		return <div style={{borderLeft: '1px dotted grey'}}>
+							<div style={{fontSize:'13pt', color:'red', display:'inline-block'}}>TODO</div>
+							<div style={{display:'inline-block'}}><a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a></div>
+						</div>
+	}
 	var fontSize = fontSizeDefaultPt
 	var component = null
 	var func = null

@@ -32,7 +32,7 @@ export class FuncflowModal extends React.Component {
   render(){
     return <CommonModal title="Function flow" isOpen={this.state.isOpen}
               styleClass="funcflow-modal"
-              okHandler={this.state.funcflow!=null && this.state.funcflow.functionid!=null?()=>okHandler(this):null}
+              okHandler={this.state.funcflow!=null && (this.state.funcflow.functionid!=null || this.state.funcflow.todoMark==true)?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('funcflow-modal', 'close')}>
               {this.state.funcflow!=null && this.state.funcflow.id>0?
                 <Button onClick={()=>fireEvent('funcflows-rep', 'delete-funcflow', [this.state.funcflow])} bsStyle="danger">Delete</Button>
@@ -200,7 +200,15 @@ const getComponentByFunctionid = function(functionid){
 //Text fields ---------------------------------------------
 
 const textFieldsUI = function(reactcomp){
-  return <TextFields content={[descTextField(reactcomp), tagsTextField(reactcomp), relevanceField(reactcomp)]} />
+  return <TextFields content={[todoMarkUI(reactcomp), descTextField(reactcomp), tagsTextField(reactcomp), relevanceField(reactcomp)]} />
+}
+
+const todoMarkUI = function(reactcomp){
+  return {
+    key: 'todoMarkUI',
+    label: <ControlLabel>TODO:</ControlLabel>,
+    field: <input type="checkbox" checked={reactcomp.state.funcflow.todoMark} onClick={()=>{reactcomp.state.funcflow.todoMark = !reactcomp.state.funcflow.todoMark; reactcomp.setState({})}}/>
+  }
 }
 
 const descTextField = function(reactcomp){

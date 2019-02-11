@@ -34,6 +34,8 @@ public class FuncFlow {
 
     boolean hideChildren = false;
 
+    boolean todoMark = false;
+
     public FuncFlow(){}
 
     public FuncFlow(Scenario scenario){
@@ -104,10 +106,20 @@ public class FuncFlow {
         this.relevance = relevance;
     }
 
+    @MapForLazy
+    public boolean getTodoMark() {
+        return todoMark;
+    }
+    public void setTodoMark(boolean todoMark) {
+        this.todoMark = todoMark;
+    }
+
     public String getDesc() {
         return desc;
     }
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+
 }

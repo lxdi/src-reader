@@ -13,7 +13,11 @@ export const fillLinesForFuncflows = function(scenarioid){
 const calculateLines = function(resolved, arr){
 	var result = 0
 	iterateLLfull(arr, (funcflow)=>{
-		funcflow.nativelines = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), funcflow.functionid).lines
+		if(funcflow.functionid!=null){
+			funcflow.nativelines = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), funcflow.functionid).lines
+		} else {
+			funcflow.nativelines = 0
+		}
 		if(resolved.children[funcflow.id]!=null){
 			funcflow.sublines = calculateLines(resolved, resolved.children[funcflow.id])
 		} else {
