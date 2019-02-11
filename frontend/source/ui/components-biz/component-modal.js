@@ -109,6 +109,7 @@ const colorField = function(reactcomp){
   return {
     key: 'colorField',
     label: <ControlLabel>Color:</ControlLabel>,
-    field: <ColorChooser title={reactcomp.state.component.color} colors={['Green', 'Orange', 'Red']} callback={(newval)=>{reactcomp.state.component.color = newval; reactcomp.setState({})}} />
+    field: <ColorChooser title={reactcomp.state.component.color} callback={(newval)=>{reactcomp.state.component.color = newval; reactcomp.setState({})}}
+              colors={['Green', 'Orange', 'Red', 'Maroon', 'Pink', 'Brown', 'Olive', 'Lime', 'Green']} />
   }
 }

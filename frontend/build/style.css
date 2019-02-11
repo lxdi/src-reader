@@ -33,5 +33,5 @@
 }
 
 .funcflow-cfl:active {
-  color:red
+  color:red !important;
 }
