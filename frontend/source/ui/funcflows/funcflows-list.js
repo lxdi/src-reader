@@ -81,9 +81,10 @@ const checkForRepositoriesLoaded = function(){
 }
 
 const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
-	if(node.todoMark==true){
-		return <div style={{borderLeft: '1px dotted grey'}}>
-							<div style={{fontSize:'13pt', color:'red', display:'inline-block'}}>TODO</div>
+	const todoStyle = {color:'red', display:'inline-block', fontWeight:'bold'}
+	if(node.todoMark==true && node.functionid==null){
+		return <div style={{borderLeft: '1px dotted grey', fontSize:'13pt'}}>
+							<div style={todoStyle}>TODO</div>
 							<div style={{display:'inline-block'}}><a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a></div>
 						</div>
 	}
@@ -107,6 +108,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 							{hideShowChildrenHandlerUI(node, cache)}
 							<div style={{display:'inline-block'}}>{funcNameUI(component, func)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
+							{node.todoMark==true?<div style={todoStyle}>(TODO) </div>:null}
 							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>
 							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>:null}
 							{getPercentsLineUI(node, percents100)}

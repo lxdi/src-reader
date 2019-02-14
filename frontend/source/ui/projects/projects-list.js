@@ -39,10 +39,10 @@ const getProjectsSideBarUI = function(reactcomp){
 		const curproj = viewStateVal('projects-rep', 'current-project')
 		return <td style={{verticalAlign:'top', borderRight:'1px solid lightgrey', borderRight:'2px solid DeepSkyBlue', width:'30px'}}>
 												<div style={{writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(-180deg)', marginTop:'15px'}}>
-													<span>
+													<div style={{whiteSpace: 'nowrap'}}>
 														<a href='#' onClick={()=>reactcomp.setState({hideProjects: !reactcomp.state.hideProjects})} style={{fontWeight:'bold', color:'DeepSkyBlue'}}>{curproj.title}</a>
 														<a href='#' onClick={()=>reactcomp.setState({hideProjects: !reactcomp.state.hideProjects})} style={{fontWeight:'bold', color:'DeepSkyBlue'}}>...</a>
-													</span>
+													</div>
 												</div>
 										</td>
 	} else {
