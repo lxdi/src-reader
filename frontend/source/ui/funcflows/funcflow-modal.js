@@ -32,7 +32,7 @@ export class FuncflowModal extends React.Component {
   render(){
     return <CommonModal title="Function flow" isOpen={this.state.isOpen}
               styleClass="funcflow-modal"
-              okHandler={this.state.funcflow!=null && (this.state.funcflow.functionid!=null || this.state.funcflow.todoMark==true)?()=>okHandler(this):null}
+              okHandler={okHandlerAvailable(this)?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('funcflow-modal', 'close')}>
               {this.state.funcflow!=null && this.state.funcflow.id>0?
                 <Button onClick={()=>fireEvent('funcflows-rep', 'delete-funcflow', [this.state.funcflow])} bsStyle="danger">Delete</Button>
@@ -40,6 +40,18 @@ export class FuncflowModal extends React.Component {
             {content(this)}
           </CommonModal>
   }
+}
+
+const okHandlerAvailable = function(reactComb){
+  if(reactComb.state.funcflow!=null){
+    const func = reactComb.state.funcflow.functionid!=null
+    const todo = reactComb.state.funcflow.todoMark
+    const group = reactComb.state.funcflow.groupMark
+    if(func && !group) return true
+    if(group && !func && !todo) return true
+  }
+  return false
+  //return this.state.funcflow!=null && (this.state.funcflow.functionid!=null || this.state.funcflow.todoMark==true)
 }
 
 const okHandler = function(reactcomp){
@@ -205,7 +217,7 @@ const getComponentByFunctionid = function(functionid){
 //Text fields ---------------------------------------------
 
 const textFieldsUI = function(reactcomp){
-  return <TextFields content={[todoMarkUI(reactcomp), descTextField(reactcomp), tagsTextField(reactcomp), relevanceField(reactcomp)]} />
+  return <TextFields content={[todoMarkUI(reactcomp), groupMarkUI(reactcomp), descTextField(reactcomp), tagsTextField(reactcomp), relevanceField(reactcomp)]} />
 }
 
 const todoMarkUI = function(reactcomp){
@@ -213,6 +225,14 @@ const todoMarkUI = function(reactcomp){
     key: 'todoMarkUI',
     label: <ControlLabel>TODO:</ControlLabel>,
     field: <input type="checkbox" checked={reactcomp.state.funcflow.todoMark} onClick={()=>{reactcomp.state.funcflow.todoMark = !reactcomp.state.funcflow.todoMark; reactcomp.setState({})}}/>
+  }
+}
+
+const groupMarkUI = function(reactcomp){
+  return {
+    key: 'groupMarkUI',
+    label: <ControlLabel>Group:</ControlLabel>,
+    field: <input type="checkbox" checked={reactcomp.state.funcflow.groupMark} onClick={()=>{reactcomp.state.funcflow.groupMark = !reactcomp.state.funcflow.groupMark; reactcomp.setState({})}}/>
   }
 }
 

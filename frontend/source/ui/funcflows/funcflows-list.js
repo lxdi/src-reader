@@ -82,6 +82,13 @@ const checkForRepositoriesLoaded = function(){
 
 const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	const todoStyle = {color:'red', display:'inline-block', fontWeight:'bold'}
+	if(node.groupMark==true){
+		return <div style={{borderLeft: '1px solid grey', fontSize:'13pt'}}>
+							<div style={{color:'green', display:'inline-block', fontWeight:'bold'}}>Group</div>
+							<div style={{display:'inline-block'}}><a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a></div>
+							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:'13pt'}}>{node.tags}</span>:null}
+						</div>
+	}
 	if(node.todoMark==true && node.functionid==null){
 		return <div style={{borderLeft: '1px dotted grey', fontSize:'13pt'}}>
 							<div style={todoStyle}>TODO</div>

@@ -36,6 +36,8 @@ public class FuncFlow {
 
     boolean todoMark = false;
 
+    boolean groupMark = false;
+
     public FuncFlow(){}
 
     public FuncFlow(Scenario scenario){
@@ -112,6 +114,14 @@ public class FuncFlow {
     }
     public void setTodoMark(boolean todoMark) {
         this.todoMark = todoMark;
+    }
+
+    @MapForLazy
+    public boolean getGroupMark() {
+        return groupMark;
+    }
+    public void setGroupMark(boolean groupMark) {
+        this.groupMark = groupMark;
     }
 
     public String getDesc() {
