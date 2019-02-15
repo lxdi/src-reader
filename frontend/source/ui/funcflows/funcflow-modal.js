@@ -118,10 +118,17 @@ const viewCompButton = function(reactcomp){
 const availableComponentsUI = function(reactcomp){
   const project = getProjectByScenarioId(reactcomp.state.funcflow.scenarioid)
   const result = []
-  for(var compid in viewStateVal('components-rep', 'components')[project.id]){
-    const comp = viewStateVal('components-rep', 'components')[project.id][compid]
-    result.push(<MenuItem eventKey={comp}>{comp.title}</MenuItem>)
+  copyAndSortByTitle(viewStateVal('components-rep', 'components')[project.id])
+      .forEach((comp)=>result.push(<MenuItem eventKey={comp}>{comp.title}</MenuItem>))
+  return result
+}
+
+const copyAndSortByTitle = function(arr){
+  const result = []
+  for(var i in arr){
+    result.push(arr[i])
   }
+  result.sort((e1, e2)=>e1.title.localeCompare(e2.title))
   return result
 }
 
@@ -173,10 +180,8 @@ const viewFuncButton = function(func){
 
 const availableFunctionsUI = function(reactcomp, componentid){
   const result = []
-  for(var funcid in viewStateVal('functions-rep', 'functions')[componentid]){
-    const func = viewStateVal('functions-rep', 'functions')[componentid][funcid]
-    result.push(<MenuItem eventKey={func}>{func.title}</MenuItem>)
-  }
+  copyAndSortByTitle(viewStateVal('functions-rep', 'functions')[componentid])
+      .forEach((func)=>result.push(<MenuItem eventKey={func}>{func.title}</MenuItem>))
   return result
 }
 
