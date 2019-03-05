@@ -3,10 +3,7 @@ package model.entities;
 
 import model.dto.common_mapper.annotations.MapForLazy;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Project {
@@ -16,6 +13,9 @@ public class Project {
     long id;
 
     String title;
+
+    @Column(length=2048)
+    String description;
 
     boolean iscurrent = false;
 
@@ -41,5 +41,12 @@ public class Project {
     }
     public void setIscurrent(boolean iscurrent) {
         this.iscurrent = iscurrent;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

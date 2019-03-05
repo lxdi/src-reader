@@ -4,6 +4,7 @@ import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
 import {ComponentsList} from '../components-biz/components-list'
+import {TextFields} from '../common/components/text-fields'
 
 import {registerEvent, fireEvent, registerReaction} from '../../utils/eventor'
 
@@ -40,19 +41,54 @@ const okHandler = function(reactcomp){
   }
 }
 
-const content = function(component){
-  if(component.state.project!=null){
-    return  <FormGroup controlId="formBasicText">
-                  <div style={{display:'inline-block', paddingRight:'3px'}}>
-                    <ControlLabel>Title:</ControlLabel>
-                  </div>
-                  <div style={{display:'inline-block'}}>
+// const content = function(component){
+//   if(component.state.project!=null){
+//     return  <FormGroup controlId="formBasicText">
+//                   <div style={{display:'inline-block', paddingRight:'3px'}}>
+//                     <ControlLabel>Title:</ControlLabel>
+//                   </div>
+//                   <div style={{display:'inline-block'}}>
+//                     <FormControl
+//                                 type="text"
+//                                 value={component.state.project.title}
+//                                 placeholder="Enter title"
+//                                 onChange={(e)=>{component.state.project.title = e.target.value; component.setState({})}}/>
+//                   </div>
+//                 </FormGroup>
+//   }
+// }
+
+const content = function(reactcomp){
+  if(reactcomp.state.project!=null){
+    return <TextFields content={[titleFieldUI(reactcomp), descTextField(reactcomp)]}/>
+  }
+}
+
+const titleFieldUI = function(reactcomp){
+  return {
+    key: 'titleFieldUI',
+    label: <ControlLabel>Title:</ControlLabel>,
+    field: <FormGroup controlId="formBasicText">
                     <FormControl
                                 type="text"
-                                value={component.state.project.title}
+                                value={reactcomp.state.project.title}
                                 placeholder="Enter title"
-                                onChange={(e)=>{component.state.project.title = e.target.value; component.setState({})}}/>
-                  </div>
+                                onChange={(e)=>{reactcomp.state.project.title = e.target.value; reactcomp.setState({})}}/>
+                </FormGroup>
+  }
+}
+
+const descTextField = function(reactcomp){
+  return {
+    key: 'descTextField',
+    label: <ControlLabel>Description:</ControlLabel>,
+    field: <FormGroup controlId="formBasicText">
+                    <FormControl
+                                componentClass="textarea"
+                                type="input"
+                                value={reactcomp.state.project.description}
+                                placeholder="Enter description"
+                                onChange={(e)=>{reactcomp.state.project.description = e.target.value; reactcomp.setState({})}}/>
                 </FormGroup>
   }
 }
