@@ -1,4 +1,4 @@
-package model.dto.common_mapper;
+package model.dto;
 
 public class TestSecondEntity {
 

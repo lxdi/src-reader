@@ -1,6 +1,8 @@
-package model.dto.common_mapper;
+package model.dto;
 
-public enum TestEnum implements IEnumForCommonMapper<TestEnum>{
+import model.dto.common_mapper.IEnumForCommonMapper;
+
+public enum TestEnum implements IEnumForCommonMapper<TestEnum> {
     val1("val_1"), val2("val_2");
 
     String innerval;

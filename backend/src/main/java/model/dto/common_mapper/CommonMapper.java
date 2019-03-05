@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
+import static model.dto.common_mapper.util.GetterSetterUtils.*;
+
 public class CommonMapper {
 
     private IEntityById entityById;
@@ -26,7 +28,7 @@ public class CommonMapper {
 
     public Map<String, Object> mapToDtoWithIncludes(Object entity, Map<String, Object> result, Set<String> toInclude) {
         for (Method m : entity.getClass().getDeclaredMethods()) {
-            if (m.getName().startsWith("get")
+            if (isGetter(m)
                     && (toInclude==null || (toInclude!=null && toInclude.contains(transformGetterToFieldName(m.getName()))))) {
                 mapFromMethod(entity, result, m);
             }
@@ -37,7 +39,7 @@ public class CommonMapper {
     public Map<String, Object> mapToDtoLazy(Object entity, Map<String, Object> result) {
         for (Method m : entity.getClass().getDeclaredMethods()) {
 
-            if (m.getName().startsWith("get") && m.isAnnotationPresent(MapForLazy.class)) {
+            if (isGetter(m) && m.isAnnotationPresent(MapForLazy.class)) {
                 mapFromMethod(entity, result, m);
             }
         }
@@ -75,6 +77,9 @@ public class CommonMapper {
             e.printStackTrace();
         }
     }
+
+
+    //-------------------------- Map to Entity -----------------------------------------------
 
     public Object mapToEntity(Map<String, Object> dto, Object entity) {
         try {
@@ -137,29 +142,6 @@ public class CommonMapper {
             return Integer.parseInt(val);
         }
         throw new RuntimeException("numberParse: Not supported number class " + clazz.getName());
-    }
-
-    private Class defineTypeByGetter(Class clazz, String field){
-        String getter = transformToGetter(field);
-        try {
-            return clazz.getMethod(getter).getReturnType();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private String transformGetterToFieldName(String getter){
-        getter = getter.substring(3);
-        return Character.toLowerCase(getter.charAt(0)) + getter.substring(1);
-    }
-
-    private String transformToSetter(String str){
-        return "set" + Character.toUpperCase(str.charAt(0)) + str.substring(1);
-    }
-
-    private String transformToGetter(String str){
-        return "get" + Character.toUpperCase(str.charAt(0)) + str.substring(1);
     }
 
 

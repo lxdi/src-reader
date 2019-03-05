@@ -1,5 +1,8 @@
 package model.dto.common_mapper;
 
+import model.dto.TestEntity;
+import model.dto.TestEnum;
+import model.dto.TestSecondEntity;
 import org.junit.Before;
 import org.junit.Test;
 

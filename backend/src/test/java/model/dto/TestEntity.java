@@ -1,12 +1,15 @@
-package model.dto.common_mapper;
+package model.dto;
 
 import model.dto.common_mapper.annotations.MapForLazy;
+
+import javax.persistence.ManyToOne;
 
 public class TestEntity {
 
     long id;
     String title;
 
+    @ManyToOne
     TestEntity anotherTestEntity;
     TestEntity anotherTestEntity2;
 

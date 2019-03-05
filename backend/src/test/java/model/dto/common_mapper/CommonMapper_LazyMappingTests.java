@@ -1,10 +1,10 @@
 package model.dto.common_mapper;
 
+import model.dto.TestEntity;
+import model.dto.TestEnum;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import static junit.framework.TestCase.assertTrue;
