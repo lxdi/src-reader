@@ -50,7 +50,7 @@ public class ScenarioController {
     }
 
     @RequestMapping(path="/scenario/delete/{scenid}", method = RequestMethod.DELETE)
-    public ResponseEntity update(@PathVariable("scenid") long id){
+    public ResponseEntity delete(@PathVariable("scenid") long id){
         scenarioDelegate.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

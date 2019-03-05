@@ -10,7 +10,7 @@ export class ProjectsList extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {hideProjects:false}
-		registerReaction('projects-list-ui', 'projects-rep', ['projects-received', 'changed-current'], (stateSetter)=>this.setState({}))
+		registerReaction('projects-list-ui', 'projects-rep', ['projects-received', 'changed-current', 'deleted-project'], (stateSetter)=>this.setState({}))
 		registerReaction('projects-list-ui', 'project-modal', ['close'], (stateSetter)=>this.setState({}))
 
 		registerReactionCombo('projects-list-ui', {'projects-rep':'changed-current',

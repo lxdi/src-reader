@@ -40,4 +40,10 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @RequestMapping(path="/project/delete/{projid}", method = RequestMethod.DELETE)
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("projid") long id){
+        projectDelegate.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

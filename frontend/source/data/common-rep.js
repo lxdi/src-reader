@@ -12,6 +12,7 @@ const registerCommonEvents = function(){
   creatingSimple('project')
   updatingSimple('project')
   changingCurrent('project')
+  deletingSimple('project')
 
   //receivingMakingMap('component', 'projectid', true)
   //receivingMakingMap('scenario', 'projectid', true)
@@ -98,6 +99,16 @@ const creatingSimple = function(repName){
     })
   })
   registerEvent(repName+'s-rep', 'created-'+repName, (stateSetter)=>{})
+}
+
+const deletingSimple = function(repName){
+  registerEvent(repName+'s-rep', 'delete-'+repName, (stateSetter, objToDelete)=>{
+    sendDelete('/'+repName+'/delete/'+objToDelete.id, (data)=>{
+      delete viewStateVal(repName+'s-rep', repName+'s')[objToDelete.id]
+      fireEvent(repName+'s-rep', 'created-'+repName, [objToDelete])
+    })
+  })
+  registerEvent(repName+'s-rep', 'deleted-'+repName, (stateSetter, obj)=>obj)
 }
 
 const receivingMakingMap = function(repName, mapByField, isLazy){

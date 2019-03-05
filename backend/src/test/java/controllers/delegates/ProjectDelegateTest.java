@@ -1,21 +1,18 @@
 package controllers.delegates;
 
 import configs.SpringTestConfig;
-import model.dao.ICompDao;
-import model.dao.IFuncDao;
-import model.dao.IFuncFlowDao;
-import model.dao.IScenarioDao;
-import model.entities.Component;
-import model.entities.Func;
-import model.entities.FuncFlow;
-import model.entities.Scenario;
-import org.junit.Before;
+import configuration.main.SpringMainConfig;
+import model.dao.*;
+import model.entities.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static junit.framework.TestCase.assertTrue;
 
-public class ScenarioDelegateTest extends SpringTestConfig {
+public class ProjectDelegateTest extends SpringTestConfig {
+
+    @Autowired
+    IProjectDao projectDao;
 
     @Autowired
     IScenarioDao scenarioDao;
@@ -30,12 +27,26 @@ public class ScenarioDelegateTest extends SpringTestConfig {
     IFuncFlowDao funcFlowDao;
 
     @Autowired
-    ScenarioDelegate scenarioDelegate;
+    ProjectDelegate projectDelegate;
 
     @Test
     public void deletingTest(){
+        Project project0 = new Project();
+        projectDao.save(project0);
+
+        Scenario scenario0 = new Scenario();
+        scenario0.setProject(project0);
+        scenarioDao.save(scenario0);
+
+        Component component0 = new Component();
+        component0.setProject(project0);
+        compDao.save(component0);
+
+        Project project = new Project();
+        projectDao.save(project);
 
         Component component = new Component();
+        component.setProject(project);
         compDao.save(component);
 
         Func function = new Func();
@@ -47,9 +58,11 @@ public class ScenarioDelegateTest extends SpringTestConfig {
         funcDao.save(function2);
 
         Scenario scenario = new Scenario();
+        scenario.setProject(project);
         scenarioDao.save(scenario);
 
         Scenario scenario2 = new Scenario();
+        scenario2.setProject(project);
         scenarioDao.save(scenario2);
 
         FuncFlow ffRoot1 = createFF(scenario, function, null);
@@ -61,19 +74,21 @@ public class ScenarioDelegateTest extends SpringTestConfig {
 
         FuncFlow ffRoot2 = createFF(scenario2, function, null);
 
-        scenarioDelegate.delete(scenario.getId());
+        projectDelegate.delete(project.getId());
 
+        assertTrue(projectDao.findOne(project.getId())==null);
+        assertTrue(compDao.findOne(component.getId())==null);
+        assertTrue(funcDao.findOne(function.getId())==null);
+        assertTrue(funcDao.findOne(function2.getId())==null);
+        assertTrue(scenarioDao.findOne(scenario.getId())==null);
+        assertTrue(scenarioDao.findOne(scenario2.getId())==null);
         assertTrue(funcFlowDao.findOne(ffRoot1.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffChild11.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffChild111.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffChild12.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffRoot12.getId())==null);
+        assertTrue(funcFlowDao.findOne(ffRoot2.getId())==null);
 
-        assertTrue(funcFlowDao.findOne(ffRoot2.getId())!=null);
+        assertTrue(projectDao.findOne(project0.getId())!=null);
+        assertTrue(compDao.findOne(component0.getId())!=null);
+        assertTrue(scenarioDao.findOne(scenario0.getId())!=null);
 
-        assertTrue(compDao.findOne(component.getId())!=null);
-        assertTrue(funcDao.findOne(function.getId())!=null);
-        assertTrue(funcDao.findOne(function2.getId())!=null);
     }
 
     private FuncFlow createFF(Scenario scenario, Func func, FuncFlow parent){
@@ -84,5 +99,4 @@ public class ScenarioDelegateTest extends SpringTestConfig {
         funcFlowDao.save(ff);
         return ff;
     }
-
 }
