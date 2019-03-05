@@ -88,6 +88,7 @@ public class HibernateConfig {
     <Environment name="url" type="java.lang.String" value="jdbc:postgresql://localhost:5432/planner" />
     <Environment name="username" type="java.lang.String" value="postgres" />
     <Environment name="password" type="java.lang.String" value="" />
+    <Environment name="show_sql" type="java.lang.String" value="true" />
      */
 
 }

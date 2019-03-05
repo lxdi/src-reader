@@ -25,7 +25,7 @@ export class FuncflowModal extends React.Component {
     registerReaction('funcflow-modal', 'components-rep', 'created-component', (stateSetter, newcomp)=>{this.state.comptemp = newcomp; this.setState({})})
     registerReaction('funcflow-modal', 'components-rep', 'updated-component', (stateSetter)=>this.setState({}))
     registerReaction('funcflow-modal', 'functions-rep', 'created-function', (stateSetter, newfunc)=>{this.state.funcflow.functionid=newfunc.id; this.setState({})})
-    registerReaction('funcflow-modal', 'functions-rep', 'updated-function', (stateSetter)=>this.setState({}))
+    registerReaction('funcflow-modal', 'functions-rep', ['updated-function', 'full-received-function'], (stateSetter)=>this.setState({}))
     registerReaction('funcflow-modal', 'funcflows-rep', ['full-received-funcflow'], (stateSetter)=>this.setState({}))
   }
 
@@ -85,7 +85,6 @@ const content = function(reactcomp){
 
 const componentUI = function(reactcomp){
   var currentCompName = null
-  var componentSelecting = null
   if(reactcomp.state.comptemp!=null){
     currentCompName = reactcomp.state.comptemp.title
   }
@@ -93,6 +92,7 @@ const componentUI = function(reactcomp){
     currentCompName = getComponentByFunctionid(reactcomp.state.funcflow.functionid).title
   }
   const availableComponents = availableComponentsUI(reactcomp)
+  var componentSelecting = null
   if(availableComponents.length>0){
     componentSelecting = <ButtonToolbar>
                   <DropdownButton disabled={reactcomp.state.funcflow.functionid!=null} title={currentCompName==null?'<Select Component>': currentCompName} id="dropdown-size-small" onSelect={(e, comp)=>selectCompHandler(e, comp, reactcomp)}>
@@ -166,8 +166,19 @@ const functionUI = function(reactcomp){
                     </ButtonToolbar>
       }
 
+      var functionDesc = null
+      if(func!=null){
+        if(func.isFull!=null && func.isFull==true){
+          functionDesc = func.description
+        } else {
+          functionDesc = 'Loading...'
+          fireEvent('functions-rep', 'get-function', [func])
+        }
+      }
+
       const style = {display:'inline-block', paddingRight:'3px', verticalAlign:'top'}
-      return <div style={{padding:'3px'}}>
+      return <div style={{border:'1px dotted lightgrey'}}>
+              <div style={{padding:'3px'}}>
                 <div style={style}>
                   {functionSelecting}
                 </div>
@@ -181,6 +192,10 @@ const functionUI = function(reactcomp){
                   {viewFuncButton(func)}
                 </div>
               </div>
+              <div>
+                {functionDesc}
+              </div>
+            </div>
   }
 }
 
