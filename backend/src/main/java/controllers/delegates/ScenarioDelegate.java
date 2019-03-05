@@ -1,8 +1,11 @@
 package controllers.delegates;
 
 
+import model.dao.IFuncDao;
+import model.dao.IFuncFlowDao;
 import model.dao.IScenarioDao;
 import model.dto.common_mapper.CommonMapper;
+import model.entities.FuncFlow;
 import model.entities.Scenario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,12 @@ public class ScenarioDelegate extends CommonDelegate {
     @Autowired
     CommonMapper commonMapper;
 
+    @Autowired
+    IFuncFlowDao funcFlowDao;
+
+    @Autowired
+    FuncFlowDelegate funcFlowDelegate;
+
     @Override
     protected Class getClassDao() {
         return Scenario.class;
@@ -38,6 +47,17 @@ public class ScenarioDelegate extends CommonDelegate {
             result.add(commonMapper.mapToDtoLazy(scenario, new HashMap<>()));
         }
         return result;
+    }
+
+    public void delete(long id){
+        Scenario scenario = scenarioDao.findOne(id);
+        List<FuncFlow> funcFlows = funcFlowDao.findRootsByScenarioid(id);
+        if(funcFlows.size()>0){
+            for(FuncFlow funcFlow : funcFlows){
+                funcFlowDelegate.delete(funcFlow.getId());
+            }
+        }
+        scenarioDao.delete(scenario);
     }
 
     @Override

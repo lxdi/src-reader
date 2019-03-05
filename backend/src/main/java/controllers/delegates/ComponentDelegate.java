@@ -51,8 +51,8 @@ public class ComponentDelegate extends CommonDelegate {
 
     @Override
     public void delete(long id){
-        Component func = compDao.findOne(id);
-        delete(func);
+        Component comp = compDao.findOne(id);
+        delete(comp);
     }
 
     private void delete(Component comp){
