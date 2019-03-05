@@ -49,6 +49,12 @@ public class ScenarioController {
         return new ResponseEntity<>(scenarioDelegate.update(dto), HttpStatus.OK);
     }
 
+    @RequestMapping(path="/scenario/delete/{scenid}", method = RequestMethod.DELETE)
+    public ResponseEntity update(@PathVariable("scenid") long id){
+        scenarioDelegate.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @RequestMapping(path="/scenario/sizing/switch/{scenid}", method = RequestMethod.POST)
     public ResponseEntity switchSizing(@PathVariable("scenid") long scenid){
         scenarioDelegate.switchSizing(scenid);

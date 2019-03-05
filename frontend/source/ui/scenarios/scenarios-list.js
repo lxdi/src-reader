@@ -12,7 +12,7 @@ export class ScenariosList extends React.Component {
 		super(props);
 		this.state = {}
 		const listName = 'scenarios-list-ui-'+this.props.projectid
-		registerReaction(listName, 'scenarios-rep', ['scenarios-received', 'updated-scenario', 'received-by-projectid'], (stateSetter)=>{this.setState({})})
+		registerReaction(listName, 'scenarios-rep', ['scenarios-received', 'updated-scenario', 'received-by-projectid', 'deleted-scenario'], (stateSetter)=>{this.setState({})})
 		registerReaction(listName, 'scenario-modal', ['close'], (stateSetter)=>this.setState({}))
 	}
 

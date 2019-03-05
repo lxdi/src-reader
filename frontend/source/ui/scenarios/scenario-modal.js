@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
+import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap'
 
 import {CommonModal} from '../common-modal'
 import {TextFields} from '../common/components/text-fields'
+import {DeleteButton} from '../common/components/delete-button'
 
 import {registerEvent, fireEvent, registerReaction} from '../../utils/eventor'
 
@@ -19,7 +20,7 @@ export class ScenarioModal extends React.Component {
       this.setState({isOpen:false, scenario: null})
     })
 
-    registerReaction('scenario-modal', 'scenarios-rep', ['created-scenario', 'updated-scenario'], (stateSetter)=>fireEvent('scenario-modal', 'close'))
+    registerReaction('scenario-modal', 'scenarios-rep', ['created-scenario', 'updated-scenario', 'deleted-scenario'], (stateSetter)=>fireEvent('scenario-modal', 'close'))
     registerReaction('scenario-modal', 'scenarios-rep', ['full-received-scenario'], (stateSetter)=>this.setState({}))
   }
 
@@ -27,6 +28,9 @@ export class ScenarioModal extends React.Component {
     return <CommonModal title="Scenario" isOpen={this.state.isOpen}
               okHandler={this.state.scenario!=null && this.state.scenario.title!=null && this.state.scenario.title!=''?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('scenario-modal', 'close')}>
+              {this.state.scenario!=null && this.state.scenario.id>0?
+                <DeleteButton onClick={()=>fireEvent('scenarios-rep', 'delete-scenario', [this.state.scenario])}/>
+                :null}
             {content(this)}
           </CommonModal>
   }

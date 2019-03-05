@@ -4,6 +4,7 @@ import {FormGroup, ControlLabel, FormControl, ButtonToolbar, DropdownButton, Men
 
 import {CommonModal} from '../common-modal'
 import {TextFields} from '../common/components/text-fields'
+import {DeleteButton} from '../common/components/delete-button'
 
 import {registerEvent, fireEvent, registerReaction, viewStateVal} from '../../utils/eventor'
 
@@ -35,7 +36,7 @@ export class FuncflowModal extends React.Component {
               okHandler={okHandlerAvailable(this)?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('funcflow-modal', 'close')}>
               {this.state.funcflow!=null && this.state.funcflow.id>0?
-                <Button onClick={()=>fireEvent('funcflows-rep', 'delete-funcflow', [this.state.funcflow])} bsStyle="danger">Delete</Button>
+                <DeleteButton onClick={()=>fireEvent('funcflows-rep', 'delete-funcflow', [this.state.funcflow])}/>
                 :null}
             {content(this)}
           </CommonModal>

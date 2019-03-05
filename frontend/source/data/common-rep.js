@@ -38,6 +38,7 @@ const registerCommonEvents = function(){
 
   deletingInMap('component', 'projectid')
   deletingInMap('function', 'componentid')
+  deletingInMap('scenario', 'projectid')
   deletingInMapLL('funcflow', 'scenarioid')
 
   getFullInMap('component', 'projectid')

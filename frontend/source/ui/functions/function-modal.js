@@ -5,6 +5,7 @@ import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap'
 import {CommonModal} from '../common-modal'
 import {TextFields} from '../common/components/text-fields'
 import {ColorChooser} from '../common/components/color-chooser'
+import {DeleteButton} from '../common/components/delete-button'
 
 import {registerEvent, fireEvent, registerReaction, viewStateVal} from '../../utils/eventor'
 
@@ -30,7 +31,7 @@ export class FunctionModal extends React.Component {
               okHandler={isShowOkButton(this)?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('function-modal', 'close')}>
               {this.state.node!=null && this.state.node.id>0?
-                <Button onClick={()=>fireEvent('functions-rep', 'delete-function', [this.state.node])} bsStyle="danger">Delete</Button>
+                <DeleteButton onClick={()=>fireEvent('functions-rep', 'delete-function', [this.state.node])}/>
                 :null}
             {content(this)}
           </CommonModal>
