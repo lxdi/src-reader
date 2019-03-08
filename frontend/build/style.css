@@ -35,3 +35,11 @@
 .funcflow-cfl:active {
   color:red !important;
 }
+
+.project-modal-dialog {
+  width:80%
+}
+
+.code-snippet-modal-dialog {
+  width:80%
+}

@@ -19,8 +19,12 @@ public class CodeSnippetController {
     CodeSnippetDelegate codeSnippetDelegate;
 
     @RequestMapping(path = "/codesnippet/by/func/{funcid}")
-    public ResponseEntity<Map<String, Object>> get(@PathVariable(value = "funcid") long funcid){
-        return new ResponseEntity<Map<String, Object>>(codeSnippetDelegate.get(funcid), HttpStatus.OK);
+    public ResponseEntity get(@PathVariable(value = "funcid") long funcid){
+        Map<String, Object> result = codeSnippetDelegate.get(funcid);
+        if(result==null){
+            return new ResponseEntity("Not exist", HttpStatus.OK);
+        }
+        return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/codesnippet/create", method = RequestMethod.PUT)

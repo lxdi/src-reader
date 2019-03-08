@@ -83,17 +83,10 @@ const checkForRepositoriesLoaded = function(){
 const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	const todoStyle = {color:'red', display:'inline-block', fontWeight:'bold'}
 	if(node.groupMark==true){
-		return <div style={{borderLeft: '1px solid grey', fontSize:'13pt'}}>
-							<div style={{color:'green', display:'inline-block', fontWeight:'bold'}}>Group</div>
-							<div style={{display:'inline-block'}}><a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a></div>
-							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:'13pt'}}>{node.tags}</span>:null}
-						</div>
+		return groupFF(reactcomp, node)
 	}
 	if(node.todoMark==true && node.functionid==null){
-		return <div style={{borderLeft: '1px dotted grey', fontSize:'13pt'}}>
-							<div style={todoStyle}>TODO</div>
-							<div style={{display:'inline-block'}}><a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a></div>
-						</div>
+		return todoFF(reactcomp, node, todoStyle)
 	}
 	var fontSize = fontSizeDefaultPt
 	var component = null
@@ -106,15 +99,14 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 				fontSize = calculateFontSize(func.lines)
 			}
 		}
-	} else {
-		//funcflowname = node.title
 	}
 	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
-	if(filterByRelevance(reactcomp, node)){
+	if(checkByRelevance(reactcomp, node)){
 		return <div style={{borderLeft: '2px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt', paddingTop:'3px'}}>
 							{hideShowChildrenHandlerUI(node, cache)}
 							<div style={{display:'inline-block'}}>{funcNameUI(component, func)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
+							{func!=null?<a href="#" onClick={()=>fireEvent('code-snippet-modal', 'open', [func])}> (code) </a>:null}
 							{node.todoMark==true?<div style={todoStyle}>(TODO) </div>:null}
 							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>
 							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>:null}
@@ -127,7 +119,22 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	}
 }
 
-const filterByRelevance = function(reactcomp, node){
+const groupFF = function(reactcomp, node){
+		return <div style={{borderLeft: '1px solid grey', fontSize:'13pt'}}>
+							<div style={{color:'green', display:'inline-block', fontWeight:'bold'}}>Group</div>
+							<div style={{display:'inline-block'}}><a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a></div>
+							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:'13pt'}}>{node.tags}</span>:null}
+						</div>
+}
+
+const todoFF = function(reactcomp, node, todoStyle){
+	return <div style={{borderLeft: '1px dotted grey', fontSize:'13pt'}}>
+						<div style={todoStyle}>TODO</div>
+						<div style={{display:'inline-block'}}><a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a></div>
+					</div>
+}
+
+const checkByRelevance = function(reactcomp, node){
 	const filterNum = relevanceToNumber(reactcomp.state.relevanceFilter)
 	const nodenum = relevanceToNumber(node.relevance)
 	if(nodenum>=filterNum){

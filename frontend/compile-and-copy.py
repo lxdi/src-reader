@@ -3,7 +3,7 @@ import shutil
 import subprocess
 import sys
 
-tomcatPath = 'C:\\Users\\11014535\\apache-tomcat-7.0.91-2'
+tomcatPath = 'c:\\Users\\Alexander\\Projects\\tomcats\\apache-tomcat-7.0.91-2'
 destination = tomcatPath + '\\webapps\\ROOT\\pages'
 source = 'build'
 onlyCopy = False
@@ -24,11 +24,26 @@ if (onlyCopy is False):
         exit(process.returncode)
 
 print("-----------------------------------------Copying----------------------------------")
-src_files = os.listdir(source)
-for file_name in src_files:
-    full_file_name = os.path.join(source, file_name)
-    if (os.path.isfile(full_file_name)):
-        print(full_file_name + " to " +destination)
-        shutil.copy2(full_file_name, destination)
+def copying(sourceDir, destinationDir):
+    src_files = os.listdir(sourceDir)
+    for file_name in src_files:
+        full_file_name = os.path.join(sourceDir, file_name)
+        if (os.path.isfile(full_file_name)):
+            print(full_file_name + " to " +destinationDir)
+            shutil.copy2(full_file_name, destinationDir)
+        else:
+            nextdestinationDir = os.path.join(destinationDir, file_name)
+            print("/// copying from "+ full_file_name +" to " + nextdestinationDir)
+            if not os.path.exists(nextdestinationDir):
+                os.makedirs(nextdestinationDir)
+            copying(full_file_name, nextdestinationDir)
+
+copying(source, destination)
+# src_files = os.listdir(source)
+# for file_name in src_files:
+#     full_file_name = os.path.join(source, file_name)
+#     if (os.path.isfile(full_file_name)):
+#         print(full_file_name + " to " +destination)
+#         shutil.copy2(full_file_name, destination)
 
 print("Success")

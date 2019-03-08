@@ -5,6 +5,7 @@ import './data/common-rep'
 import './data/projects-rep'
 import './data/scenarios-rep'
 import './data/funcflows-rep'
+import './data/code-snippets-rep'
 
 import {ProjectsList} from './ui/projects/projects-list'
 import {ProjectModal} from './ui/projects/project-modal'
@@ -12,6 +13,7 @@ import {ScenarioModal} from './ui/scenarios/scenario-modal'
 import {FuncflowModal} from './ui/funcflows/funcflow-modal'
 import {ComponentModal} from './ui/components-biz/component-modal'
 import {FunctionModal} from './ui/functions/function-modal'
+import {CodeSnippetModal} from './ui/code-snippets/code-snippet-modal'
 
 import {OverlayInfo} from './ui/overlay'
 
@@ -42,6 +44,7 @@ class Main extends React.Component {
 					<ComponentModal/>
 					<FunctionModal/>
 					<OverlayInfo/>
+					<CodeSnippetModal/>
 				</div>
 				<div>
 					<ProjectsList/>

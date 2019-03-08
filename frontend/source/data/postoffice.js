@@ -30,3 +30,20 @@ const sendWithData = function(url, sendData, callback, type){
     data: sendData,
   }).then((data)=>callback(data.data));
 }
+
+export const loadScript = function(url, callback){
+  // axios({
+  //   contentType: 'script',
+  //   url: '/'+url,
+  // }).then((data)=>{
+  //   eval(data.data.toString())
+  //   callback()
+  // });
+
+  var script = document.createElement('script');
+  script.onload = function () {
+      callback()
+  };
+  script.src = url
+  document.head.appendChild(script)
+}

@@ -25,7 +25,7 @@ export class ProjectModal extends React.Component {
   }
 
   render(){
-    return <CommonModal title="Project" isOpen={this.state.isOpen}
+    return <CommonModal title="Project" isOpen={this.state.isOpen} styleClass="project-modal-dialog"
               okHandler={this.state.project!=null && this.state.project.title!=null && this.state.project.title!=''?()=>okHandler(this):null}
               cancelHandler={()=>fireEvent('project-modal', 'close')}>
             {this.state.project!=null && this.state.project.id>0?
@@ -45,26 +45,11 @@ const okHandler = function(reactcomp){
   }
 }
 
-// const content = function(component){
-//   if(component.state.project!=null){
-//     return  <FormGroup controlId="formBasicText">
-//                   <div style={{display:'inline-block', paddingRight:'3px'}}>
-//                     <ControlLabel>Title:</ControlLabel>
-//                   </div>
-//                   <div style={{display:'inline-block'}}>
-//                     <FormControl
-//                                 type="text"
-//                                 value={component.state.project.title}
-//                                 placeholder="Enter title"
-//                                 onChange={(e)=>{component.state.project.title = e.target.value; component.setState({})}}/>
-//                   </div>
-//                 </FormGroup>
-//   }
-// }
-
 const content = function(reactcomp){
   if(reactcomp.state.project!=null){
-    return <TextFields content={[titleFieldUI(reactcomp), descTextField(reactcomp)]}/>
+    return <div>
+          <TextFields content={[titleFieldUI(reactcomp), descTextField(reactcomp)]}/>
+      </div>
   }
 }
 

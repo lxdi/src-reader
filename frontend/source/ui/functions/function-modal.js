@@ -70,12 +70,25 @@ const okHandler = function(reactcomp){
 const content = function(reactcomp){
   if(reactcomp.state.node!=null){
     if(reactcomp.state.node.id==null || reactcomp.state.node.id<1 || reactcomp.state.node.isFull==true){
-      return <TextFields content={[titleFieldUI(reactcomp), startLineFieldUI(reactcomp), linesFieldUI(reactcomp), descTextField(reactcomp), colorField(reactcomp)]}/>
+      return <div>
+        <TextFields content={[titleFieldUI(reactcomp), startLineFieldUI(reactcomp), linesFieldUI(reactcomp), descTextField(reactcomp), colorField(reactcomp)]}/>
+        {codeSnippetButton(reactcomp)}
+      </div>
     } else {
       fireEvent('functions-rep', 'get-function', [reactcomp.state.node])
       return 'Loading...'
     }
   }
+}
+
+const codeSnippetButton = function(reactcomp){
+  var result = null
+  if(reactcomp.state.node.id>0){
+    result = <Button onClick={()=>fireEvent('code-snippet-modal', 'open', [reactcomp.state.node])}> Code Snippet </Button>
+  } else {
+    result = <Button disabled={true}> Code Snippet </Button>
+  }
+  return <div style={{paddingTop:'5px'}}>{result}</div>
 }
 
 const titleFieldUI = function(reactcomp){

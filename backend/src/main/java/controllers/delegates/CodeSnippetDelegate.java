@@ -20,6 +20,9 @@ public class CodeSnippetDelegate {
 
     public Map<String, Object> get(long funcid){
         CodeSnippet codeSnippet = codeSnippetDao.findByFunctionId(funcid);
+        if(codeSnippet==null){
+            return null;
+        }
         return commonMapper.mapToDto(codeSnippet, new HashMap<>());
     }
 
@@ -28,12 +31,21 @@ public class CodeSnippetDelegate {
         if(codeSnippet.getFunction()==null){
             throw new NullPointerException();
         }
+        if(codeSnippet.getId()>0){
+            throw new IllegalStateException("Only a new Code snippet with id = 0 can be created");
+        }
         codeSnippetDao.save(codeSnippet);
         return commonMapper.mapToDto(codeSnippet, new HashMap<>());
     }
 
     public Map<String, Object> update(Map<String, Object> actualSnippet){
         CodeSnippet codeSnippet = (CodeSnippet) commonMapper.mapToEntity(actualSnippet, new CodeSnippet());
+        if(codeSnippet.getId()<1 || codeSnippet.getFunction()==null){
+            throw new IllegalStateException();
+        }
+        if(codeSnippetDao.checkSnippet(codeSnippet.getFunction().getId(), codeSnippet.getId())!=1){
+            throw new IllegalStateException();
+        }
         codeSnippetDao.save(codeSnippet);
         return commonMapper.mapToDto(codeSnippet, new HashMap<>());
     }
