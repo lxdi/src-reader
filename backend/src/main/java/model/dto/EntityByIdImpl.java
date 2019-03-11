@@ -1,7 +1,6 @@
 package model.dto;
 
-import model.dto.common_mapper.IEntityById;
-import model.entities.*;
+import com.sogoodlabs.common_mapper.IEntityById;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

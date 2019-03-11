@@ -1,9 +1,9 @@
 package controllers.delegates;
 
+import com.sogoodlabs.common_mapper.CommonMapper;
 import configs.SpringTestConfig;
 import model.dao.IFuncFlowDao;
 import model.dao.IScenarioDao;
-import model.dto.common_mapper.CommonMapper;
 import model.entities.FuncFlow;
 import model.entities.Scenario;
 import org.junit.Test;

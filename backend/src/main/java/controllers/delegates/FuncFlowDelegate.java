@@ -1,7 +1,7 @@
 package controllers.delegates;
 
 import model.dao.IFuncFlowDao;
-import model.dto.common_mapper.CommonMapper;
+import com.sogoodlabs.common_mapper.CommonMapper;
 import model.entities.FuncFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

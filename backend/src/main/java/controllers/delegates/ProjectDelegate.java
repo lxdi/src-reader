@@ -1,16 +1,11 @@
 package controllers.delegates;
 
 import model.dao.ICompDao;
-import model.dao.IFuncDao;
 import model.dao.IProjectDao;
 import model.dao.IScenarioDao;
 import model.entities.Project;
-import model.entities.Scenario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 
 @Service
 public class ProjectDelegate extends CommonDelegate {

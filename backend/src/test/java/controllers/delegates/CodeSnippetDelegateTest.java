@@ -1,9 +1,9 @@
 package controllers.delegates;
 
+import com.sogoodlabs.common_mapper.CommonMapper;
 import configs.SpringTestConfig;
 import model.dao.ICodeSnippetDao;
 import model.dao.IFuncDao;
-import model.dto.common_mapper.CommonMapper;
 import model.entities.CodeSnippet;
 import model.entities.Func;
 import org.junit.Test;

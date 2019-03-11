@@ -1,7 +1,7 @@
 package controllers.delegates;
 
+import com.sogoodlabs.common_mapper.CommonMapper;
 import model.dto.DaoReceiver;
-import model.dto.common_mapper.CommonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

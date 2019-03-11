@@ -1,7 +1,7 @@
 package controllers.delegates;
 
 import model.dao.ICodeSnippetDao;
-import model.dto.common_mapper.CommonMapper;
+import com.sogoodlabs.common_mapper.CommonMapper;
 import model.entities.CodeSnippet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

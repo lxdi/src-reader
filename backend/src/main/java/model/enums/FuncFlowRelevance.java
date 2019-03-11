@@ -1,6 +1,7 @@
 package model.enums;
 
-import model.dto.common_mapper.IEnumForCommonMapper;
+
+import com.sogoodlabs.common_mapper.IEnumForCommonMapper;
 
 public enum FuncFlowRelevance implements IEnumForCommonMapper<FuncFlowRelevance> {
     high("High"), normal("Normal"), low("Low"), transitional("Transitional");

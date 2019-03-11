@@ -1,10 +1,8 @@
 package controllers.delegates;
 
-
-import model.dao.IFuncDao;
 import model.dao.IFuncFlowDao;
 import model.dao.IScenarioDao;
-import model.dto.common_mapper.CommonMapper;
+import com.sogoodlabs.common_mapper.CommonMapper;
 import model.entities.FuncFlow;
 import model.entities.Scenario;
 import org.springframework.beans.factory.annotation.Autowired;

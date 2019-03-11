@@ -1,6 +1,6 @@
 package model.entities;
 
-import model.dto.common_mapper.annotations.MapForLazy;
+import com.sogoodlabs.common_mapper.annotations.MapForLazy;
 import model.enums.FuncFlowRelevance;
 
 import javax.persistence.*;
