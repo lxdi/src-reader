@@ -1,12 +1,12 @@
 import {getFromMappedRepByid} from '../utils/import-utils'
-import {viewStateVal} from '../utils/eventor'
+import {chkSt} from 'absevents'
 import {resolveNodes} from '../utils/draggable-tree-utils'
 import {iterateLLfull} from '../utils/linked-list'
 
 export const fillLinesForFuncflows = function(scenarioid){
-	const resolved = resolveNodes(viewStateVal('funcflows-rep', 'funcflows')[scenarioid])
+	const resolved = resolveNodes(chkSt('funcflows-rep', 'funcflows')[scenarioid])
 	const result = calculateLines(resolved, resolved.root)
-	calculateOffsets(viewStateVal('funcflows-rep', 'funcflows')[scenarioid])
+	calculateOffsets(chkSt('funcflows-rep', 'funcflows')[scenarioid])
 	return result
 }
 
@@ -14,7 +14,7 @@ const calculateLines = function(resolved, arr){
 	var result = 0
 	iterateLLfull(arr, (funcflow)=>{
 		if(funcflow.functionid!=null){
-			funcflow.nativelines = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), funcflow.functionid).lines
+			funcflow.nativelines = getFromMappedRepByid(chkSt('functions-rep', 'functions'), funcflow.functionid).lines
 		} else {
 			funcflow.nativelines = 0
 		}

@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap'
 
 import {ScenariosList} from '../scenarios/scenarios-list'
 
-import {fireEvent, viewStateVal, registerEvent, registerReaction, registerReactionCombo} from '../../utils/eventor'
+import {fireEvent, chkSt, registerEvent, registerReaction, registerReactionCombo} from 'absevents'
 
 export class ProjectsList extends React.Component {
 	constructor(props){
@@ -36,7 +36,7 @@ export class ProjectsList extends React.Component {
 
 const getProjectsSideBarUI = function(reactcomp){
 	if(reactcomp.state.hideProjects){
-		const curproj = viewStateVal('projects-rep', 'current-project')
+		const curproj = chkSt('projects-rep', 'current-project')
 		return <td style={{verticalAlign:'top', borderRight:'1px solid lightgrey', borderRight:'2px solid DeepSkyBlue', width:'30px'}}>
 												<div style={{writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(-180deg)', marginTop:'15px'}}>
 													<div style={{whiteSpace: 'nowrap'}}>
@@ -63,7 +63,7 @@ const getProjectsListUI = function(reactcomp){
 	result.push(<div key={'title'} style={{borderBottom:'1px solid grey', textAlign:'center', color:'DeepSkyBlue'}}>
 								<h4>Projects</h4>
 						</div>)
-	const projects = viewStateVal('projects-rep', 'projects')
+	const projects = chkSt('projects-rep', 'projects')
 	if(projects!=null){
 		for(var i in projects){
 			const curproj = projects[i]
@@ -82,7 +82,7 @@ const getProjectsListUI = function(reactcomp){
 }
 
 const scenariosByCurrentProject = function(reactcomp){
-	const curproj = viewStateVal('projects-rep', 'current-project')
+	const curproj = chkSt('projects-rep', 'current-project')
 	if(checkRepositoriesLoaded(reactcomp)){
 		return <div key={curproj.id} style = {{marginTop:'3px', padding:'3px'}}>
 									<div style={{marginLeft:'10px'}}>
@@ -96,9 +96,9 @@ const scenariosByCurrentProject = function(reactcomp){
 }
 
 const checkRepositoriesLoaded = function(reactcomp){
-	const curproj = viewStateVal('projects-rep', 'current-project')
-	const scenarios = viewStateVal('scenarios-rep', 'scenarios')
-	const components = viewStateVal('components-rep', 'components')
+	const curproj = chkSt('projects-rep', 'current-project')
+	const scenarios = chkSt('scenarios-rep', 'scenarios')
+	const components = chkSt('components-rep', 'components')
 	if(curproj == null || scenarios==null || components==null){
 		return false
 	}

@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap'
 
 import {FuncFlows} from '../funcflows/funcflows-list'
 
-import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
+import {fireEvent, chkSt, registerEvent, registerReaction} from 'absevents'
 
 //props: projectid
 export class ScenariosList extends React.Component {
@@ -32,7 +32,7 @@ export class ScenariosList extends React.Component {
 
 const getScenariosListUI = function(reactcomp){
 	const result = []
-	const scenarios = viewStateVal('scenarios-rep', 'scenarios')
+	const scenarios = chkSt('scenarios-rep', 'scenarios')
 	if(scenarios!=null && scenarios[reactcomp.props.projectid]!=null){
 		for(var i in scenarios[reactcomp.props.projectid]){
 			const curscen = scenarios[reactcomp.props.projectid][i]

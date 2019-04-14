@@ -1,4 +1,4 @@
-import {registerObject, registerEvent, viewStateVal, fireEvent} from '../utils/eventor'
+import {registerObject, registerEvent, chkSt, fireEvent} from 'absevents'
 import {sendGet, sendPut, sendPost, sendDelete} from './postoffice'
 
 registerEvent('scenarios-rep', 'switch-sizing', (stateSetter, scenario)=>{
@@ -12,7 +12,7 @@ registerEvent('scenarios-rep', 'sizing-switched', (stateSetter)=>{})
 
 // registerEvent('scenarios-rep', 'request-by-projectid', (stateSetter, projid)=>{
 //   sendGet('/scenario/all/lazy/by/project/'+projid, (data)=>{
-//       var scenariosMap = viewStateVal('scenarios-rep', 'scenarios')
+//       var scenariosMap = chkSt('scenarios-rep', 'scenarios')
 //       if(scenariosMap==null){
 //         scenariosMap = []
 //         stateSetter('scenarios', scenariosMap)

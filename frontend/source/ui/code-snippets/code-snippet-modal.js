@@ -8,7 +8,7 @@ import {TextFields} from '../common/components/text-fields'
 
 import {loadScript} from '../../data/postoffice'
 
-import {registerEvent, fireEvent, registerReaction, viewStateVal} from '../../utils/eventor'
+import {registerEvent, fireEvent, registerReaction, chkSt} from 'absevents'
 
 export class CodeSnippetModal extends React.Component{
   constructor(props){
@@ -17,7 +17,7 @@ export class CodeSnippetModal extends React.Component{
     this.state = defaultState()
 
     registerEvent('code-snippet-modal', 'open', (stateSetter, func)=>{
-      const codeSnippets = viewStateVal('code-snippets-rep', 'snippets')
+      const codeSnippets = chkSt('code-snippets-rep', 'snippets')
       var snippet = null
       if(codeSnippets!=null){
         snippet = codeSnippets[func.id]

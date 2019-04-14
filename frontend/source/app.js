@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './data/common-rep'
-import './data/projects-rep'
 import './data/scenarios-rep'
 import './data/funcflows-rep'
 import './data/code-snippets-rep'
@@ -17,7 +16,7 @@ import {CodeSnippetModal} from './ui/code-snippets/code-snippet-modal'
 
 import {OverlayInfo} from './ui/overlay'
 
-import {fireEvent} from './utils/eventor'
+import {fireEvent} from 'absevents'
 
 ReactDOM.render(<div id="app" />, document.body);
 const app = document.getElementById("app");

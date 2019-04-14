@@ -6,7 +6,7 @@ import {CommonModal} from '../common-modal'
 import {TextFields} from '../common/components/text-fields'
 import {DeleteButton} from '../common/components/delete-button'
 
-import {registerEvent, fireEvent, registerReaction, viewStateVal} from '../../utils/eventor'
+import {registerEvent, fireEvent, registerReaction, chkSt} from 'absevents'
 
 import {getFromMappedRepByid} from '../../utils/import-utils'
 
@@ -131,7 +131,7 @@ const viewCompButton = function(reactcomp){
 const availableComponentsUI = function(reactcomp){
   const project = getProjectByScenarioId(reactcomp.state.funcflow.scenarioid)
   const result = []
-  copyAndSortByTitle(viewStateVal('components-rep', 'components')[project.id])
+  copyAndSortByTitle(chkSt('components-rep', 'components')[project.id])
       .forEach((comp)=>result.push(<MenuItem eventKey={comp}>{comp.title}</MenuItem>))
   return result
 }
@@ -154,7 +154,7 @@ const selectCompHandler = function(comp, e, reactcomp){
 
 const functionUI = function(reactcomp){
   if(reactcomp.state.funcflow.functionid!=null || reactcomp.state.comptemp!=null){
-      const func = reactcomp.state.funcflow.functionid!=null? getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), reactcomp.state.funcflow.functionid): null
+      const func = reactcomp.state.funcflow.functionid!=null? getFromMappedRepByid(chkSt('functions-rep', 'functions'), reactcomp.state.funcflow.functionid): null
       const componentid = func!=null? func.componentid: reactcomp.state.comptemp.id
 
       var functionSelecting = null
@@ -208,7 +208,7 @@ const viewFuncButton = function(func){
 
 const availableFunctionsUI = function(reactcomp, componentid){
   const result = []
-  copyAndSortByTitle(viewStateVal('functions-rep', 'functions')[componentid])
+  copyAndSortByTitle(chkSt('functions-rep', 'functions')[componentid])
       .forEach((func)=>result.push(<MenuItem eventKey={func}>{func.title}</MenuItem>))
   return result
 }
@@ -221,13 +221,13 @@ const selectFuncHandler = function(func, e, reactcomp){
 //Util functions-----------------------------------------
 
 const getProjectByScenarioId = function(scenarioid){
-  var scenario = getFromMappedRepByid(viewStateVal('scenarios-rep', 'scenarios'), scenarioid)
-  return viewStateVal('projects-rep', 'projects')[scenario.projectid]
+  var scenario = getFromMappedRepByid(chkSt('scenarios-rep', 'scenarios'), scenarioid)
+  return chkSt('projects-rep', 'projects')[scenario.projectid]
 }
 
 const getComponentByFunctionid = function(functionid){
-  const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), functionid)
-  return getFromMappedRepByid(viewStateVal('components-rep', 'components'), func.componentid)
+  const func = getFromMappedRepByid(chkSt('functions-rep', 'functions'), functionid)
+  return getFromMappedRepByid(chkSt('components-rep', 'components'), func.componentid)
 }
 
 //Text fields ---------------------------------------------

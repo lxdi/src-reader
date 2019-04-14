@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap'
 
 import {FunctionsList} from '../functions/functions-list'
 
-import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
+import {fireEvent, chkSt, registerEvent, registerReaction} from 'absevents'
 
 //props: projectid
 export class ComponentsList extends React.Component {
@@ -33,7 +33,7 @@ export class ComponentsList extends React.Component {
 
 const getComponentsListUI = function(reactcomp){
 	const result = []
-	const components = viewStateVal('components-rep', 'components')
+	const components = chkSt('components-rep', 'components')
 	if(components!=null){
 		for(var i in components[reactcomp.props.projectid]){
 			const curcomp = components[reactcomp.props.projectid][i]

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap'
 
-import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
+import {fireEvent, chkSt, registerEvent, registerReaction} from 'absevents'
 
 //props: componentid
 export class FunctionsList extends React.Component {
@@ -27,7 +27,7 @@ export class FunctionsList extends React.Component {
 
 const getfunctionsListUI = function(reactcomp){
 	const result = []
-	const functions = viewStateVal('functions-rep', 'functions')
+	const functions = chkSt('functions-rep', 'functions')
 	if(functions!=null){
 		for(var i in functions[reactcomp.props.componentid]){
 			const curfunc = functions[reactcomp.props.componentid][i]

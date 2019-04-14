@@ -1,4 +1,4 @@
-import {registerObject, registerEvent, viewStateVal, fireEvent, registerReaction} from '../utils/eventor'
+import {registerObject, registerEvent, chkSt, fireEvent, registerReaction} from 'absevents'
 import {sendGet, sendPut, sendPost, sendDelete} from './postoffice'
 
 const codeSnippetRep = 'code-snippets-rep'
@@ -35,7 +35,7 @@ const ops = ['created', 'received', 'updated']
 ops.forEach((op)=>{registerEvent(codeSnippetRep, op+'-snippet', (stateSetter, snippet)=>snippet)})
 
 const getOrCreateRep = function(stateSetter){
-  var snippets = viewStateVal(codeSnippetRep, 'snippets')
+  var snippets = chkSt(codeSnippetRep, 'snippets')
   if(snippets==null){
     snippets = []
     stateSetter(codeSnippetRep, snippets)

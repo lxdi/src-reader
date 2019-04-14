@@ -1,4 +1,4 @@
-import {registerObject, registerEvent, viewStateVal, fireEvent, registerReaction} from '../utils/eventor'
+import {registerObject, registerEvent, chkSt, fireEvent, registerReaction} from 'absevents'
 import {sendGet, sendPut, sendPost, sendDelete} from './postoffice'
 import {makeMap, makeSplitMap, deleteNode} from '../utils/import-utils'
 import {iterateLLfull} from '../utils/linked-list'
@@ -61,7 +61,7 @@ const receivingSimple = function(repName, withCurrent){
     sendGet('/'+repName+'/all', function(data){
       stateSetter(repName+'s', makeMap(data, 'id'))
       if(withCurrent!=null && withCurrent===true){
-          const nodes = viewStateVal(repName+'s-rep', repName+'s')
+          const nodes = chkSt(repName+'s-rep', repName+'s')
           for(var id in nodes){
             if(nodes[id].iscurrent){
               stateSetter('current-'+repName, nodes[id])
@@ -79,10 +79,10 @@ const receivingSimple = function(repName, withCurrent){
 const changingCurrent = function(repName){
   registerEvent(repName+'s-rep', 'change-current', (stateSetter, curobj)=>{
     sendPost('/'+repName+'/setcurrent/'+curobj.id, null, (data)=>{
-      for(var i in viewStateVal(repName+'s-rep', repName+'s')){
-        viewStateVal(repName+'s-rep', repName+'s')[i].iscurrent = false
+      for(var i in chkSt(repName+'s-rep', repName+'s')){
+        chkSt(repName+'s-rep', repName+'s')[i].iscurrent = false
       }
-      viewStateVal(repName+'s-rep', repName+'s')[curobj.id].iscurrent = true
+      chkSt(repName+'s-rep', repName+'s')[curobj.id].iscurrent = true
       stateSetter('current-'+repName, curobj)
       fireEvent(repName+'s-rep', 'changed-current', [curobj])
     })
@@ -94,7 +94,7 @@ const changingCurrent = function(repName){
 const creatingSimple = function(repName){
   registerEvent(repName+'s-rep', 'create-'+repName, (stateSetter, newObj)=>{
     sendPut('/'+repName+'/create', newObj, (data)=>{
-      viewStateVal(repName+'s-rep', repName+'s')[data.id] = data
+      chkSt(repName+'s-rep', repName+'s')[data.id] = data
       fireEvent(repName+'s-rep', 'created-'+repName, [data])
     })
   })
@@ -104,7 +104,7 @@ const creatingSimple = function(repName){
 const deletingSimple = function(repName){
   registerEvent(repName+'s-rep', 'delete-'+repName, (stateSetter, objToDelete)=>{
     sendDelete('/'+repName+'/delete/'+objToDelete.id, (data)=>{
-      delete viewStateVal(repName+'s-rep', repName+'s')[objToDelete.id]
+      delete chkSt(repName+'s-rep', repName+'s')[objToDelete.id]
       fireEvent(repName+'s-rep', 'created-'+repName, [objToDelete])
     })
   })
@@ -125,7 +125,7 @@ const receivingMakingMap = function(repName, mapByField, isLazy){
 const receivingInMap = function(repName, mapByObj){
   registerEvent(repName+'s-rep', 'request-by-'+mapByObj+'id', (stateSetter, objid)=>{
     sendGet('/'+repName+'/all/lazy/by/'+mapByObj+'/'+objid, (data)=>{
-        var importMap = viewStateVal(repName+'s-rep', repName+'s')
+        var importMap = chkSt(repName+'s-rep', repName+'s')
         if(importMap==null){
           importMap = []
           stateSetter(repName+'s', importMap)
@@ -143,7 +143,7 @@ const receivingInMap = function(repName, mapByObj){
 const receivingInMapWithTransit = function(repName, transitName, mapByObj){
   registerEvent(repName+'s-rep', 'request-by-'+mapByObj+'id', (stateSetter, objid)=>{
     sendGet('/'+repName+'/all/lazy/by/'+mapByObj+'/'+objid, (data)=>{
-        var importMap = viewStateVal(repName+'s-rep', repName+'s')
+        var importMap = chkSt(repName+'s-rep', repName+'s')
         if(importMap==null){
           importMap = []
           stateSetter(repName+'s', importMap)
@@ -159,8 +159,8 @@ const getFullInMap = function(repName, mapByField){
   registerEvent(repName+'s-rep', 'get-'+repName, (stateSetter, lazyObj)=>{
     sendGet('/'+repName+'/'+lazyObj.id, (data)=>{
       data.isFull = true
-      Object.assign(viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.id], data)
-      fireEvent(repName+'s-rep', 'full-received-'+repName, [viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.id]])
+      Object.assign(chkSt(repName+'s-rep', repName+'s')[data[mapByField]][data.id], data)
+      fireEvent(repName+'s-rep', 'full-received-'+repName, [chkSt(repName+'s-rep', repName+'s')[data[mapByField]][data.id]])
     })
   })
   registerEvent(repName+'s-rep', 'full-received-'+repName, (stateSetter, fullObj)=>fullObj)
@@ -169,13 +169,13 @@ const getFullInMap = function(repName, mapByField){
 const creatingInMap = function(repName, mapByField, isTree){
   registerEvent(repName+'s-rep', 'create-'+repName, (stateSetter, newObj)=>{
     sendPut('/'+repName+'/create', newObj, (data)=>{
-      if(viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]]==null){
-        viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]] = []
+      if(chkSt(repName+'s-rep', repName+'s')[data[mapByField]]==null){
+        chkSt(repName+'s-rep', repName+'s')[data[mapByField]] = []
       }
       if(isTree!=null && isTree && data.previd!=null){
-        viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.previd].nextid = data.id
+        chkSt(repName+'s-rep', repName+'s')[data[mapByField]][data.previd].nextid = data.id
       }
-      viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.id] = data
+      chkSt(repName+'s-rep', repName+'s')[data[mapByField]][data.id] = data
 
       fireEvent(repName+'s-rep', 'created-'+repName, [data])
     })
@@ -186,8 +186,8 @@ const creatingInMap = function(repName, mapByField, isTree){
 const updatingSimple = function(repName){
   registerEvent(repName+'s-rep', 'update-'+repName, (stateSetter, objToUpdate)=>{
     sendPost('/'+repName+'/update', objToUpdate, (data)=>{
-      Object.assign(viewStateVal(repName+'s-rep', repName+'s')[data.id], data)
-      fireEvent(repName+'s-rep', 'updated-'+repName, [viewStateVal(repName+'s-rep', repName+'s')[data.id]])
+      Object.assign(chkSt(repName+'s-rep', repName+'s')[data.id], data)
+      fireEvent(repName+'s-rep', 'updated-'+repName, [chkSt(repName+'s-rep', repName+'s')[data.id]])
     })
   })
   registerEvent(repName+'s-rep', 'updated-'+repName, (stateSetter)=>{})
@@ -196,11 +196,11 @@ const updatingSimple = function(repName){
 const updatingInMap = function(repName, mapByField){
   registerEvent(repName+'s-rep', 'update-'+repName, (stateSetter, objToUpdate)=>{
     sendPost('/'+repName+'/update', objToUpdate, (data)=>{
-      if(viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]]==null){
-        viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]] = []
+      if(chkSt(repName+'s-rep', repName+'s')[data[mapByField]]==null){
+        chkSt(repName+'s-rep', repName+'s')[data[mapByField]] = []
       }
-      Object.assign(viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.id], data)
-      fireEvent(repName+'s-rep', 'updated-'+repName, [viewStateVal(repName+'s-rep', repName+'s')[data[mapByField]][data.id]])
+      Object.assign(chkSt(repName+'s-rep', repName+'s')[data[mapByField]][data.id], data)
+      fireEvent(repName+'s-rep', 'updated-'+repName, [chkSt(repName+'s-rep', repName+'s')[data[mapByField]][data.id]])
     })
   })
   registerEvent(repName+'s-rep', 'updated-'+repName, (stateSetter)=>{})
@@ -219,7 +219,7 @@ const deletingInMap = function(repName, mapByField){
   registerEvent(repName+'s-rep', 'delete-'+repName, (stateSetter, obj)=>{
     sendDelete('/'+repName+'/delete/'+obj.id, ()=>{
       //TODO delete depended objects
-      const rep = viewStateVal(repName+'s-rep', repName+'s')[obj[mapByField]]
+      const rep = chkSt(repName+'s-rep', repName+'s')[obj[mapByField]]
       delete rep[obj.id]
       fireEvent(repName+'s-rep', 'deleted-'+repName, [obj])
     })
@@ -230,7 +230,7 @@ const deletingInMap = function(repName, mapByField){
 const deletingInMapLL = function(repName, mapByField){
   registerEvent(repName+'s-rep', 'delete-'+repName, (stateSetter, obj)=>{
     sendDelete('/'+repName+'/delete/'+obj.id, ()=>{
-      const rep = viewStateVal(repName+'s-rep', repName+'s')[obj[mapByField]]
+      const rep = chkSt(repName+'s-rep', repName+'s')[obj[mapByField]]
       deleteNode(rep, obj)
       for(var id in rep){
         if(rep[id].parentid==obj.id){

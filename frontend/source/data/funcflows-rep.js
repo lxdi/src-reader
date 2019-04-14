@@ -1,4 +1,4 @@
-import {registerObject, registerEvent, viewStateVal, fireEvent, registerReaction} from '../utils/eventor'
+import {registerObject, registerEvent, chkSt, fireEvent, registerReaction} from 'absevents'
 import {sendGet, sendPut, sendPost, sendDelete} from './postoffice'
 
 registerEvent('funcflows-rep', 'hide-show-children', (stateSetter, ff)=>{

@@ -7,7 +7,7 @@ import {TextFields} from '../common/components/text-fields'
 import {ColorChooser} from '../common/components/color-chooser'
 import {DeleteButton} from '../common/components/delete-button'
 
-import {registerEvent, fireEvent, registerReaction, viewStateVal} from '../../utils/eventor'
+import {registerEvent, fireEvent, registerReaction, chkSt} from 'absevents'
 
 export class ComponentModal extends React.Component {
   constructor(props){
@@ -48,8 +48,8 @@ const isShowOkButton = function(reactcomp){
 }
 
 const isTitleAlreadyExist = function(reactcomp){
-  const currentProject = viewStateVal('projects-rep', 'current-project')
-  const components = viewStateVal('components-rep', 'components')[currentProject.id]
+  const currentProject = chkSt('projects-rep', 'current-project')
+  const components = chkSt('components-rep', 'components')[currentProject.id]
   for(var id in components){
     if(components[id].title == reactcomp.state.component.title && components[id].id!=reactcomp.state.component.id){
       return true

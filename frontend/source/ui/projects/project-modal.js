@@ -7,7 +7,7 @@ import {ComponentsList} from '../components-biz/components-list'
 import {TextFields} from '../common/components/text-fields'
 import {DeleteButton} from '../common/components/delete-button'
 
-import {registerEvent, fireEvent, registerReaction} from '../../utils/eventor'
+import {registerEvent, fireEvent, registerReaction} from 'absevents'
 
 export class ProjectModal extends React.Component {
   constructor(props){

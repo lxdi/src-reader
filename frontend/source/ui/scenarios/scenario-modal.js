@@ -6,7 +6,7 @@ import {CommonModal} from '../common-modal'
 import {TextFields} from '../common/components/text-fields'
 import {DeleteButton} from '../common/components/delete-button'
 
-import {registerEvent, fireEvent, registerReaction} from '../../utils/eventor'
+import {registerEvent, fireEvent, registerReaction} from 'absevents'
 
 export class ScenarioModal extends React.Component {
   constructor(props){

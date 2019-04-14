@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button, OverlayTrigger, Tooltip, DropdownButton, MenuItem, ButtonGroup} from 'react-bootstrap'
 import {TreeComponent} from '../common/components/tree-component'
 
-import {fireEvent, viewStateVal, registerEvent, registerReaction} from '../../utils/eventor'
+import {fireEvent, chkSt, registerEvent, registerReaction} from 'absevents'
 import {getFromMappedRepByid} from '../../utils/import-utils'
 import {fillLinesForFuncflows} from '../../services/funcflow-percents'
 
@@ -62,7 +62,7 @@ const getFuncflowsTree = function(reactcomp){
 	if(checkForRepositoriesLoaded()){
 			var percents100 =  fillLinesForFuncflows(reactcomp.props.scenario.id)
 			return <TreeComponent isEdit={reactcomp.state.isEdit}
-														nodes={viewStateVal('funcflows-rep', 'funcflows')[reactcomp.props.scenario.id]}
+														nodes={chkSt('funcflows-rep', 'funcflows')[reactcomp.props.scenario.id]}
 														viewCallback={(node, level, cache)=>nodeView(reactcomp, node, reactcomp.props.scenario.id, percents100, cache)}
 														onDropCallback = {(alteredList)=>{fireEvent('funcflows-rep', 'reposition-list', [alteredList])}}
 														childrenStyle={{borderLeft:'1px dotted grey'}}
@@ -73,7 +73,7 @@ const getFuncflowsTree = function(reactcomp){
 }
 
 const checkForRepositoriesLoaded = function(){
-	if(viewStateVal('funcflows-rep', 'funcflows')!=null && viewStateVal('components-rep', 'components')!=null && viewStateVal('functions-rep', 'functions')!=null){
+	if(chkSt('funcflows-rep', 'funcflows')!=null && chkSt('components-rep', 'components')!=null && chkSt('functions-rep', 'functions')!=null){
 		return true
 	} else {
 		return false
@@ -93,7 +93,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	var func = null
 	if(node.functionid!=null){
 		component = getComponentByFunctionid(node.functionid)
-		func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), node.functionid)
+		func = getFromMappedRepByid(chkSt('functions-rep', 'functions'), node.functionid)
 		if(func.lines!=null && func.lines>0){
 			if(reactcomp.props.scenario.sizing){
 				fontSize = calculateFontSize(func.lines)
@@ -244,6 +244,6 @@ const getPercentsLineUI = function(node, percents100){
 }
 
 const getComponentByFunctionid = function(functionid){
-  const func = getFromMappedRepByid(viewStateVal('functions-rep', 'functions'), functionid)
-  return getFromMappedRepByid(viewStateVal('components-rep', 'components'), func.componentid)
+  const func = getFromMappedRepByid(chkSt('functions-rep', 'functions'), functionid)
+  return getFromMappedRepByid(chkSt('components-rep', 'components'), func.componentid)
 }
