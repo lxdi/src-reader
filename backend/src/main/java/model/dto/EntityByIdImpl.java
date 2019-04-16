@@ -12,6 +12,10 @@ public class EntityByIdImpl implements IEntityById {
 
     @Override
     public Object get(long id, Class clazz) {
-        return daoReceiver.getDAO(clazz).findOne(id);
+        Object result =  daoReceiver.getDAO(clazz).findOne(id);
+        if(result==null){
+            throw new NullPointerException("Enitiy no found by id = " + id+" of class "+ clazz.getName());
+        }
+        return result;
     }
 }

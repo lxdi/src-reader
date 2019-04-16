@@ -3,12 +3,14 @@ package controllers.delegates;
 import com.sogoodlabs.common_mapper.CommonMapper;
 import model.dto.DaoReceiver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Transactional
 abstract public class CommonDelegate {
 
     @Autowired
