@@ -15,7 +15,7 @@ const percentsLength = 700
 export class FuncFlows extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {isEdit:false, transitional:false, relevanceFilter:'Low'}
+		this.state = {isEdit:false, transitional:false, relevanceFilter:'Low', hideCompFuncNames:false}
 		this.compref = React.createRef();
 		const listName = 'funcflows-list-ui-'+this.props.scenario.id
 		registerReaction(listName, 'funcflows-rep', ['funcflows-received', 'children-hidden-shown'], (stateSetter)=>{this.setState({})})
@@ -48,6 +48,9 @@ export class FuncFlows extends React.Component {
 														<MenuItem eventKey={"Transitional"}>High|Normal|Low|Transitional</MenuItem>
 				                  </DropdownButton>
 				      </ButtonGroup>
+					</div>
+					<div style={buttonStyle}>
+						<Button onClick={()=>this.setState({hideCompFuncNames:!this.state.hideCompFuncNames})} bsSize="xs"> Hide titles: {this.state.hideCompFuncNames?'on': 'off'} </Button>
 					</div>
 				</div>
 				<div style={{padding:'5px'}}>
@@ -104,7 +107,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	if(checkByRelevance(reactcomp, node)){
 		return <div style={{borderLeft: '2px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt', paddingTop:'3px'}}>
 							{hideShowChildrenHandlerUI(node, cache)}
-							<div style={{display:'inline-block'}}>{funcNameUI(component, func)}</div>
+							<div style={{display:'inline-block'}}>{reactcomp.state.hideCompFuncNames?'..':funcNameUI(component, func)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
 							{func!=null?<a href="#" onClick={()=>fireEvent('code-snippet-modal', 'open', [func])}> (code) </a>:null}
 							{node.todoMark==true?<div style={todoStyle}>(TODO) </div>:null}
