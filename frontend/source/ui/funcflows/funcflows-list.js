@@ -107,9 +107,9 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	if(checkByRelevance(reactcomp, node)){
 		return <div style={{borderLeft: '2px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt', paddingTop:'3px'}}>
 							{hideShowChildrenHandlerUI(node, cache)}
-							<div style={{display:'inline-block'}}>{reactcomp.state.hideCompFuncNames?'..':funcNameUI(component, func)}</div>
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
-							{func!=null?<a href="#" onClick={()=>fireEvent('code-snippet-modal', 'open', [func])}> (code) </a>:null}
+							{func!=null?<a href="#" onClick={()=>fireEvent('code-snippet-modal', 'open', [func])}> (src) </a>:null}
+							<div style={{display:'inline-block'}}>{reactcomp.state.hideCompFuncNames?'..':funcNameUI(component, func)}</div>
 							{node.todoMark==true?<div style={todoStyle}>(TODO) </div>:null}
 							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>
 							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>:null}

@@ -5,10 +5,12 @@ import com.sogoodlabs.common_mapper.CommonMapper;
 import model.entities.FuncFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Transactional
 public class FuncFlowDelegate extends CommonDelegate {
 
     @Autowired

@@ -9,11 +9,13 @@ import model.entities.Scenario;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 import static junit.framework.TestCase.assertTrue;
 
+@Transactional
 public class FuncFlowDelegateTests extends SpringTestConfig {
 
     @Autowired

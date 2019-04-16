@@ -9,7 +9,7 @@ public class CodeSnippet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Func function;
 
     @Column(length = 8192)

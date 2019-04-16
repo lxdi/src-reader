@@ -5,11 +5,13 @@ import com.sogoodlabs.common_mapper.CommonMapper;
 import model.entities.CodeSnippet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Transactional
 public class CodeSnippetDelegate {
 
     @Autowired
@@ -27,7 +29,7 @@ public class CodeSnippetDelegate {
     }
 
     public Map<String, Object> create(Map<String, Object> codeSnippetDto){
-        CodeSnippet codeSnippet =  (CodeSnippet) commonMapper.mapToEntity(codeSnippetDto, new CodeSnippet());
+        CodeSnippet codeSnippet =  commonMapper.mapToEntity(codeSnippetDto, new CodeSnippet());
         if(codeSnippet.getFunction()==null){
             throw new NullPointerException();
         }
@@ -39,7 +41,7 @@ public class CodeSnippetDelegate {
     }
 
     public Map<String, Object> update(Map<String, Object> actualSnippet){
-        CodeSnippet codeSnippet = (CodeSnippet) commonMapper.mapToEntity(actualSnippet, new CodeSnippet());
+        CodeSnippet codeSnippet = commonMapper.mapToEntity(actualSnippet, new CodeSnippet());
         if(codeSnippet.getId()<1 || codeSnippet.getFunction()==null){
             throw new IllegalStateException();
         }

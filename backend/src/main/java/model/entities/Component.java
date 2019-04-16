@@ -15,7 +15,7 @@ public class Component {
     @Column(length = 4096)
     String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Project project;
 
     String color = "green";

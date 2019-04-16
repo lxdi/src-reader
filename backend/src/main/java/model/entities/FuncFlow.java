@@ -12,16 +12,16 @@ public class FuncFlow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     FuncFlow parent;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     FuncFlow next;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Func function;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Scenario scenario;
 
     @Column(name = "description", length = 4096)

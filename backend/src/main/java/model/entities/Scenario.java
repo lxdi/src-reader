@@ -19,7 +19,7 @@ public class Scenario {
     boolean hidden;
     boolean sizing = true;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Project project;
 
     @MapForLazy

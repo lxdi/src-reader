@@ -17,7 +17,7 @@ public class Func {
     int lines;
     int startLine;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Component component;
 
     String color = "BlueViolet";

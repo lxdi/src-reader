@@ -6,9 +6,13 @@ import model.dao.ICodeSnippetDao;
 import model.dao.IFuncDao;
 import model.entities.CodeSnippet;
 import model.entities.Func;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +31,9 @@ public class CodeSnippetDelegateTest extends SpringTestConfig {
 
     @Autowired
     CommonMapper commonMapper;
+
+    @Autowired
+    EntityManager entityManager;
 
     @Test
     public void createTest(){
@@ -47,6 +54,7 @@ public class CodeSnippetDelegateTest extends SpringTestConfig {
     }
 
     @Test
+    @Transactional
     public void getTest(){
         Func function = new Func();
         funcDao.save(function);
@@ -56,7 +64,9 @@ public class CodeSnippetDelegateTest extends SpringTestConfig {
         newSnippet.setCode("test code");
         codeSnippetDao.save(newSnippet);
 
-        CodeSnippet snippet = (CodeSnippet) commonMapper.mapToEntity(
+        entityManager.unwrap(Session.class).getTransaction().commit();
+
+        CodeSnippet snippet = commonMapper.mapToEntity(
                 codeSnippetDelegate.get(function.getId()), new CodeSnippet());
 
         assertTrue(snippet.getId() == newSnippet.getId());
