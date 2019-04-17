@@ -123,8 +123,6 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	}
 }
 
-//<div style={{display:'inline-block'}}>{reactcomp.state.hideCompFuncNames?'..':funcNameUI(component, func)}</div>
-
 const groupFF = function(reactcomp, node){
 		return <div style={{borderLeft: '1px solid grey', fontSize:'13pt'}}>
 							<div style={{color:'green', display:'inline-block', fontWeight:'bold'}}>Group</div>
@@ -206,9 +204,18 @@ const getLeftBorderColor = function(relevance){
 
 const compFuncName = function(reactcomp, funcflow, component, func){
 	if(reactcomp.state.hideCompFuncNames && (funcflow.showNameInFFTree==null || !funcflow.showNameInFFTree)){
-		return <div style={{display:'inline-block'}}>
-							<a href='#' onClick={()=>{funcflow.showNameInFFTree=true; reactcomp.setState({})}}>..</a>
-						</div>
+		const tdStyle = {padding: '3px'}
+		const overlayInfo = <table border='1'>
+													<tr>
+														<td style={tdStyle}>{component.title}</td>
+														<td style={tdStyle}>{component.description}</td>
+													</tr>
+													<tr>
+														<td style={tdStyle}>{func.title}</td>
+														<td style={tdStyle}>{func.description}</td>
+													</tr>
+												</table>
+		return divOverlay(<a href='#' onClick={()=>{funcflow.showNameInFFTree=true; reactcomp.setState({})}}>..</a>, overlayInfo, {display:'inline-block'})
 	} else {
 		funcflow.showNameInFFTree=false
 		return <div style={{display:'inline-block'}}>{funcNameUI(component, func)}</div>
@@ -216,13 +223,11 @@ const compFuncName = function(reactcomp, funcflow, component, func){
 }
 
 const funcNameUI = function(component, func){
+	const compNameUI = <span class='funcflow-cfl' style={{color:component.color}} onClick={(e)=>copyToClipboard(component.title, e)}>{component.title}.</span>
+	const funcNameUI = <span class='funcflow-cfl' style={{color:func.color}} onClick={(e)=>copyToClipboard(func.title, e)}>{func.title}</span>
 	return <div style={{display:'inline-block'}}>
-						<OverlayTrigger placement="left" overlay={tooltip('Copy component name to buffer')}>
-							<span class='funcflow-cfl' style={{color:component.color}} onClick={(e)=>copyToClipboard(component.title, e)}>{component.title}.</span>
-						</OverlayTrigger>
-						<OverlayTrigger placement="bottom" overlay={tooltip('Copy function name to buffer')}>
-							<span class='funcflow-cfl' style={{color:func.color}} onClick={(e)=>copyToClipboard(func.title, e)}>{func.title}</span>
-						</OverlayTrigger>
+						{divOverlay(compNameUI, component.description, {display:'inline-block'})}
+						{divOverlay(funcNameUI, func.description, {display:'inline-block'})}
 						<OverlayTrigger placement="top" overlay={tooltip('Copy start line to buffer')}>
 							<span class='funcflow-startline funcflow-cfl' onClick={(e)=>copyToClipboard(func.startLine, e)}>:{func.startLine}</span>
 						</OverlayTrigger>
@@ -232,6 +237,12 @@ const funcNameUI = function(component, func){
 							</OverlayTrigger>
 							:null}
 					</div>
+}
+
+const divOverlay = function(divContent, overlayContent, divStyle){
+		return 	<div style={divStyle} onMouseEnter={()=>fireEvent('overlay-info', 'show', [overlayContent])}
+										onMouseOver={(e)=>fireEvent('overlay-info', 'update-pos', [e.nativeEvent.clientX+15, e.nativeEvent.clientY-10])}
+										onMouseLeave={()=>fireEvent('overlay-info', 'hide')}>{divContent}</div>
 }
 
 const tooltip = function(text){

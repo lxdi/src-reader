@@ -19,7 +19,7 @@ export class OverlayInfo extends React.Component{
     })
 
     registerEvent('overlay-info', 'update-pos', (stateSetter, x, y)=>{
-      this.setState({x:x, y:y})
+      this.setState({x:x, y:y, show:true})
     })
 
     registerEvent('overlay-info', 'update', (stateSetter, x, y, content)=>{
