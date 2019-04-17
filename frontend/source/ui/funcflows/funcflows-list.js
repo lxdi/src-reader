@@ -110,7 +110,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 							{hideShowChildrenHandlerUI(node, cache)}
 							<a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a>
 							{func!=null?<a href="#" onClick={()=>fireEvent('code-snippet-modal', 'open', [func])}> (src) </a>:null}
-							<div style={{display:'inline-block'}}>{reactcomp.state.hideCompFuncNames?'..':funcNameUI(component, func)}</div>
+							{compFuncName(reactcomp, node, component, func)}
 							{node.todoMark==true?<div style={todoStyle}>(TODO) </div>:null}
 							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>
 							{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.desc}</span>:null}
@@ -122,6 +122,8 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 						</div>
 	}
 }
+
+//<div style={{display:'inline-block'}}>{reactcomp.state.hideCompFuncNames?'..':funcNameUI(component, func)}</div>
 
 const groupFF = function(reactcomp, node){
 		return <div style={{borderLeft: '1px solid grey', fontSize:'13pt'}}>
@@ -200,6 +202,17 @@ const getLeftBorderColor = function(relevance){
 	if(relevance=='Low')
 		return 'green'
 	return 'lightgrey'
+}
+
+const compFuncName = function(reactcomp, funcflow, component, func){
+	if(reactcomp.state.hideCompFuncNames && (funcflow.showNameInFFTree==null || !funcflow.showNameInFFTree)){
+		return <div style={{display:'inline-block'}}>
+							<a href='#' onClick={()=>{funcflow.showNameInFFTree=true; reactcomp.setState({})}}>..</a>
+						</div>
+	} else {
+		funcflow.showNameInFFTree=false
+		return <div style={{display:'inline-block'}}>{funcNameUI(component, func)}</div>
+	}
 }
 
 const funcNameUI = function(component, func){
