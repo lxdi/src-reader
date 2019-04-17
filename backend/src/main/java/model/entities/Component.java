@@ -20,7 +20,6 @@ public class Component {
 
     String color = "green";
 
-    @MapForLazy
     public long getId() {
         return id;
     }
@@ -28,7 +27,6 @@ public class Component {
         this.id = id;
     }
 
-    @MapForLazy
     public String getTitle() {
         return title;
     }
@@ -36,7 +34,6 @@ public class Component {
         this.title = title;
     }
 
-    @MapForLazy
     public Project getProject() {
         return project;
     }
@@ -44,7 +41,6 @@ public class Component {
         this.project = project;
     }
 
-    @MapForLazy
     public String getColor() {
         return color;
     }

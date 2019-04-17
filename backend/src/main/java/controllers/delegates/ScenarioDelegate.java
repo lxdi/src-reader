@@ -44,7 +44,7 @@ public class ScenarioDelegate extends CommonDelegate {
     public List<Map<String, Object>> getByProjectLazy(long projectid){
         List<Map<String, Object>> result = new ArrayList<>();
         for(Scenario scenario : scenarioDao.findByProjectid(projectid)){
-            result.add(commonMapper.mapToDtoLazy(scenario, new HashMap<>()));
+            result.add(commonMapper.mapToDto(scenario));
         }
         return result;
     }

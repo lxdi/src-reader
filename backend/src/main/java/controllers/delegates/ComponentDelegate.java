@@ -35,7 +35,7 @@ public class ComponentDelegate extends CommonDelegate {
     public List<Map<String, Object>> getByProjectLazy(long projectid){
         List<Map<String, Object>> result = new ArrayList<>();
         for(Component comp : compDao.findByProjectid(projectid)){
-            result.add(commonMapper.mapToDtoLazy(comp, new HashMap<>()));
+            result.add(commonMapper.mapToDto(comp));
         }
         return result;
     }

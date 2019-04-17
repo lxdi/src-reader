@@ -34,7 +34,7 @@ public class FuncDelegate extends CommonDelegate {
     public List<Map<String, Object>> getByComponentLazy(long compid){
         List<Map<String, Object>> result = new ArrayList<>();
         for(Func func : iFuncDao.findByComponentid(compid)){
-            result.add(commonMapper.mapToDtoLazy(func, new HashMap<>()));
+            result.add(commonMapper.mapToDto(func));
         }
         return result;
     }
@@ -42,7 +42,7 @@ public class FuncDelegate extends CommonDelegate {
     public List<Map<String, Object>> getByProjectId(long projid){
         List<Map<String, Object>> result = new ArrayList<>();
         for(Func func : iFuncDao.findByProjectId(projid)){
-            result.add(commonMapper.mapToDtoLazy(func, new HashMap<>()));
+            result.add(commonMapper.mapToDto(func));
         }
         return result;
     }

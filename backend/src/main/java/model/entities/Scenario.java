@@ -22,7 +22,6 @@ public class Scenario {
     @ManyToOne(fetch = FetchType.LAZY)
     Project project;
 
-    @MapForLazy
     public long getId() {
         return id;
     }
@@ -30,7 +29,6 @@ public class Scenario {
         this.id = id;
     }
 
-    @MapForLazy
     public String getTitle() {
         return title;
     }
@@ -38,7 +36,6 @@ public class Scenario {
         this.title = title;
     }
 
-    @MapForLazy
     public Project getProject() {
         return project;
     }
@@ -46,7 +43,6 @@ public class Scenario {
         this.project = project;
     }
 
-    @MapForLazy
     public boolean getHidden() {
         return hidden;
     }
@@ -54,7 +50,6 @@ public class Scenario {
         this.hidden = hidden;
     }
 
-    @MapForLazy
     public boolean getSizing() {
         return sizing;
     }

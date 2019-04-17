@@ -19,7 +19,6 @@ public class Project {
 
     boolean iscurrent = false;
 
-    @MapForLazy
     public long getId() {
         return id;
     }
@@ -27,7 +26,6 @@ public class Project {
         this.id = id;
     }
 
-    @MapForLazy
     public String getTitle() {
         return title;
     }
@@ -35,7 +33,6 @@ public class Project {
         this.title = title;
     }
 
-    @MapForLazy
     public boolean getIscurrent() {
         return iscurrent;
     }

@@ -30,7 +30,7 @@ abstract public class CommonDelegate {
     public List<Map<String, Object>> getAllLazy(){
         List<Map<String, Object>> result = new ArrayList<>();
         for(Object obj : daoReceiver.getDAO(this.getClassDao()).findAll()){
-            result.add(commonMapper.mapToDtoLazy(obj, new HashMap<>()));
+            result.add(commonMapper.mapToDto(obj));
         }
         return result;
     }

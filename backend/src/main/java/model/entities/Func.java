@@ -70,6 +70,7 @@ public class Func {
         this.color = color;
     }
 
+    @MapForLazy
     public String getDescription() {
         return description;
     }

@@ -22,7 +22,7 @@ public class FuncFlowDelegate extends CommonDelegate {
     public List<Map<String, Object>> getByScenid(long scenid){
         List<Map<String, Object>> result = new ArrayList<>();
         for(FuncFlow funcFlow : funcFlowDao.findByScenarioid(scenid)){
-            result.add(commonMapper.mapToDtoLazy(funcFlow, new HashMap<>()));
+            result.add(commonMapper.mapToDto(funcFlow));
         }
         return result;
     }
@@ -30,14 +30,14 @@ public class FuncFlowDelegate extends CommonDelegate {
     public List<Map<String, Object>> getByProjid(long projid){
         List<Map<String, Object>> result = new ArrayList<>();
         for(FuncFlow funcFlow : funcFlowDao.findByProjectid(projid)){
-            result.add(commonMapper.mapToDtoLazy(funcFlow, new HashMap<>()));
+            result.add(commonMapper.mapToDto(funcFlow));
         }
         return result;
     }
 
     @Override
     public Map<String, Object> createNew(Map<String, Object> funcflowDto){
-        FuncFlow funcflow = (FuncFlow) commonMapper.mapToEntity(funcflowDto, new FuncFlow());
+        FuncFlow funcflow = commonMapper.mapToEntity(funcflowDto, new FuncFlow());
         if(funcflow.getScenario()==null){
             throw new RuntimeException("A FuncFlow must have a Scenario");
         }
@@ -78,12 +78,12 @@ public class FuncFlowDelegate extends CommonDelegate {
     public List<Map<String, Object>> reposition(List<Map<String, Object>> dtoListLazies){
         List<Map<String, Object>> result = new ArrayList<>();
         for(Map<String, Object> dtoLazy : dtoListLazies){
-            FuncFlow lazyFF = (FuncFlow) commonMapper.mapToEntity(dtoLazy, new FuncFlow());
+            FuncFlow lazyFF = commonMapper.mapToEntity(dtoLazy, new FuncFlow());
             FuncFlow fullFF = funcFlowDao.findOne(lazyFF.getId());
             fullFF.setNext(lazyFF.getNext());
             fullFF.setParent(lazyFF.getParent());
             funcFlowDao.save(fullFF);
-            result.add(commonMapper.mapToDtoLazy(fullFF, new HashMap<>()));
+            result.add(commonMapper.mapToDto(fullFF));
         }
         return result;
     }

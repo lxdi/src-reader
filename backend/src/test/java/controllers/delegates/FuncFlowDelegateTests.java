@@ -155,9 +155,9 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
         parent.setNext(child2);
 
         List<Map<String, Object>> dtoLazies = Arrays.asList(
-                commonMapper.mapToDtoLazy(child2, new HashMap<>()),
-                commonMapper.mapToDtoLazy(child, new HashMap<>()),
-                commonMapper.mapToDtoLazy(parent, new HashMap<>())
+                commonMapper.mapToDto(child2),
+                commonMapper.mapToDto(child),
+                commonMapper.mapToDto(parent)
         );
 
         List<Map<String, Object>> result = funcFlowDelegate.reposition(dtoLazies);

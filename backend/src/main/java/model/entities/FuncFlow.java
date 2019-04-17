@@ -44,7 +44,6 @@ public class FuncFlow {
         this.scenario = scenario;
     }
 
-    @MapForLazy
     public long getId() {
         return id;
     }
@@ -52,7 +51,6 @@ public class FuncFlow {
         this.id = id;
     }
 
-    @MapForLazy
     public Func getFunction() {
         return function;
     }
@@ -60,7 +58,6 @@ public class FuncFlow {
         this.function = function;
     }
 
-    @MapForLazy
     public FuncFlow getParent() {
         return parent;
     }
@@ -68,7 +65,6 @@ public class FuncFlow {
         this.parent = parent;
     }
 
-    @MapForLazy
     public Scenario getScenario() {
         return scenario;
     }
@@ -76,7 +72,6 @@ public class FuncFlow {
         this.scenario = scenario;
     }
 
-    @MapForLazy
     public FuncFlow getNext() {
         return next;
     }
@@ -84,7 +79,6 @@ public class FuncFlow {
         this.next = next;
     }
 
-    @MapForLazy
     public String getTags() {
         return tags;
     }
@@ -92,7 +86,6 @@ public class FuncFlow {
         this.tags = tags;
     }
 
-    @MapForLazy
     public boolean getHideChildren() {
         return hideChildren;
     }
@@ -100,7 +93,6 @@ public class FuncFlow {
         this.hideChildren = hideChildren;
     }
 
-    @MapForLazy
     public FuncFlowRelevance getRelevance() {
         return relevance;
     }
@@ -108,7 +100,6 @@ public class FuncFlow {
         this.relevance = relevance;
     }
 
-    @MapForLazy
     public boolean getTodoMark() {
         return todoMark;
     }
@@ -116,7 +107,6 @@ public class FuncFlow {
         this.todoMark = todoMark;
     }
 
-    @MapForLazy
     public boolean getGroupMark() {
         return groupMark;
     }
@@ -124,7 +114,6 @@ public class FuncFlow {
         this.groupMark = groupMark;
     }
 
-    @MapForLazy
     public String getDesc() {
         return desc;
     }
