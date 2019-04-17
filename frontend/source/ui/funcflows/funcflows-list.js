@@ -103,7 +103,8 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 			}
 		}
 	}
-	const fontSizeTags = fontSize>11?(fontSize-3):fontSize
+	//const fontSizeTags = fontSize>11?(fontSize-3):fontSize
+	const fontSizeTags = 9
 	if(checkByRelevance(reactcomp, node)){
 		return <div style={{borderLeft: '2px solid '+getLeftBorderColor(node.relevance), paddingLeft:'3px', fontSize:fontSize+'pt', paddingTop:'3px'}}>
 							{hideShowChildrenHandlerUI(node, cache)}
@@ -112,7 +113,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 							<div style={{display:'inline-block'}}>{reactcomp.state.hideCompFuncNames?'..':funcNameUI(component, func)}</div>
 							{node.todoMark==true?<div style={todoStyle}>(TODO) </div>:null}
 							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>
-							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.tags}</span>:null}
+							{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:(fontSizeTags+'pt')}}>{node.desc}</span>:null}
 							{getPercentsLineUI(node, percents100)}
 					</div>
 	} else {
@@ -126,7 +127,7 @@ const groupFF = function(reactcomp, node){
 		return <div style={{borderLeft: '1px solid grey', fontSize:'13pt'}}>
 							<div style={{color:'green', display:'inline-block', fontWeight:'bold'}}>Group</div>
 							<div style={{display:'inline-block'}}><a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a></div>
-							{node.tags!=null && node.tags!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:'13pt'}}>{node.tags}</span>:null}
+							{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:'13pt'}}>{node.desc}</span>:null}
 						</div>
 }
 
@@ -172,8 +173,8 @@ const overlayContent = function(node, cache){
 }
 
 const gatherTags = function(result, node, cache){
-	if(node.tags!=null){
-		result.push(node.tags)
+	if(node.desc!=null){
+		result.push(node.desc)
 	}
 	if(cache.children[node.id]!=null){
 		for(var i in cache.children[node.id]){

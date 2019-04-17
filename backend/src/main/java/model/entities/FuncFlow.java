@@ -124,6 +124,7 @@ public class FuncFlow {
         this.groupMark = groupMark;
     }
 
+    @MapForLazy
     public String getDesc() {
         return desc;
     }
