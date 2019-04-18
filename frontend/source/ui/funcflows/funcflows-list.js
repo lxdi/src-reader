@@ -215,7 +215,7 @@ const compFuncName = function(reactcomp, funcflow, component, func){
 														<td style={tdStyle}>{func.description}</td>
 													</tr>
 												</table>
-		return divOverlay(<a href='#' onClick={()=>{funcflow.showNameInFFTree=true; reactcomp.setState({})}}>..</a>, overlayInfo, {display:'inline-block'})
+		return divOverlay(<a href='#' onClick={(e)=>{e.preventDefault(); funcflow.showNameInFFTree=true; reactcomp.setState({})}}>..</a>, overlayInfo, {display:'inline-block'})
 	} else {
 		funcflow.showNameInFFTree=false
 		return <div style={{display:'inline-block'}}>{funcNameUI(component, func)}</div>
