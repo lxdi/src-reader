@@ -158,7 +158,7 @@ const relevanceToNumber = function(relevance){
 const hideShowChildrenHandlerUI = function(node, cache){
 		return 	<a href="#" onClick={()=>{fireEvent('funcflows-rep', 'hide-show-children', [node])}}
 										onMouseEnter={()=>fireEvent('overlay-info', 'show', [overlayContent(node, cache)])}
-										onMouseOver={(e)=>fireEvent('overlay-info', 'update-pos', [e.nativeEvent.clientX+15, e.nativeEvent.clientY-10])}
+										onMouseOver={(e)=>fireEvent('overlay-info', 'update-pos', [e.nativeEvent.pageX+15, e.nativeEvent.pageY-10])}
 										onMouseLeave={()=>fireEvent('overlay-info', 'hide')}>{node.hideChildren?'+':'-'} </a>
 }
 
@@ -241,7 +241,7 @@ const funcNameUI = function(component, func){
 
 const divOverlay = function(divContent, overlayContent, divStyle){
 		return 	<div style={divStyle} onMouseEnter={()=>fireEvent('overlay-info', 'show', [overlayContent])}
-										onMouseOver={(e)=>fireEvent('overlay-info', 'update-pos', [e.nativeEvent.clientX+15, e.nativeEvent.clientY-10])}
+										onMouseOver={(e)=>fireEvent('overlay-info', 'update-pos', [e.nativeEvent.pageX+15, e.nativeEvent.pageY-10])}
 										onMouseLeave={()=>fireEvent('overlay-info', 'hide')}>{divContent}</div>
 }
 
