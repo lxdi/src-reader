@@ -109,8 +109,19 @@ public class FuncFlowDelegate extends CommonDelegate {
 
     private void commonValidation(Object obj){
         FuncFlow funcFlow = (FuncFlow) obj;
-        if((!funcFlow.getTodoMark() && !funcFlow.getGroupMark()) && funcFlow.getFunction()==null){
+        if((!funcFlow.getTodoMark() && !funcFlow.getGroupMark()) && !checkFunc(funcFlow)){
             throw new RuntimeException("A FuncFlow must have a Function");
+        }
+    }
+
+    private boolean checkFunc(FuncFlow funcFlow){
+        if(funcFlow.getFunction()!=null){
+            return true;
+        }
+        if(funcFlow.getCompFuncString() == null || funcFlow.getCompFuncString().isEmpty()){
+            return false;
+        } else {
+            return true;
         }
     }
 

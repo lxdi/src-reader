@@ -48,8 +48,12 @@ const okHandlerAvailable = function(reactComb){
     const func = reactComb.state.funcflow.functionid!=null
     const todo = reactComb.state.funcflow.todoMark
     const group = reactComb.state.funcflow.groupMark
+    const compFuncString = reactComb.state.funcflow.compFuncString
+    const compFuncStringCheck = compFuncString!=null && compFuncString!=''
+    if(compFuncStringCheck && !group) return true
     if(func && !group) return true
     if(group && !func && !todo) return true
+    if(group && !compFuncStringCheck && !todo) return true
   }
   return false
   //return this.state.funcflow!=null && (this.state.funcflow.functionid!=null || this.state.funcflow.todoMark==true)
@@ -233,7 +237,21 @@ const getComponentByFunctionid = function(functionid){
 //Text fields ---------------------------------------------
 
 const textFieldsUI = function(reactcomp){
-  return <TextFields content={[todoMarkUI(reactcomp), groupMarkUI(reactcomp), descTextField(reactcomp), tagsTextField(reactcomp), relevanceField(reactcomp)]} />
+  return <TextFields content={[compFuncString(reactcomp), todoMarkUI(reactcomp), groupMarkUI(reactcomp), descTextField(reactcomp), tagsTextField(reactcomp), relevanceField(reactcomp)]} />
+}
+
+const compFuncString = function(reactcomp){
+  return {
+    key: 'compFuncString',
+    label: <ControlLabel>Comp and Func Draft:</ControlLabel>,
+    field: <FormGroup controlId="formBasicText">
+                    <FormControl
+                                type="text"
+                                value={reactcomp.state.funcflow.compFuncString}
+                                placeholder="Component and function"
+                                onChange={(e)=>{reactcomp.state.funcflow.compFuncString = e.target.value; reactcomp.setState({})}}/>
+                </FormGroup>
+  }
 }
 
 const todoMarkUI = function(reactcomp){

@@ -205,20 +205,29 @@ const getLeftBorderColor = function(relevance){
 const compFuncName = function(reactcomp, funcflow, component, func){
 	if(reactcomp.state.hideCompFuncNames && (funcflow.showNameInFFTree==null || !funcflow.showNameInFFTree)){
 		const tdStyle = {padding: '3px'}
-		const overlayInfo = <table border='1'>
-													<tr>
-														<td style={tdStyle}>{component.title}</td>
-														<td style={tdStyle}>{component.description}</td>
-													</tr>
-													<tr>
-														<td style={tdStyle}>{func.title}</td>
-														<td style={tdStyle}>{func.description}</td>
-													</tr>
-												</table>
+		var overlayInfo = null
+		if(func!=null){
+												<table border='1'>
+														<tr>
+															<td style={tdStyle}>{component.title}</td>
+															<td style={tdStyle}>{component.description}</td>
+														</tr>
+														<tr>
+															<td style={tdStyle}>{func.title}</td>
+															<td style={tdStyle}>{func.description}</td>
+														</tr>
+													</table>
+		} else {
+			overlayInfo = <div>{funcflow.compFuncString}</div>
+		}
 		return divOverlay(<a href='#' onClick={(e)=>{e.preventDefault(); funcflow.showNameInFFTree=true; reactcomp.setState({})}}>..</a>, overlayInfo, {display:'inline-block'})
 	} else {
 		funcflow.showNameInFFTree=false
-		return <div style={{display:'inline-block'}}>{funcNameUI(component, func)}</div>
+		if(func!=null){
+			return <div style={{display:'inline-block'}}>{funcNameUI(component, func)}</div>
+		} else {
+			return <div style={{display:'inline-block', color:'grey'}}>{funcflow.compFuncString}</div>
+		}
 	}
 }
 

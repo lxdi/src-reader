@@ -21,6 +21,8 @@ public class FuncFlow {
     @ManyToOne(fetch = FetchType.LAZY)
     Func function;
 
+    String compFuncString;
+
     @ManyToOne(fetch = FetchType.LAZY)
     Scenario scenario;
 
@@ -121,5 +123,11 @@ public class FuncFlow {
         this.desc = desc;
     }
 
+    public String getCompFuncString() {
+        return compFuncString;
+    }
+    public void setCompFuncString(String compFuncString) {
+        this.compFuncString = compFuncString;
+    }
 
 }
