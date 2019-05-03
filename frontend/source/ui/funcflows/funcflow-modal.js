@@ -9,6 +9,7 @@ import {DeleteButton} from '../common/components/delete-button'
 import {registerEvent, fireEvent, registerReaction, chkSt} from 'absevents'
 
 import {getFromMappedRepByid} from '../../utils/import-utils'
+import {normalizeCompFuncName} from '../../services/compFuncNameService'
 
 export class FuncflowModal extends React.Component {
   constructor(props){
@@ -60,6 +61,9 @@ const okHandlerAvailable = function(reactComb){
 }
 
 const okHandler = function(reactcomp){
+  if(reactcomp.state.funcflow.compFuncString!=null){
+    reactcomp.state.funcflow.compFuncString = normalizeCompFuncName(reactcomp.state.funcflow.compFuncString)
+  }
   if(reactcomp.state.funcflow.id!=0 && reactcomp.state.funcflow.id>0){
     fireEvent('funcflows-rep', 'update-funcflow', [reactcomp.state.funcflow])
   } else {
