@@ -89,7 +89,7 @@ const checkForRepositoriesLoaded = function(){
 const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	const todoStyle = {color:'red', display:'inline-block', fontWeight:'bold'}
 	if(node.groupMark==true){
-		return groupFF(reactcomp, node)
+		return groupFF(reactcomp, node, scenarioid)
 	}
 	if(node.todoMark==true && (node.functionid==null && (node.compFuncString==null || node.compFuncString == ''))){
 		return todoFF(reactcomp, node, todoStyle)
@@ -126,11 +126,12 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	}
 }
 
-const groupFF = function(reactcomp, node){
+const groupFF = function(reactcomp, node, scenarioid){
 		return <div style={{borderLeft: '1px solid grey', fontSize:'13pt'}}>
 							<div style={{color:'green', display:'inline-block', fontWeight:'bold'}}>Group</div>
 							<div style={{display:'inline-block'}}><a href="#" onClick={()=>fireEvent('funcflow-modal', 'open', [node])}> (edit) </a></div>
 							{node.desc!=null && node.desc!=''? <span style={{color:'LightSeaGreen', paddingLeft:'3px', fontSize:'13pt'}}>{node.desc}</span>:null}
+							<a href='#' onClick={()=>fireEvent('funcflow-modal', 'open', [{parentid: node.id, scenarioid:scenarioid}])}>+</a>
 						</div>
 }
 
@@ -210,7 +211,7 @@ const compFuncName = function(reactcomp, funcflow, component, func){
 		const tdStyle = {padding: '3px'}
 		var overlayInfo = null
 		if(func!=null){
-												<table border='1'>
+			overlayInfo = <table border='1'>
 														<tr>
 															<td style={tdStyle}>{component.title}</td>
 															<td style={tdStyle}>{component.description}</td>
