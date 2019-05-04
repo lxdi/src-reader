@@ -52,6 +52,9 @@ export class FuncFlows extends React.Component {
 					<div style={buttonStyle}>
 						<Button onClick={()=>this.setState({hideCompFuncNames:!this.state.hideCompFuncNames})} bsSize="xs"> Hide titles: {this.state.hideCompFuncNames?'on': 'off'} </Button>
 					</div>
+					<div style={buttonStyle}>
+						<Button onClick={()=>fireEvent('scenarios-rep', 'parse', [this.props.scenario])} bsSize="xs"> Parse </Button>
+					</div>
 				</div>
 				<div style={{padding:'5px'}}>
 					{getFuncflowsTree(this)}
@@ -88,7 +91,7 @@ const nodeView = function(reactcomp, node, scenarioid, percents100, cache){
 	if(node.groupMark==true){
 		return groupFF(reactcomp, node)
 	}
-	if(node.todoMark==true && node.functionid==null){
+	if(node.todoMark==true && (node.functionid==null && (node.compFuncString==null || node.compFuncString == ''))){
 		return todoFF(reactcomp, node, todoStyle)
 	}
 	var fontSize = fontSizeDefaultPt

@@ -38,6 +38,9 @@ public interface IFuncFlowDao extends JpaRepository<FuncFlow, Long> {
     @Query("from FuncFlow where scenario.project.id = :id")
     List<FuncFlow> findByProjectid(@Param("id") long id);
 
+    @Query("from FuncFlow where scenario.id=:scenarioid and function is null")
+    List<FuncFlow> findByWithEmptyFuncScenarioId(@Param("scenarioid") long scenarioid);
+
     @Modifying
     @Query("update FuncFlow set hideChildren = (CASE hideChildren WHEN true THEN false ELSE true END) where id = :id ")
     void changeHideChildren(@Param("id") long id);

@@ -7,6 +7,7 @@ import './data/funcflows-rep'
 import './data/code-snippets-rep'
 
 import {ProjectsList} from './ui/projects/projects-list'
+import {InfoModal} from './ui/info-modal'
 import {ProjectModal} from './ui/projects/project-modal'
 import {ScenarioModal} from './ui/scenarios/scenario-modal'
 import {FuncflowModal} from './ui/funcflows/funcflow-modal'
@@ -37,6 +38,7 @@ class Main extends React.Component {
 		return (
 			<div>
 				<div>
+					<InfoModal/>
 					<ProjectModal/>
 					<ScenarioModal/>
 					<FuncflowModal/>

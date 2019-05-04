@@ -61,6 +61,12 @@ public class ScenarioController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @RequestMapping(path="/scenario/parse/{scenarioid}", method = RequestMethod.POST)
+    public ResponseEntity parseScenario(@PathVariable("scenarioid") long scenarioid){
+        scenarioDelegate.parse(scenarioid);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
 
 }

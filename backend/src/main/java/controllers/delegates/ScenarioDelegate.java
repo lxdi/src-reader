@@ -8,6 +8,7 @@ import model.entities.Scenario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import services.CompFuncNameParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,9 @@ public class ScenarioDelegate extends CommonDelegate {
 
     @Autowired
     FuncFlowDelegate funcFlowDelegate;
+
+    @Autowired
+    CompFuncNameParser compFuncNameParser;
 
     @Override
     protected Class getClassDao() {
@@ -58,6 +62,15 @@ public class ScenarioDelegate extends CommonDelegate {
             }
         }
         scenarioDao.delete(scenario);
+    }
+
+    public void parse(long scenarioid){
+        Scenario scenario = scenarioDao.findOne(scenarioid);
+        if(scenario!=null){
+            compFuncNameParser.parse(scenario);
+        } else {
+            throw new NullPointerException("Couldn't find scenario by id = "+scenarioid);
+        }
     }
 
     @Override

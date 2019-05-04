@@ -10,6 +10,14 @@ registerEvent('scenarios-rep', 'switch-sizing', (stateSetter, scenario)=>{
 
 registerEvent('scenarios-rep', 'sizing-switched', (stateSetter)=>{})
 
+registerEvent('scenarios-rep', 'parse', (stStr, scenario)=>{
+  sendPost('/scenario/parse/'+scenario.id, null, ()=>{
+    fireEvent('scenarios-rep', 'parsed', [scenario])
+  })
+})
+
+registerEvent('scenarios-rep', 'parsed', (stStter, scenario)=>scenario)
+
 // registerEvent('scenarios-rep', 'request-by-projectid', (stateSetter, projid)=>{
 //   sendGet('/scenario/all/lazy/by/project/'+projid, (data)=>{
 //       var scenariosMap = chkSt('scenarios-rep', 'scenarios')
