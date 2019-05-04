@@ -214,11 +214,11 @@ const compFuncName = function(reactcomp, funcflow, component, func){
 			overlayInfo = <table border='1'>
 														<tr>
 															<td style={tdStyle}>{component.title}</td>
-															<td style={tdStyle}>{component.description}</td>
+															<td style={tdStyle}><div style={{whiteSpace:'pre-wrap'}}>{component.description}</div></td>
 														</tr>
 														<tr>
 															<td style={tdStyle}>{func.title}</td>
-															<td style={tdStyle}>{func.description}</td>
+															<td style={tdStyle}><div style={{whiteSpace:'pre-wrap'}}>{func.description}</div></td>
 														</tr>
 													</table>
 		} else {
@@ -239,8 +239,8 @@ const funcNameUI = function(component, func){
 	const compNameUI = <span class='funcflow-cfl' style={{color:component.color}} onClick={(e)=>copyToClipboard(component.title, e)}>{component.title}.</span>
 	const funcNameUI = <span class='funcflow-cfl' style={{color:func.color}} onClick={(e)=>copyToClipboard(func.title, e)}>{func.title}</span>
 	return <div style={{display:'inline-block'}}>
-						{divOverlay(compNameUI, component.description, {display:'inline-block'})}
-						{divOverlay(funcNameUI, func.description, {display:'inline-block'})}
+						{divOverlay(compNameUI, <div style={{whiteSpace:'pre-wrap'}}>{component.description}</div>, {display:'inline-block'})}
+						{divOverlay(funcNameUI, <div style={{whiteSpace:'pre-wrap'}}>{func.description}</div>, {display:'inline-block'})}
 						<OverlayTrigger placement="top" overlay={tooltip('Copy start line to buffer')}>
 							<span class='funcflow-startline funcflow-cfl' onClick={(e)=>copyToClipboard(func.startLine, e)}>:{func.startLine}</span>
 						</OverlayTrigger>
@@ -254,7 +254,7 @@ const funcNameUI = function(component, func){
 
 const divOverlay = function(divContent, overlayContent, divStyle){
 		return 	<div style={divStyle} onMouseEnter={()=>fireEvent('overlay-info', 'show', [overlayContent])}
-										onMouseOver={(e)=>fireEvent('overlay-info', 'update-pos', [e.nativeEvent.pageX+15, e.nativeEvent.pageY-10])}
+										onMouseOver={(e)=>{fireEvent('overlay-info', 'update-pos', [e.nativeEvent.pageX+15, e.nativeEvent.pageY-10])}}
 										onMouseLeave={()=>fireEvent('overlay-info', 'hide')}>{divContent}</div>
 }
 

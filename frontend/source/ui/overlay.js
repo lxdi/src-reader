@@ -31,7 +31,16 @@ export class OverlayInfo extends React.Component{
 
   render(){
     if(this.state.show){
-      return <div style = {{padding:'10px', backgroundColor:'white', position:'absolute', zIndex:'99999999', top:this.state.y, left:this.state.x, border:'2px solid black'}}>
+      if(this.Wrapper!=null){
+        const overlayHeight = this.Wrapper.getBoundingClientRect().height
+        const overlayBottomCoord = this.state.y + overlayHeight
+        const scrollHeight = document.documentElement.scrollHeight
+        if(overlayBottomCoord > scrollHeight){
+          this.state.y = this.state.y-(overlayBottomCoord-scrollHeight) - 10
+        }
+      }
+      return <div ref={(div) => this.Wrapper = div}
+                  style = {{padding:'10px', backgroundColor:'white', position:'absolute', zIndex:'99999999', top:this.state.y, left:this.state.x, border:'2px solid black'}}>
             {this.props.content}
   				</div>
     } else {
