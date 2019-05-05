@@ -12,4 +12,9 @@ describe('compFuncNameService tests', ()=>{
     expect(normalizeCompFuncName('somePackage.someComponent#someFunction')).toBe('someComponent.someFunction')
     expect(normalizeCompFuncName('someComponent#someFunction')).toBe('someComponent.someFunction')
   })
+
+  test('dollar test', ()=>{
+    expect(normalizeCompFuncName('$somePackage.someComponent#someFunction')).toBe('$somePackage.someComponent#someFunction')
+    expect(normalizeCompFuncName('$someComponent#someFunction')).toBe('$someComponent#someFunction')
+  })
 })

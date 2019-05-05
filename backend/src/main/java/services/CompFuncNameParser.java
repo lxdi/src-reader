@@ -28,7 +28,7 @@ public class CompFuncNameParser {
         if(scenario!=null){
             List<FuncFlow> funcflows = funcFlowDao.findByWithEmptyFuncScenarioId(scenario.getId());
             funcflows.forEach(ff->{
-                if(ff.getCompFuncString()!=null && !ff.getCompFuncString().isEmpty()){
+                if(ff.getCompFuncString()!=null && !ff.getCompFuncString().isEmpty() && !ff.getCompFuncString().startsWith("$")){
                     String[] compFunc = ff.getCompFuncString().split("\\.");
                     Project project = scenario.getProject();
                     ff.setFunction(getOrCreateFunction(compFunc[1], getOrCreateComponent(compFunc[0], project)));

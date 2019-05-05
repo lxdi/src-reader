@@ -43,7 +43,8 @@ public class CompFuncNameParserTest extends SpringTestConfig {
         Func func = createFunc("func11", comp);
 
         FuncFlow rootFF = createFF(scenario, null, null, null, func);
-        FuncFlow child3 = createFF(scenario, "comp2.func21", rootFF, null, null);
+        FuncFlow child4 = createFF(scenario, "$comp3.func31", rootFF, null, null);
+        FuncFlow child3 = createFF(scenario, "comp2.func21", rootFF, child4, null);
         FuncFlow child2 = createFF(scenario, "comp1.func11", rootFF, child3, null);
         FuncFlow child1 = createFF(scenario, "comp1.func12", rootFF, child2, null);
 
@@ -57,6 +58,9 @@ public class CompFuncNameParserTest extends SpringTestConfig {
         assertTrue(funcFlowDao.findOne(child1.getId()).getFunction().getId()==funcDao.findByTitle("func12").getId());
         assertTrue(funcFlowDao.findOne(child2.getId()).getFunction().getId()==funcDao.findByTitle("func11").getId());
         assertTrue(funcFlowDao.findOne(child3.getId()).getFunction().getId()==funcDao.findByTitle("func21").getId());
+        assertTrue(funcFlowDao.findOne(child4.getId()).getFunction()==null);
+        assertTrue(compDao.findByTitle("$comp3")==null);
+        assertTrue(compDao.findByTitle("comp3")==null);
 
     }
 
