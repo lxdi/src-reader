@@ -1,12 +1,12 @@
 package com.sogoodlabs.srcreader.controllers.delegates;
 
 import com.sogoodlabs.srcreader.configs.SpringTestConfig;
-import com.sogoodlabs.srcreader.configuration.main.SpringMainConfig;
 import com.sogoodlabs.srcreader.model.dao.*;
 import com.sogoodlabs.srcreader.model.entities.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 public class ProjectDelegateTest extends SpringTestConfig {
@@ -76,18 +76,18 @@ public class ProjectDelegateTest extends SpringTestConfig {
 
         projectDelegate.delete(project.getId());
 
-        assertTrue(projectDao.findOne(project.getId())==null);
-        assertTrue(compDao.findOne(component.getId())==null);
-        assertTrue(funcDao.findOne(function.getId())==null);
-        assertTrue(funcDao.findOne(function2.getId())==null);
-        assertTrue(scenarioDao.findOne(scenario.getId())==null);
-        assertTrue(scenarioDao.findOne(scenario2.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffRoot1.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffRoot2.getId())==null);
+        assertFalse(projectDao.findById(project.getId()).isPresent());
+        assertFalse(compDao.findById(component.getId()).isPresent());
+        assertFalse(funcDao.findById(function.getId()).isPresent());
+        assertFalse(funcDao.findById(function2.getId()).isPresent());
+        assertFalse(scenarioDao.findById(scenario.getId()).isPresent());
+        assertFalse(scenarioDao.findById(scenario2.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(ffRoot1.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(ffRoot2.getId()).isPresent());
 
-        assertTrue(projectDao.findOne(project0.getId())!=null);
-        assertTrue(compDao.findOne(component0.getId())!=null);
-        assertTrue(scenarioDao.findOne(scenario0.getId())!=null);
+        assertTrue(projectDao.findById(project0.getId()).isPresent());
+        assertTrue(compDao.findById(component0.getId()).isPresent());
+        assertTrue(scenarioDao.findById(scenario0.getId()).isPresent());
 
     }
 

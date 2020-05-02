@@ -12,6 +12,7 @@ import com.sogoodlabs.srcreader.model.entities.Scenario;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 public class CompDelegateTests extends SpringTestConfig {
@@ -58,13 +59,13 @@ public class CompDelegateTests extends SpringTestConfig {
 
         componentDelegate.delete(comp.getId());
 
-        assertTrue(funcDao.findOne(fun1.getId())==null);
-        assertTrue(funcDao.findOne(fun2.getId())!=null);
+        assertFalse(funcDao.findById(fun1.getId()).isPresent());
+        assertTrue(funcDao.findById(fun2.getId()).isPresent());
         assertTrue(funcFlowDao.findAll().size()==2);
-        assertTrue(funcFlowDao.findOne(parent2.getId())!=null);
-        assertTrue(funcFlowDao.findOne(parent3.getId())!=null);
-        assertTrue(funcFlowDao.findOne(child2.getId())==null);
-        assertTrue(funcFlowDao.findOne(child1.getId())==null);
+        assertTrue(funcFlowDao.findById(parent2.getId()).isPresent());
+        assertTrue(funcFlowDao.findById(parent3.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(child2.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(child1.getId()).isPresent());
 
     }
 

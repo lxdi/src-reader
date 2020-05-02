@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertTrue;
+import static junit.framework.TestCase.assertTrue;
+
 
 public class CodeSnippetDelegateTest extends SpringTestConfig {
 

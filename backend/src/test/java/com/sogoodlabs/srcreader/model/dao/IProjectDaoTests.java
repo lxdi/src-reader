@@ -24,8 +24,8 @@ public class IProjectDaoTests extends SpringTestConfig {
 
         projectDao.setAllCurrentFalse();
 
-        assertTrue(!projectDao.findOne(proj1.getId()).getIscurrent());
-        assertTrue(!projectDao.findOne(proj2.getId()).getIscurrent());
+        assertTrue(!projectDao.findById(proj1.getId()).get().getIscurrent());
+        assertTrue(!projectDao.findById(proj2.getId()).get().getIscurrent());
 
     }
 
@@ -45,9 +45,9 @@ public class IProjectDaoTests extends SpringTestConfig {
 
         projectDao.setCurrent(proj2.getId());
 
-        assertTrue(!projectDao.findOne(proj1.getId()).getIscurrent());
-        assertTrue(projectDao.findOne(proj2.getId()).getIscurrent());
-        assertTrue(!projectDao.findOne(proj3.getId()).getIscurrent());
+        assertTrue(!projectDao.findById(proj1.getId()).get().getIscurrent());
+        assertTrue(projectDao.findById(proj2.getId()).get().getIscurrent());
+        assertTrue(!projectDao.findById(proj3.getId()).get().getIscurrent());
 
     }
 

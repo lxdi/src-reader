@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 public class FuncDelegateTests extends SpringTestConfig {
@@ -63,7 +64,7 @@ public class FuncDelegateTests extends SpringTestConfig {
 
         funcDelegate.delete(fun1.getId());
 
-        assertTrue(funcDao.findOne(fun1.getId())==null);
+        assertFalse(funcDao.findById(fun1.getId()).isPresent());
         assertTrue(funcFlowDao.findAll().size()==0);
 
     }
@@ -84,10 +85,10 @@ public class FuncDelegateTests extends SpringTestConfig {
 
         funcDelegate.delete(fun1.getId());
 
-        assertTrue(funcDao.findOne(fun1.getId())==null);
+        assertFalse(funcDao.findById(fun1.getId()).isPresent());
         assertTrue(funcFlowDao.findAll().size()==2);
-        assertTrue(funcFlowDao.findOne(child1.getId())!=null);
-        assertTrue(funcFlowDao.findOne(parent.getId())!=null);
+        assertTrue(funcFlowDao.findById(child1.getId()).isPresent());
+        assertTrue(funcFlowDao.findById(parent.getId()).isPresent());
 
     }
 

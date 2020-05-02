@@ -9,10 +9,10 @@ import com.sogoodlabs.srcreader.model.entities.Component;
 import com.sogoodlabs.srcreader.model.entities.Func;
 import com.sogoodlabs.srcreader.model.entities.FuncFlow;
 import com.sogoodlabs.srcreader.model.entities.Scenario;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 public class ScenarioDelegateTest extends SpringTestConfig {
@@ -63,17 +63,17 @@ public class ScenarioDelegateTest extends SpringTestConfig {
 
         scenarioDelegate.delete(scenario.getId());
 
-        assertTrue(funcFlowDao.findOne(ffRoot1.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffChild11.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffChild111.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffChild12.getId())==null);
-        assertTrue(funcFlowDao.findOne(ffRoot12.getId())==null);
+        assertFalse(funcFlowDao.findById(ffRoot1.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(ffChild11.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(ffChild111.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(ffChild12.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(ffRoot12.getId()).isPresent());
 
-        assertTrue(funcFlowDao.findOne(ffRoot2.getId())!=null);
+        assertTrue(funcFlowDao.findById(ffRoot2.getId()).isPresent());
 
-        assertTrue(compDao.findOne(component.getId())!=null);
-        assertTrue(funcDao.findOne(function.getId())!=null);
-        assertTrue(funcDao.findOne(function2.getId())!=null);
+        assertTrue(compDao.findById(component.getId()).isPresent());
+        assertTrue(funcDao.findById(function.getId()).isPresent());
+        assertTrue(funcDao.findById(function2.getId()).isPresent());
     }
 
     private FuncFlow createFF(Scenario scenario, Func func, FuncFlow parent){

@@ -3,14 +3,14 @@ package com.sogoodlabs.srcreader.model.dao;
 import com.sogoodlabs.srcreader.configs.SpringTestConfig;
 import com.sogoodlabs.srcreader.model.entities.FuncFlow;
 import com.sogoodlabs.srcreader.model.entities.Scenario;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static junit.framework.TestCase.assertTrue;
 
 public class FuncFlowDaoTests extends SpringTestConfig {
 

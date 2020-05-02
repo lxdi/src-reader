@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 @Transactional
@@ -73,7 +74,7 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
 
         assertTrue((long)result.get("id")>0);
         assertTrue((long)result.get("previd")==child.getId());
-        assertTrue(funcFlowDao.findOne(child.getId()).getNext().getId()==(long)result.get("id"));
+        assertTrue(funcFlowDao.findById(child.getId()).get().getNext().getId()==(long)result.get("id"));
 
     }
 
@@ -97,7 +98,7 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
 
         assertTrue((long)result.get("id")>0);
         assertTrue((long)result.get("previd")==parent.getId());
-        assertTrue(funcFlowDao.findOne(parent.getId()).getNext().getId()==(long)result.get("id"));
+        assertTrue(funcFlowDao.findById(parent.getId()).get().getNext().getId()==(long)result.get("id"));
 
     }
 
@@ -115,9 +116,9 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
 
         funcFlowDelegate.delete(child2.getId());
 
-        assertTrue(funcFlowDao.findOne(child2Child1.getId())==null);
-        assertTrue(funcFlowDao.findOne(child2.getId())==null);
-        assertTrue(funcFlowDao.findOne(child1.getId()).getNext()==null);
+        assertFalse(funcFlowDao.findById(child2Child1.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(child2.getId()).isPresent());
+        assertTrue(funcFlowDao.findById(child1.getId()).get().getNext()==null);
 
     }
 
@@ -135,10 +136,10 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
 
         funcFlowDelegate.delete(parent.getId());
 
-        assertTrue(funcFlowDao.findOne(parent.getId())==null);
-        assertTrue(funcFlowDao.findOne(child2Child1.getId())==null);
-        assertTrue(funcFlowDao.findOne(child2.getId())==null);
-        assertTrue(funcFlowDao.findOne(child1.getId())==null);
+        assertFalse(funcFlowDao.findById(parent.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(child2Child1.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(child2.getId()).isPresent());
+        assertFalse(funcFlowDao.findById(child1.getId()).isPresent());
 
     }
 
@@ -161,9 +162,9 @@ public class FuncFlowDelegateTests extends SpringTestConfig {
 
         List<Map<String, Object>> result = funcFlowDelegate.reposition(dtoLazies);
 
-        assertTrue(funcFlowDao.findOne(child2.getId()).getParent()==null);
-        assertTrue(funcFlowDao.findOne(child.getId()).getNext()==null);
-        assertTrue(funcFlowDao.findOne(parent.getId()).getNext().getId()==child2.getId());
+        assertTrue(funcFlowDao.findById(child2.getId()).get().getParent()==null);
+        assertTrue(funcFlowDao.findById(child.getId()).get().getNext()==null);
+        assertTrue(funcFlowDao.findById(parent.getId()).get().getNext().getId()==child2.getId());
 
 
     }

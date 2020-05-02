@@ -55,10 +55,10 @@ public class CompFuncNameParserTest extends SpringTestConfig {
         assertTrue(funcDao.findByTitle("func21").getComponent().getId()==compDao.findByTitle("comp2").getId());
         assertTrue(funcDao.findByTitle("func12").getComponent().getId()==compDao.findByTitle("comp1").getId());
 
-        assertTrue(funcFlowDao.findOne(child1.getId()).getFunction().getId()==funcDao.findByTitle("func12").getId());
-        assertTrue(funcFlowDao.findOne(child2.getId()).getFunction().getId()==funcDao.findByTitle("func11").getId());
-        assertTrue(funcFlowDao.findOne(child3.getId()).getFunction().getId()==funcDao.findByTitle("func21").getId());
-        assertTrue(funcFlowDao.findOne(child4.getId()).getFunction()==null);
+        assertTrue(funcFlowDao.findById(child1.getId()).get().getFunction().getId()==funcDao.findByTitle("func12").getId());
+        assertTrue(funcFlowDao.findById(child2.getId()).get().getFunction().getId()==funcDao.findByTitle("func11").getId());
+        assertTrue(funcFlowDao.findById(child3.getId()).get().getFunction().getId()==funcDao.findByTitle("func21").getId());
+        assertTrue(funcFlowDao.findById(child4.getId()).get().getFunction()==null);
         assertTrue(compDao.findByTitle("$comp3")==null);
         assertTrue(compDao.findByTitle("comp3")==null);
 
