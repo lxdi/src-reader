@@ -1,50 +1,50 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
 
-apply plugin: 'java'
-apply plugin: 'war'
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
 
 repositories {
-    //mavenCentral()
     mavenLocal()
-    maven { url 'http://repo1.maven.org/maven2' }
+    mavenCentral()
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    compile  "joda-time:joda-time:2.2"
-    providedCompile "javax.servlet:javax.servlet-api:3.1.0"
-    compile "org.springframework:spring-context:4.3.7.RELEASE"
-    compile "org.springframework:spring-orm:4.3.7.RELEASE"
-    compile "org.springframework:spring-webmvc:4.3.7.RELEASE"
-    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.11.18.RELEASE'
+    implementation  "joda-time:joda-time:2.2"
+    //compile "org.postgresql:postgresql:9.4.1212"
+    runtimeOnly 'com.h2database:h2'
 
-    compile "com.fasterxml.jackson.core:jackson-core:2.8.7"
-    compile "com.fasterxml.jackson.core:jackson-annotations:2.8.7"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.8.7"
+    implementation "com.sogoodlabs:common-mapper:1.0.0"
 
-    compile "org.hibernate:hibernate-core:5.2.8.Final"
-    compile "org.postgresql:postgresql:9.4.1212"
-    compile "com.h2database:h2:1.4.196"
-    compile 'org.threeten:threeten-extra:1.3.2'
-
-    compile "com.sogoodlabs:common-mapper:1.0.0"
-    
-    testCompile "junit:junit:4.12"
-    testCompile "org.springframework:spring-test:4.3.9.RELEASE"
-    testCompile "org.mockito:mockito-all:1.10.19"
+    testImplementation "org.mockito:mockito-all:1.10.19"
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }
 
-war {
-    archiveName = 'ROOT.war'
+test {
+    useJUnitPlatform()
 }
 
 task copyFront(type: Copy) {
     from '../frontend/build'
-    into 'src/main/webapp/pages'
+    into 'src/main/resources/static'
 }
 
-task cleanFront(type: Delete) {
-    delete 'src/main/webapp/pages'
+task fullClean(type: Delete){
+    delete 'src/main/resources/static'
 }
 
-war.dependsOn copyFront
-clean.dependsOn cleanFront
+processResources.dependsOn copyFront
+clean.dependsOn fullClean
+
+bootJar {
+    archiveName 'ROOT.jar'
+}
