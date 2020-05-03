@@ -16,15 +16,14 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
     implementation  "joda-time:joda-time:2.2"
-    //compile "org.postgresql:postgresql:9.4.1212"
-    runtimeOnly 'com.h2database:h2'
-
     implementation "com.sogoodlabs:common-mapper:1.0.0"
+
+    runtimeOnly "org.postgresql:postgresql:9.4.1212"
 
     testImplementation "org.mockito:mockito-all:1.10.19"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'com.h2database:h2'
 }
 
 test {
