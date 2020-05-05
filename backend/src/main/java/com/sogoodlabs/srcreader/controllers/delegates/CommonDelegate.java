@@ -36,7 +36,7 @@ abstract public class CommonDelegate {
     }
 
     public Map<String, Object> getFull(long id){
-        return commonMapper.mapToDto(daoReceiver.getDAO(this.getClassDao()).findById(id), new HashMap<>());
+        return commonMapper.mapToDto(daoReceiver.getDAO(this.getClassDao()).findById(id).get(), new HashMap<>());
     }
 
     public Map<String, Object> createNew(Map<String, Object> objDto){

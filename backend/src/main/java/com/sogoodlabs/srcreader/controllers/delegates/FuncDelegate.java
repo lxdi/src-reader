@@ -48,7 +48,7 @@ public class FuncDelegate extends CommonDelegate {
 
     @Override
     public void delete(long id){
-        Func func = iFuncDao.findById(id).get();
+        Func func = iFuncDao.findById(id).orElseThrow(RuntimeException::new);
         delete(func);
     }
 

@@ -17,7 +17,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation  "joda-time:joda-time:2.2"
-    implementation "com.sogoodlabs:common-mapper:1.0.0"
+    implementation files('libs/common-mapper-1.0.1.jar')
+    //implementation "com.sogoodlabs:common-mapper:1.0.0"
 
     runtimeOnly "org.postgresql:postgresql:9.4.1212"
 
