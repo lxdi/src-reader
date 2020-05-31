@@ -24,12 +24,12 @@ export const makeMap = function(arr, fieldName, callback){
 
 export const makeSplitMap = function(arr, fieldName, splitterFieldName){
   const result = []
-  for(var i in arr){
-    if(result[arr[i][splitterFieldName]]==null){
-      result[arr[i][splitterFieldName]] = []
+  arr.forEach(elem => {
+    if(result[elem[splitterFieldName]]==null){
+      result[elem[splitterFieldName]] = []
     }
-    result[arr[i][splitterFieldName]][arr[i][fieldName]] = arr[i]
-  }
+    result[elem[splitterFieldName]][elem[fieldName]] = elem
+  })
   return result
 }
 

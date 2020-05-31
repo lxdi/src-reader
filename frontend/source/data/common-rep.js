@@ -5,6 +5,12 @@ import {iterateLLfull} from '../utils/linked-list'
 
 //registerObject('projects-rep', {projects:[]})
 
+const repAllUrlPat = '/{repName}/all'
+const repAllLazyUrlPat = repAllUrlPat + '/lazy'
+const setCurUrlPat = '/{repName}/setcurrent/{id}'
+const createSimpleUrlPat = '/{repName}/create'
+const deleteSimpleUrlPat = '/{repName}/delete/{id}'
+
 const registerCommonEvents = function(){
 
 
@@ -58,17 +64,10 @@ const registerCommonEvents = function(){
 
 const receivingSimple = function(repName, withCurrent){
   registerEvent(repName+'s-rep', repName+'s-request', (stateSetter)=>{
-    sendGet('/'+repName+'/all', function(data){
+    sendGet(repAllUrlPat.replace('{repName}', repName), function(data){
       stateSetter(repName+'s', makeMap(data, 'id'))
       if(withCurrent!=null && withCurrent===true){
-          const nodes = chkSt(repName+'s-rep', repName+'s')
-          for(var id in nodes){
-            if(nodes[id].iscurrent){
-              stateSetter('current-'+repName, nodes[id])
-              fireEvent(repName+'s-rep', 'changed-current', [nodes[id]])
-              break;
-            }
-          }
+        defineCurrent(stateSetter, repName)
       }
       fireEvent(repName+'s-rep', repName+'s-received')
     })
@@ -76,24 +75,32 @@ const receivingSimple = function(repName, withCurrent){
   registerEvent(repName+'s-rep', repName+'s-received', (stateSetter)=>{})
 }
 
+const defineCurrent = function(stateSetter, repName){
+  const nodes = chkSt(repName+'s-rep', repName+'s')
+  for(var id in nodes){
+    if(nodes[id].iscurrent){
+      stateSetter('current-'+repName, nodes[id])
+      fireEvent(repName+'s-rep', 'changed-current', [nodes[id]])
+      break;
+    }
+  }
+}
+
 const changingCurrent = function(repName){
   registerEvent(repName+'s-rep', 'change-current', (stateSetter, curobj)=>{
-    sendPost('/'+repName+'/setcurrent/'+curobj.id, null, (data)=>{
-      for(var i in chkSt(repName+'s-rep', repName+'s')){
-        chkSt(repName+'s-rep', repName+'s')[i].iscurrent = false
-      }
+    sendPost(setCurUrlPat.replace('{repName}', repName).replace('{id}', curobj.id), null, (data)=>{
+      chkSt(repName+'s-rep', repName+'s').forEach(repObj => repObj.iscurrent = false)
       chkSt(repName+'s-rep', repName+'s')[curobj.id].iscurrent = true
       stateSetter('current-'+repName, curobj)
       fireEvent(repName+'s-rep', 'changed-current', [curobj])
     })
   })
-
   registerEvent(repName+'s-rep', 'changed-current', (stateSetter, curobj)=>curobj)
 }
 
 const creatingSimple = function(repName){
   registerEvent(repName+'s-rep', 'create-'+repName, (stateSetter, newObj)=>{
-    sendPut('/'+repName+'/create', newObj, (data)=>{
+    sendPut(createSimpleUrlPat.replace('{repName}', repName), newObj, (data)=>{
       chkSt(repName+'s-rep', repName+'s')[data.id] = data
       fireEvent(repName+'s-rep', 'created-'+repName, [data])
     })
@@ -103,7 +110,7 @@ const creatingSimple = function(repName){
 
 const deletingSimple = function(repName){
   registerEvent(repName+'s-rep', 'delete-'+repName, (stateSetter, objToDelete)=>{
-    sendDelete('/'+repName+'/delete/'+objToDelete.id, (data)=>{
+    sendDelete(deleteSimpleUrlPat.replace('{repName}', repName).replace('{id}', objToDelete.id), (data)=>{
       delete chkSt(repName+'s-rep', repName+'s')[objToDelete.id]
       fireEvent(repName+'s-rep', 'created-'+repName, [objToDelete])
     })
@@ -112,7 +119,7 @@ const deletingSimple = function(repName){
 }
 
 const receivingMakingMap = function(repName, mapByField, isLazy){
-  const url = isLazy!=null && isLazy==true? '/'+repName+'/all/lazy': '/'+repName+'/all'
+  const url = isLazy!=null && isLazy==true? repAllLazyUrlPat.replace('{repName}', repName): repAllUrlPat.replace('{repName}', repName)
   registerEvent(repName+'s-rep', repName+'s-request', (stateSetter)=>{
     sendGet(url, function(data){
       stateSetter(repName+'s', makeSplitMap(data, 'id', mapByField))
@@ -124,16 +131,14 @@ const receivingMakingMap = function(repName, mapByField, isLazy){
 
 const receivingInMap = function(repName, mapByObj){
   registerEvent(repName+'s-rep', 'request-by-'+mapByObj+'id', (stateSetter, objid)=>{
-    sendGet('/'+repName+'/all/lazy/by/'+mapByObj+'/'+objid, (data)=>{
+    sendGet('/'+repName+'/all/lazy/by/'+mapByObj+'/'+objid, (repObjs)=>{
         var importMap = chkSt(repName+'s-rep', repName+'s')
         if(importMap==null){
           importMap = []
           stateSetter(repName+'s', importMap)
         }
         importMap[objid] = []
-        for(var i in data){
-          importMap[objid][data[i].id] = data[i]
-        }
+        repObjs.forEach(repObj => importMap[objid][repObj.id] = repObj)
         fireEvent(repName + 's-rep', 'received-by-'+mapByObj+'id')
     })
   })
