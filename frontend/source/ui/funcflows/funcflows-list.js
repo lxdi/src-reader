@@ -4,7 +4,7 @@ import {Button, OverlayTrigger, Tooltip, DropdownButton, MenuItem, ButtonGroup} 
 import {TreeComponent} from '../common/components/tree-component'
 
 import {fireEvent, chkSt, registerEvent, registerReaction} from 'absevents'
-import {getFromMappedRepByid} from '../../utils/import-utils'
+import {getFromMappedRepByid} from 'js-utils'
 import {fillLinesForFuncflows} from '../../services/funcflow-percents'
 
 const fontSizeDefaultPt = 11

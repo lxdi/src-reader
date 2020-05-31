@@ -1,7 +1,7 @@
 import {registerObject, registerEvent, chkSt, fireEvent, registerReaction} from 'absevents'
 import {sendGet, sendPut, sendPost, sendDelete} from './postoffice'
-import {makeMap, makeSplitMap, deleteNode} from '../utils/import-utils'
-import {iterateLLfull} from '../utils/linked-list'
+import {makeMap, makeSplitMap, deleteNode} from 'js-utils'
+import {iterateLLfull} from 'js-utils'
 
 //registerObject('projects-rep', {projects:[]})
 

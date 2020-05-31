@@ -8,7 +8,7 @@ import {DeleteButton} from '../common/components/delete-button'
 
 import {registerEvent, fireEvent, registerReaction, chkSt} from 'absevents'
 
-import {getFromMappedRepByid} from '../../utils/import-utils'
+import {getFromMappedRepByid} from 'js-utils'
 import {normalizeCompFuncName} from '../../services/compFuncNameService'
 
 export class FuncflowModal extends React.Component {

@@ -1,7 +1,7 @@
-import {getFromMappedRepByid} from '../utils/import-utils'
+import {getFromMappedRepByid} from 'js-utils'
 import {chkSt} from 'absevents'
-import {resolveNodes} from '../utils/draggable-tree-utils'
-import {iterateLLfull} from '../utils/linked-list'
+import {resolveNodes} from 'js-utils'
+import {iterateLLfull} from 'js-utils'
 
 export const fillLinesForFuncflows = function(scenarioid){
 	const resolved = resolveNodes(chkSt('funcflows-rep', 'funcflows')[scenarioid])
